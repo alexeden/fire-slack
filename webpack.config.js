@@ -11,7 +11,7 @@ module.exports = {
   entry: {
     polyfills: './polyfills.ts',
     vendor: './vendor.ts',
-    // styles: './styles.ts',
+    styles: './styles.ts',
     app: './main.ts'
   },
 
@@ -39,13 +39,13 @@ module.exports = {
         test: /\.tsx?|\.ts?$/,
         loaders: [
             {
-                loader: 'awesome-typescript-loader'
+                loader: 'awesome-typescript-loader',
+                options: {
+                    useBabel: true
+                }
             },
             'angular2-template-loader'
         ]
-        // options: {
-        //   useBabel: true
-        // }
       },
       {
         test: /\.(scss|sass)$/,
@@ -70,7 +70,7 @@ module.exports = {
 
     new webpack.optimize.CommonsChunkPlugin({
       // Specify the name of the common bundle
-      names: ['app', 'vendor', 'manifest']
+      names: ['vendor', 'polyfills', 'manifest']
   }),
 
     new ContextReplacementPlugin(
