@@ -9,7 +9,7 @@ module.exports = {
   context: path.resolve(__dirname, 'src'),
 
   entry: {
-    polyfills: './polyfills.ts',
+    // polyfills: './polyfills.ts',
     vendor: './vendor.ts',
     styles: './styles.ts',
     app: './main.ts'
@@ -25,7 +25,8 @@ module.exports = {
     extensions: ['.ts', '.tsx', '.js', '.html'],
     modules: ['node_modules'],
     alias: {
-      'util': path.resolve(__dirname, 'src/util/')
+      'util': path.resolve(__dirname, 'src/util/'),
+      'app': path.resolve(__dirname, 'src/app/')       
     }
   },
 
@@ -70,7 +71,7 @@ module.exports = {
 
     new webpack.optimize.CommonsChunkPlugin({
       // Specify the name of the common bundle
-      names: ['vendor', 'polyfills', 'manifest']
+      names: ['vendor', 'manifest']
   }),
 
     new ContextReplacementPlugin(
