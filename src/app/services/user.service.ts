@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject, ConnectableObservable } from 'rxjs';
-import { User } from './interfaces';
+import { User } from 'app/interfaces';
 import { tag$ } from 'util/tags';
 
 
