@@ -9,7 +9,6 @@ module.exports = {
   context: path.resolve(__dirname, 'src'),
 
   entry: {
-    // polyfills: './polyfills.ts',
     vendor: './vendor.ts',
     styles: './styles.ts',
     app: './main.ts'
@@ -22,11 +21,11 @@ module.exports = {
   },
 
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.html'],
+    extensions: ['.ts', '.js', '.html'],
     modules: ['node_modules'],
     alias: {
       'util': path.resolve(__dirname, 'src/util/'),
-      'app': path.resolve(__dirname, 'src/app/')       
+      'app': path.resolve(__dirname, 'src/app/')
     }
   },
 
@@ -40,10 +39,10 @@ module.exports = {
         test: /\.tsx?|\.ts?$/,
         loaders: [
             {
-                loader: 'awesome-typescript-loader',
-                options: {
-                    useBabel: true
-                }
+                loader: 'awesome-typescript-loader'
+                // options: {
+                //     useBabel: true
+                // }
             },
             'angular2-template-loader'
         ]

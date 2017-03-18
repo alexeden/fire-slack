@@ -19,8 +19,8 @@ import { MessageService } from 'app/messages.service';
 })
 export class AppComponent {
   constructor(
-    @Inject(MessageService) private messageService: MessageService,
-    @Inject(RxChatData) private data: any
+    private messageService: MessageService,
+    @Inject(RxChatData) private data: void
   ) {
     console.log(`AppComponent`);
   }
