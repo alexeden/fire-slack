@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ConnectableObservable, Observable, Subject } from 'rxjs';
+import { ConnectableObservable, Subject } from 'rxjs';
 import { v1 } from 'uuid';
 import { tag$ } from 'util/tags';
 import { Message, MessageOperation, MessageListOperation } from 'app/interfaces';
@@ -25,6 +25,10 @@ export class MessageService {
 
     this.messages$.connect();
 
+  }
+
+  createMessage(message: Message) {
+    this.operations$.next(messages => [...messages, { ...message, id: message.id || v1() }]);
   }
 
 

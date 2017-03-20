@@ -1,16 +1,16 @@
 import { Component, Inject } from '@angular/core';
 import { RxChatData } from 'app/data.provider';
-import { MessageService } from 'app/services';
+import { MessageService, ChannelService, UserService } from 'app/services';
 
 @Component({
   selector: 'chat-app',
   template: `
   <nav class="navbar navbar-full navbar-dark bg-inverse">
-  <ul class="nav navbar-nav pull-xs-right">
-  <li class="nav-item">
-    Messages <span class="label label-pill label-info">0</span>
-  </li>
-  </ul>
+    <ul class="nav navbar-nav pull-xs-right">
+      <li class="nav-item">
+        Messages <span class="label label-pill label-info">0</span>
+      </li>
+    </ul>
   </nav>
     <div class="container-fluid p-x-0">
       <div class="row">
@@ -25,9 +25,9 @@ import { MessageService } from 'app/services';
 })
 export class AppComponent {
   constructor(
-    private messageService: MessageService,
+    @Inject(MessageService) private messageService: MessageService,
+    @Inject(ChannelService) private channelService: ChannelService,
+    @Inject(UserService) private userService: UserService,
     @Inject(RxChatData) private data: void
-  ) {
-    console.log(`AppComponent`);
-  }
+  ) {}
 }
