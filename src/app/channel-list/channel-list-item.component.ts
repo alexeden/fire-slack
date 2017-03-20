@@ -48,7 +48,10 @@ export class ChannelListItemComponent implements OnInit {
       = this.messageService.messages$
           .map((messages): Message | null =>
             messages.reduce(
-              (match: Message, msg) => msg.channel.id === this.channel.id ? msg : match,
+              (match: Message, msg) =>
+                msg.channel.id === this.channel.id
+                ? msg
+                : match,
               null
             )
           );

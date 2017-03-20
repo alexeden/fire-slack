@@ -15,6 +15,11 @@ import { tag$ } from 'util/tags';
     <p class="lead">Some bio info</p>
 
     <ul class="list-group">
+      <div class="list-group-item media" *ngIf="noMessagesYet$ | async">
+        <div class="media-body">
+        <p class="m-y-0 lead">No messages yet!</p>           
+        </div>
+      </div>
       <div class="list-group-item media" *ngFor="let message of channelMessages$ | async">
         <div class="media">
           <div *ngIf="incoming" class="media-left media-bottom">
@@ -44,6 +49,7 @@ export class ChannelWindowComponent {
   private channel$: Observable<Channel>;
   private channelName$: Observable<string>;
   private channelMessages$: Observable<Message[]>;
+  private noMessagesYet$: Observable<boolean>;
 
   constructor(
     @Inject(ChannelService) private channelService: ChannelService,
@@ -52,6 +58,7 @@ export class ChannelWindowComponent {
     this.channel$ = channelService.activeChannel$;
     this.channelName$ = this.channel$.map(channel => channel.name);
     this.channelMessages$ = this.channel$.map(channel => channel.messages).do(tag$('messages'));
+    this.noMessagesYet$ = this.channelMessages$.map(msgs => msgs.length < 1);
   }
 
   sendMessage(input: HTMLInputElement) {

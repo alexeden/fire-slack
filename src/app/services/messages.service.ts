@@ -2,7 +2,6 @@ import * as moment from 'moment';
 import { Injectable, Inject } from '@angular/core';
 import { ConnectableObservable, Subject } from 'rxjs';
 import { v1 } from 'uuid';
-import { tag$ } from 'util/tags';
 import { PartialMessage, Message, MessageListOperation } from 'app/interfaces';
 import { UserService } from 'app/services/user.service';
 
