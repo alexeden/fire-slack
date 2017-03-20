@@ -2,9 +2,6 @@ import { Observable } from 'rxjs';
 import { Component, Inject } from '@angular/core';
 import { ChannelService, MessageService } from 'app/services';
 import { Channel, Message } from 'app/interfaces';
-import { tag$ } from 'util/tags';
-
-
 
 
 @Component({
@@ -63,7 +60,7 @@ export class ChannelWindowComponent {
             this.messageService.messages$,
             (channel, messages) =>  messages.filter(msg => msg.channel.id === channel.id)
           );
-          
+
     this.noMessagesYet$ = this.channelMessages$.map(msgs => msgs.length < 1);
   }
 

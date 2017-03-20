@@ -3,9 +3,6 @@ import { Component, Inject, Input, OnInit } from '@angular/core';
 import { ChannelService, MessageService } from 'app/services';
 import { Channel, Message } from 'app/interfaces';
 import { tag$ } from 'util/tags';
-import { last } from 'ramda';
-
-
 
 
 @Component({

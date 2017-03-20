@@ -32,7 +32,7 @@
     "no-unused-variable": [
       true,
       {
-        "ignore-pattern": "(^html$)|(^Rx$)|(^R$)|(^tag$)"
+        "ignore-pattern": "(^html$)|(^Rx$)|(^R$)|(^tag$)|(^tag\\$$)"
       }
     ],
     "object-literal-sort-keys": false,

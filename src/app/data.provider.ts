@@ -2,13 +2,11 @@ import * as moment from 'moment';
 import { v1 } from 'uuid';
 import { FactoryProvider } from '@angular/core';
 
-import { User, PartialChannel, Channel, PartialMessage, AppUser } from 'app/interfaces';
+import { User, Channel, PartialMessage, AppUser } from 'app/interfaces';
 import { ChannelService, MessageService, UserService } from 'app/services';
 import { OpaqueToken } from '@angular/core';
 
 export const RxChatData = new OpaqueToken('rx-chat-data');
-
-window['moment'] = moment;
 
 const currentUser: User
   = {
