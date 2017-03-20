@@ -18,6 +18,7 @@ import { MessageService, ChannelService, UserService } from 'app/services';
           <channel-list></channel-list>
         </div>
         <div class="col-md-8 p-x-0 m-x-0">
+          <channel-window></channel-window>
         </div>
       </div>
     </div>

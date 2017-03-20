@@ -2,17 +2,17 @@ import { Injectable, Inject } from '@angular/core';
 import { ConnectableObservable, Subject, BehaviorSubject, Observable } from 'rxjs';
 import { tag$, tag } from 'util/tags';
 import { v1 } from 'uuid';
-import { Channel, ChannelOperation, Message, ChannelListOperation } from 'app/interfaces';
+import { Channel, PartialChannel, Message, ChannelListOperation } from 'app/interfaces';
 import { MessageService } from './messages.service';
 
 
 @Injectable()
 export class ChannelService {
   private operations$: Subject<ChannelListOperation>;
-  channels$: ConnectableObservable<Channel[]>;
   private activeChannelSource$: BehaviorSubject<Channel>;
-  activeChannel$: Observable<Channel>;
 
+  channels$: ConnectableObservable<Channel[]>;
+  activeChannel$: Observable<Channel>;
 
   constructor(
     @Inject(MessageService) private messageService: MessageService
@@ -22,10 +22,9 @@ export class ChannelService {
     this.channels$
       = this.operations$
           .scan(
-            (msgs, operation) => operation(msgs),
+            (channels, operation) => operation(channels),
             [] as Channel[]
           )
-          .do(tag$('channels'))
           .publishReplay(1);
 
     this.activeChannelSource$ = new BehaviorSubject({} as Channel);
@@ -33,7 +32,7 @@ export class ChannelService {
     this.activeChannel$
       = this.activeChannelSource$.asObservable()
           .filter(channel => !!(channel && channel.id && channel.id.length > 0))
-          .distinctUntilChanged()
+          .distinctUntilKeyChanged('id')
           .combineLatest(
             this.messageService.messages$,
             (channel: Channel, msgs: Message[]): Channel => (
@@ -42,19 +41,21 @@ export class ChannelService {
                 messages: msgs.filter(msg => msg.channel.id === channel.id)
               }
             )
-          )
-          .do(tag$('activeChannel'));
-
-
-
+          );
 
     this.channels$.connect();
-
   }
 
-  createChannel(channel: Channel) {
-    const newChannel = { ...channel, id: channel.id || v1() };
-    this.operations$.next(channels => [...channels, newChannel]);
+  createChannel(channel: PartialChannel) {
+    this.operations$.next(channels => [
+      ...channels,
+      {
+        ...channel,
+        id: channel.id || v1(),
+        isPrivate: channel.isPrivate || false,
+        messsages: channel.messages || []
+      } as Channel
+    ]);
   }
 
   setActiveChannel(channel: Channel) {

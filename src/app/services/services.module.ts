@@ -6,9 +6,9 @@ import { MessageService } from './messages.service';
 
 @NgModule({
   providers: [
+    UserService,
     ChannelService,
-    MessageService,
-    UserService
+    MessageService
   ]
 })
 export class RxChatServicesModule {}

@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const CircularDependencyPlugin = require('circular-dependency-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const ContextReplacementPlugin = require('webpack/lib/ContextReplacementPlugin');
@@ -71,12 +72,16 @@ module.exports = {
     new webpack.optimize.CommonsChunkPlugin({
       // Specify the name of the common bundle
       names: ['vendor', 'manifest']
-  }),
+    }),
 
     new ContextReplacementPlugin(
         /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/,
         __dirname
     ),
+
+    new CircularDependencyPlugin({
+      exclude: /node_modules/g
+    })
 
   ],
 

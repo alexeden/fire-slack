@@ -1,0 +1,23 @@
+import { Observable } from 'rxjs';
+import { Component, Inject } from '@angular/core';
+import { ChannelService } from 'app/services';
+import { Channel } from 'app/interfaces';
+
+
+
+
+@Component({
+  selector: 'channel-list',
+  template: `
+    <channel-list-item *ngFor="let channel of channels$ | async" [channel]="channel"></channel-list-item>
+  `
+})
+export class ChannelListComponent {
+  private channels$: Observable<Channel[]>;
+
+  constructor(
+    @Inject(ChannelService) private channelService: ChannelService
+  ) {
+    this.channels$ = channelService.channels$;
+  }
+}

@@ -3,12 +3,10 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { RxChatServicesModule } from 'app/services';
-import { ChannelListComponent } from './channel-list.component';
+import { ChannelListComponent, ChannelListItemComponent } from './channel-list';
+import { ChannelWindowComponent } from './channel-window.component';
+import { FromNowPipe } from './from-now.pipe';
 
-// import { ChannelService } from './channels.service';
-// import { UserService } from './user.service';
-// import { MessageService } from './messages.service';
-//
 import { RxChatDataFactoryProvider } from './data.provider';
 
 @NgModule({
@@ -18,7 +16,10 @@ import { RxChatDataFactoryProvider } from './data.provider';
   ],
   declarations: [
     AppComponent,
-    ChannelListComponent
+    ChannelListComponent,
+    ChannelListItemComponent,
+    ChannelWindowComponent,
+    FromNowPipe
   ],
   providers: [
     RxChatDataFactoryProvider

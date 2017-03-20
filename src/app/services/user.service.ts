@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject, ConnectableObservable } from 'rxjs';
 import { User } from 'app/interfaces';
-import { tag$ } from 'util/tags';
+// import { tag$ } from 'util/tags';
 
 
 
@@ -12,11 +12,11 @@ export class UserService {
 
   constructor() {
     this.currentUserSource$ = new Subject();
-    this.currentUser$ = this.currentUserSource$.do(tag$('current user')).publishReplay(1);
+    this.currentUser$ = this.currentUserSource$.publishReplay(1);
   }
 
   setCurrentUser(user: User) {
-    this.currentUserSource$.next(user);
     this.currentUser$.connect();
+    this.currentUserSource$.next(user);
   }
 }

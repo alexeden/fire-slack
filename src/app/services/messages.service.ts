@@ -1,8 +1,10 @@
-import { Injectable } from '@angular/core';
+import * as moment from 'moment';
+import { Injectable, Inject } from '@angular/core';
 import { ConnectableObservable, Subject } from 'rxjs';
 import { v1 } from 'uuid';
 import { tag$ } from 'util/tags';
-import { Message, MessageOperation, MessageListOperation } from 'app/interfaces';
+import { PartialMessage, Message, MessageListOperation } from 'app/interfaces';
+import { UserService } from 'app/services/user.service';
 
 
 @Injectable()
@@ -11,7 +13,9 @@ export class MessageService {
   private operations$: Subject<MessageListOperation>;
   messages$: ConnectableObservable<Message[]>;
 
-  constructor() {
+  constructor(
+    @Inject(UserService) private userService: UserService
+  ) {
     this.operations$ = new Subject();
 
     this.messages$
@@ -20,16 +24,29 @@ export class MessageService {
             (msgs, operation) => operation(msgs),
             [] as Message[]
           )
-          .do(tag$('messages'))
           .publishReplay(1);
 
     this.messages$.connect();
 
   }
 
-  createMessage(message: Message) {
-    this.operations$.next(messages => [...messages, { ...message, id: message.id || v1() }]);
+  createMessage(message: PartialMessage) {
+    this.userService.currentUser$
+      .take(1)
+      .subscribe(user =>
+        this.operations$.next(messages => [
+          ...messages,
+          {
+            ...message,
+            author: message.author || user,
+            id: message.id || v1(),
+            timestamp: message.timestamp || moment().toDate()
+          } as Message
+        ])
+      );
   }
+
+
 
 
 
