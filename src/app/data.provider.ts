@@ -37,7 +37,6 @@ const publicChannel: Channel
       name: 'Public',
       creator: AppUser,
       isPrivate: false,
-      messages: [],
       members: [ AppUser, currentUser, otherUser1, otherUser2 ]
     };
 
@@ -47,7 +46,6 @@ const privateConversation: Channel
       name: 'Chat with Allison',
       creator: currentUser,
       isPrivate: true,
-      messages: [],
       members: [ otherUser1, currentUser ]
     };
 

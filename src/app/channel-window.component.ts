@@ -17,7 +17,7 @@ import { tag$ } from 'util/tags';
     <ul class="list-group">
       <div class="list-group-item media" *ngIf="noMessagesYet$ | async">
         <div class="media-body">
-        <p class="m-y-0 lead">No messages yet!</p>           
+        <p class="m-y-0 lead">No messages yet!</p>
         </div>
       </div>
       <div class="list-group-item media" *ngFor="let message of channelMessages$ | async">
@@ -57,7 +57,13 @@ export class ChannelWindowComponent {
   ) {
     this.channel$ = channelService.activeChannel$;
     this.channelName$ = this.channel$.map(channel => channel.name);
-    this.channelMessages$ = this.channel$.map(channel => channel.messages).do(tag$('messages'));
+    this.channelMessages$
+      = this.channel$
+          .combineLatest(
+            this.messageService.messages$,
+            (channel, messages) =>  messages.filter(msg => msg.channel.id === channel.id)
+          );
+          
     this.noMessagesYet$ = this.channelMessages$.map(msgs => msgs.length < 1);
   }
 

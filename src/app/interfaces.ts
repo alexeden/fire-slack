@@ -37,8 +37,6 @@ export interface Channel {
   name: string;
   isPrivate: boolean;
   members: User[];
-  latestMessage?: Message;
-  messages: Message[];
 }
 
 export type ChannelOperation = (msg: Channel) => Channel;

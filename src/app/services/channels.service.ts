@@ -25,18 +25,6 @@ export class ChannelService {
             (channels, operation) => operation(channels),
             [] as Channel[]
           )
-          // .combineLatest(
-          //   this.messageService.messages$,
-          //   (channels: Channel[], msgs: Message[]): Channel[] =>
-          //     channels.map(channel =>
-          //       (
-          //         {
-          //           ...channel,
-          //           messages: msgs.filter(msg => msg.channel.id === channel.id)
-          //         }
-          //       )
-          //     )
-          // )
           .publishReplay(1);
 
     this.activeChannelSource$ = new BehaviorSubject({} as Channel);
