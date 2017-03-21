@@ -7,25 +7,7 @@ import { tag$ } from 'util/tags';
 
 @Component({
   selector: 'channel-list-item',
-  template: `
-  <div
-    class="card media m-y-0 container-fluid"
-    style="border-top-width: 0;"
-    (click)="setActiveChannel(channel)"
-    [ngClass]="{'card-primary': (isActive$ | async), 'card-inverse': !(isActive$ | async)}">
-
-
-    <div class="card-block media m-y-0">
-      <div class="media-left media-top">
-        <img class="media-object square-64 img-circle hidden-xs-down" src="{{channel.avatarSrc}}">
-      </div>
-      <div class="media-body">
-        <p class="card-title lead m-y-0">{{channel.name}}</p>
-        <p class="card-text"><small class="text-muted">{{latestMessageContent$ | async}}</small></p>
-      </div>
-    </div>
-  </div>
-  `
+  templateUrl: './channel-list-item.html'
 })
 export class ChannelListItemComponent implements OnInit {
   @Input() channel: Channel;

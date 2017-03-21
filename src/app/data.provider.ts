@@ -12,20 +12,20 @@ const currentUser: User
   = {
       id: v1(),
       name: 'Alex',
-      avatarUrl: ''
+      avatarUrl: '/assets/alex.jpg'
     };
 
-const otherUser1: User
+const allison: User
   = {
       id: v1(),
       name: 'Allison',
-      avatarUrl: ''
+      avatarUrl: '/assets/allison.jpg'
     };
 
-const otherUser2: User
+const michael: User
   = {
       id: v1(),
-      name: 'Luke',
+      name: 'Michael',
       avatarUrl: ''
     };
 
@@ -35,7 +35,7 @@ const publicChannel: Channel
       name: 'Public',
       creator: AppUser,
       isPrivate: false,
-      members: [ AppUser, currentUser, otherUser1, otherUser2 ]
+      members: [ AppUser, currentUser, allison, michael ]
     };
 
 const privateConversation: Channel
@@ -44,7 +44,7 @@ const privateConversation: Channel
       name: 'Chat with Allison',
       creator: currentUser,
       isPrivate: true,
-      members: [ otherUser1, currentUser ]
+      members: [ allison, currentUser ]
     };
 
 const messages: PartialMessage[]
@@ -55,12 +55,27 @@ const messages: PartialMessage[]
         timestamp: moment().subtract(20, 'minutes').toDate(),
         author: currentUser,
         content: 'Oh hai everyone!'
+      },
+      {
+        id: v1(),
+        channel: publicChannel,
+        timestamp: moment().subtract(19, 'minutes').toDate(),
+        author: michael,
+        content: 'RxChat is a garbage app for garbage people.'
+      },
+      {
+        id: v1(),
+        channel: publicChannel,
+        timestamp: moment().subtract(1, 'minutes').toDate(),
+        author: allison,
+        content: 'Caramel fudge the fuck off.'
       }
     ];
 
 const dataFactory =
   (userService: UserService, channelService: ChannelService, messageService: MessageService) => {
     userService.setCurrentUser({ ...currentUser, channels: [publicChannel] });
+    userService.addKnownUser(currentUser, allison, michael);
     channelService.createChannel(publicChannel);
     channelService.createChannel(privateConversation);
     messages.map(msg => messageService.createMessage(msg));

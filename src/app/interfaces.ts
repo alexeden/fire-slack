@@ -27,8 +27,6 @@ export interface PartialChannel {
   id?: string;
   creator?: User;
   isPrivate?: boolean;
-  latestMessage?: Message;
-  messages?: Message[];
 }
 
 export interface Channel {
@@ -48,6 +46,9 @@ export interface User {
   readonly name: string;
   avatarUrl?: string;
 }
+
+export type UserOperation = (msg: User) => User;
+export type UserListOperation = (msg: User[]) => User[];
 
 export const AppUser: User
   = {

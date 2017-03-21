@@ -1,6 +1,6 @@
 import * as moment from 'moment';
 import { Injectable, Inject } from '@angular/core';
-import { ConnectableObservable, Subject } from 'rxjs';
+import { ConnectableObservable, Subject, Observable } from 'rxjs';
 import { v1 } from 'uuid';
 import { PartialMessage, Message, MessageListOperation } from 'app/interfaces';
 import { UserService } from 'app/services/user.service';
@@ -43,6 +43,11 @@ export class MessageService {
           } as Message
         ])
       );
+  }
+
+  messagesForChannelId(channelId: string): Observable<Message[]> {
+    return this.messages$
+      .map(messages => messages.filter(message => message.channel.id === channelId));
   }
 
 

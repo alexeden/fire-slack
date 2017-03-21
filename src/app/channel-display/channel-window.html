@@ -1,0 +1,20 @@
+<div class="container-fluid">
+  <h3 class="display-4">{{channelName$ | async}}</h3>
+  <p class="lead">Some bio info</p>
+
+  <ul class="list-unstyled">
+    <li class="media" *ngIf="noMessagesYet$ | async">
+      <div class="media-body">
+        <h5 class="my-0 lead">No messages yet!</h5>
+      </div>
+    </li>
+    <channel-message *ngFor="let message of channelMessages$ | async" [message]="message">
+    </channel-message>
+  </ul>
+
+  <input
+    type="text"
+    class="m-t-1 container-fluid form-control form-control-lg"
+    placeholder="Say something"
+    (keydown.enter)="sendMessage($event.target)"/>
+</div>

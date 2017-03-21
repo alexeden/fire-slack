@@ -2,7 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { ConnectableObservable, Subject, BehaviorSubject, Observable } from 'rxjs';
 import { tag, tag$ }  from 'util/tags';
 import { v1 } from 'uuid';
-import { Channel, PartialChannel, Message, ChannelListOperation } from 'app/interfaces';
+import { Channel, PartialChannel, ChannelListOperation } from 'app/interfaces';
 import { MessageService } from './messages.service';
 
 
@@ -32,16 +32,7 @@ export class ChannelService {
     this.activeChannel$
       = this.activeChannelSource$.asObservable()
           .filter(channel => !!(channel && channel.id && channel.id.length > 0))
-          .distinctUntilKeyChanged('id')
-          .combineLatest(
-            this.messageService.messages$,
-            (channel: Channel, msgs: Message[]): Channel => (
-              {
-                ...channel,
-                messages: msgs.filter(msg => msg.channel.id === channel.id)
-              }
-            )
-          );
+          .distinctUntilKeyChanged('id');
 
     this.channels$.connect();
   }
@@ -52,8 +43,7 @@ export class ChannelService {
       {
         ...channel,
         id: channel.id || v1(),
-        isPrivate: channel.isPrivate || false,
-        messsages: channel.messages || []
+        isPrivate: channel.isPrivate || false
       } as Channel
     ]);
   }
