@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ContextReplacementPlugin = require('webpack/lib/ContextReplacementPlugin');
 
 module.exports = {
@@ -75,13 +76,18 @@ module.exports = {
     }),
 
     new ContextReplacementPlugin(
-        /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/,
-        __dirname
+      /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/,
+      __dirname
     ),
 
     new CircularDependencyPlugin({
       exclude: /node_modules/g
-    })
+    }),
+
+    new CopyWebpackPlugin([{
+      from: path.resolve(__dirname, 'assets'),
+      to: 'assets'
+    }])
 
   ],
 
