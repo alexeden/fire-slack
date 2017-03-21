@@ -5,23 +5,17 @@ import { MessageService, ChannelService, UserService } from 'app/services';
 @Component({
   selector: 'chat-app',
   template: `
-  <nav class="navbar navbar-full navbar-dark bg-inverse">
-    <ul class="nav navbar-nav pull-xs-right">
-      <li class="nav-item">
-        Messages <span class="label label-pill label-info">0</span>
-      </li>
-    </ul>
-  </nav>
-    <div class="container-fluid px-0">
-      <div class="row">
-        <div class="col-md-4 mx-0 pr-0">
-          <channel-list></channel-list>
-        </div>
-        <div class="col-md-8 px-1 mx-0">
-          <channel-window></channel-window>
-        </div>
+  <nav-bar></nav-bar>
+  <div class="container-fluid px-0">
+    <div class="row mx-0">
+      <div class="col-md-4 col-lg-3 col-xl-2 mx-0 px-0">
+        <channel-list></channel-list>
+      </div>
+      <div class="col-md-8 col-lg-9 col-xl-10 px-1 mx-0">
+        <channel-window></channel-window>
       </div>
     </div>
+  </div>
   `
 })
 export class AppComponent {

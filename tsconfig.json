@@ -3,7 +3,7 @@
         "allowSyntheticDefaultImports": true,
         "baseUrl": "./src",
         "experimentalDecorators": true,
-        "lib": ["es2015", "dom"],
+        "lib": ["es2016", "dom"],
         "jsx": "react",
         "jsxFactory": "html",
         "module": "commonjs",

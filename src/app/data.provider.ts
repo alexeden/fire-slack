@@ -32,7 +32,7 @@ const michael: User
 const publicChannel: Channel
   = {
       id: v1(),
-      name: 'Public',
+      name: 'Public Channel',
       creator: AppUser,
       isPrivate: false,
       members: [ AppUser, currentUser, allison, michael ]
@@ -54,21 +54,24 @@ const messages: PartialMessage[]
         channel: publicChannel,
         timestamp: moment().subtract(20, 'minutes').toDate(),
         author: currentUser,
-        content: 'Oh hai everyone!'
+        content: 'Oh hai everyone!',
+        seenBy: []
       },
       {
         id: v1(),
         channel: publicChannel,
         timestamp: moment().subtract(19, 'minutes').toDate(),
         author: michael,
-        content: 'RxChat is a garbage app for garbage people.'
+        content: 'RxChat is a garbage app for garbage people.',
+        seenBy: []
       },
       {
         id: v1(),
         channel: publicChannel,
         timestamp: moment().subtract(1, 'minutes').toDate(),
         author: allison,
-        content: 'Caramel fudge the fuck off.'
+        content: 'Caramel fudge the fuck off.',
+        seenBy: []
       }
     ];
 
@@ -82,7 +85,7 @@ const dataFactory =
     channelService.channels$
       .take(1)
       .subscribe(channels =>
-        channelService.setActiveChannel(channels[0])
+        channelService.setActiveChannel(channels[1])
       );
   };
 

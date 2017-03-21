@@ -12,6 +12,7 @@ import { tag$ } from 'util/tags';
 export class ChannelListItemComponent implements OnInit {
   @Input() channel: Channel;
   private isActive$: Observable<boolean>;
+  private unseenMessageCount$: Observable<number>;
 
   constructor(
     @Inject(ChannelService) private channelService: ChannelService,
@@ -19,7 +20,16 @@ export class ChannelListItemComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.isActive$ = this.channelService.activeChannel$.map(channel => channel.id === this.channel.id);
+    this.isActive$ = this.channelService.activeChannel$.map(channel => channel.id === this.channel.id).do(tag$(`${this.channel.name} is active?`));
+    this.unseenMessageCount$ = this.messageService.unseenMessagesForChannelId(this.channel.id).map(msgs => msgs.length);
+
+    /* When this channel becomes active, mark all of its messages as seen */
+    this.isActive$
+      .filter(isActive => isActive === true)
+      .distinctUntilChanged()
+      .subscribe(_ =>
+        this.messageService.markMessagesAsSeenForChannelId(this.channel.id)
+      );
   }
 
   setActiveChannel(channel: Channel) {

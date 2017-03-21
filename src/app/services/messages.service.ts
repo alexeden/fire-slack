@@ -11,6 +11,7 @@ export class MessageService {
 
   private operations$: Subject<MessageListOperation>;
   messages$: ConnectableObservable<Message[]>;
+  unseenMessages$: Observable<Message[]>;
 
   constructor(
     @Inject(UserService) private userService: UserService
@@ -24,6 +25,15 @@ export class MessageService {
             [] as Message[]
           )
           .publishReplay(1);
+
+
+    this.unseenMessages$
+      = this.messages$
+          .withLatestFrom(this.userService.currentUser$.map(user => user.id))
+          .map(([msgs, userId]) =>
+            msgs.filter(msg => !msg.seenBy.includes(userId) && msg.author.id !== userId)
+          );
+
 
     this.messages$.connect();
 
@@ -39,7 +49,8 @@ export class MessageService {
             ...message,
             author: message.author || user,
             id: message.id || v1(),
-            timestamp: message.timestamp || moment().toDate()
+            timestamp: message.timestamp || moment().toDate(),
+            seenBy: (message.seenBy || []).concat((message.author || user).id)
           } as Message
         ])
       );
@@ -47,11 +58,31 @@ export class MessageService {
 
   messagesForChannelId(channelId: string): Observable<Message[]> {
     return this.messages$
-      .map(messages => messages.filter(message => message.channel.id === channelId));
+      .map(messages =>
+        messages.filter(message => message.channel.id === channelId)
+      );
   }
 
+  unseenMessagesForChannelId(channelId: string): Observable<Message[]> {
+    return this.unseenMessages$
+      .map(messages =>
+        messages.filter(message => message.channel.id === channelId)
+      );
+  }
 
-
-
+  markMessagesAsSeenForChannelId(channelId: string) {
+    this.userService.currentUser$
+      .take(1)
+      .subscribe(currentUser =>
+        this.operations$.next(
+          messages =>
+            messages.map(msg =>
+              msg.channel.id === channelId && !msg.seenBy.includes(currentUser.id)
+              ? { ...msg, seenBy: [...msg.seenBy, currentUser.id] }
+              : msg
+            )
+        )
+      );
+  }
 
 }

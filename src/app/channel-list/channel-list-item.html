@@ -6,5 +6,9 @@
     <img class="square-16 img-circle hidden-xs-down" src="{{channel.avatarSrc || '/assets/unknown-channel.png'}}">
     {{channel.name}}
   </span>
-  <span class="badge badge-default badge-pill">2</span>
+  <span
+    *ngIf="(unseenMessageCount$ | async) > 0"
+    class="badge badge-default badge-pill">
+    {{unseenMessageCount$ | async}}
+  </span>
 </li>

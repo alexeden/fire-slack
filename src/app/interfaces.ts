@@ -6,7 +6,7 @@ export interface PartialMessage {
   id?: string;
   timestamp?: Date;
   author?: User;
-  seenBy?: User[];
+  seenBy?: Array<string>;
 }
 
 export interface Message {
@@ -15,7 +15,7 @@ export interface Message {
   id: string;
   timestamp: Date;
   author: User;
-  seenBy: User[];
+  seenBy: Array<string>;
 }
 
 export type MessageOperation = (msg: Message) => Message;
@@ -42,7 +42,7 @@ export type ChannelListOperation = (msg: Channel[]) => Channel[];
 
 
 export interface User {
-  readonly id?: string;
+  readonly id: string;
   readonly name: string;
   avatarUrl?: string;
 }
