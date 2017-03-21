@@ -20,7 +20,7 @@ export class ChannelListItemComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.isActive$ = this.channelService.activeChannel$.map(channel => channel.id === this.channel.id).do(tag$(`${this.channel.name} is active?`));
+    this.isActive$ = this.channelService.activeChannel$.map(channel => channel.id === this.channel.id);
     this.unseenMessageCount$ = this.messageService.unseenMessagesForChannelId(this.channel.id).map(msgs => msgs.length);
 
     /* When this channel becomes active, mark all of its messages as seen */
