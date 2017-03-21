@@ -1,6 +1,6 @@
 import { Component, Input, Inject, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Channel, Message } from 'app/interfaces';
+import { Message } from 'app/interfaces';
 import { UserService } from 'app/services';
 
 
@@ -9,7 +9,7 @@ import { UserService } from 'app/services';
   selector: 'channel-message',
   template: `
     <li class="media mb-4">
-      <template [ngIf]="sentByCurrentUser$ | async | not">
+      <ng-template [ngIf]="sentByCurrentUser$ | async | not">
         <img
           class="mr-3 square-64 rounded-circle"
           src="{{message.author.avatarUrl}}">
@@ -18,9 +18,9 @@ import { UserService } from 'app/services';
           <p class="my-0 lead">{{message.content}}</p>
           <p class="my-0"><small class="text-muted"><em>Said by {{message.author.name}} {{message.timestamp | fromNow}}</em></small></p>
         </div>
-      </template>
+      </ng-template>
 
-      <template [ngIf]="sentByCurrentUser$ | async">
+      <ng-template [ngIf]="sentByCurrentUser$ | async">
         <div class="media-body text-right">
           <p class="my-0 lead">{{message.content}}</p>
           <p class="my-0"><small class="text-muted"><em>Said by {{message.author.name}} {{message.timestamp | fromNow}}</em></small></p>
@@ -29,7 +29,7 @@ import { UserService } from 'app/services';
         <img
           class="d-flex ml-3 square-64 rounded-circle"
           src="{{message.author.avatarUrl || '/assets/unknown-user.jpg'}}">
-      </template>
+      </ng-template>
     </li>
   `
 })

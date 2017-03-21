@@ -9,7 +9,9 @@ import { Channel } from 'app/interfaces';
 @Component({
   selector: 'channel-list',
   template: `
-    <channel-list-item *ngFor="let channel of channels$ | async" [channel]="channel"></channel-list-item>
+    <ul class="list-group">
+      <channel-list-item *ngFor="let channel of channels$ | async" [channel]="channel"></channel-list-item>
+    </ul>
   `
 })
 export class ChannelListComponent {

@@ -1,17 +1,10 @@
-<div
-  class="card media m-y-0 container-fluid"
-  style="border-top-width: 0;"
+<li
+  class="list-group-item list-group-item-action justify-content-between"
   (click)="setActiveChannel(channel)"
-  [ngClass]="{'card-primary': (isActive$ | async), 'card-inverse': !(isActive$ | async)}">
-
-
-  <div class="card-block media m-y-0">
-    <div class="media-left media-top">
-      <img class="media-object square-64 img-circle hidden-xs-down" src="{{channel.avatarSrc || '/assets/unknown-channel.png'}}">
-    </div>
-    <div class="media-body">
-      <p class="card-title lead m-y-0">{{channel.name}}</p>
-      <p class="card-text"><small class="text-muted">{{latestMessageContent$ | async}}</small></p>
-    </div>
-  </div>
-</div>
+  [ngClass]="{'active': (isActive$ | async)}">
+  <span>
+    <img class="square-16 img-circle hidden-xs-down" src="{{channel.avatarSrc || '/assets/unknown-channel.png'}}">
+    {{channel.name}}
+  </span>
+  <span class="badge badge-default badge-pill">2</span>
+</li>

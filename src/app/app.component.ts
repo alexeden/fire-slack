@@ -12,12 +12,12 @@ import { MessageService, ChannelService, UserService } from 'app/services';
       </li>
     </ul>
   </nav>
-    <div class="container-fluid p-x-0">
+    <div class="container-fluid px-0">
       <div class="row">
-        <div class="col-md-4 m-x-0 p-r-0">
+        <div class="col-md-4 mx-0 pr-0">
           <channel-list></channel-list>
         </div>
-        <div class="col-md-8 p-x-0 m-x-0">
+        <div class="col-md-8 px-1 mx-0">
           <channel-window></channel-window>
         </div>
       </div>
