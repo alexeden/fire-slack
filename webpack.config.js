@@ -42,9 +42,6 @@ module.exports = {
         loaders: [
             {
                 loader: 'awesome-typescript-loader'
-                // options: {
-                //     useBabel: true
-                // }
             },
             'angular2-template-loader'
         ]
@@ -76,8 +73,8 @@ module.exports = {
     }),
 
     new ContextReplacementPlugin(
-      /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/,
-      __dirname
+      /angular(\\|\/)core(\\|\/)@angular/,
+      path.resolve(__dirname, 'src')
     ),
 
     new CircularDependencyPlugin({
