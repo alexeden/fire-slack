@@ -5,7 +5,7 @@ import { MessageService } from 'app/services';
 @Component({
   selector: 'nav-bar',
   template: `
-  <nav class="navbar navbar-light bg-faded d-flex flex-row justify-content-between">
+  <nav class="navbar navbar-light bg-faded d-flex flex-row justify-content-between" style="z-index: 11; box-shadow: 0 3px 6px rgba(0,0,0,0.03), 0 3px 6px rgba(0,0,0,0.11);">
     <a class="navbar-brand" href="#">RxChat</a>
     <span
       *ngIf="(unseenMessageCount$ | async) > 0"

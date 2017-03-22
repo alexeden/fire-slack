@@ -1,8 +1,13 @@
-<div class="container-fluid">
-  <h3 class="display-4">{{channelName$ | async}}</h3>
+<div
+  class="d-flex flex-column justify-content-start"
+  [ngStyle]="{ 'height.px': height$ | async }">
+
+  <div class="p-4 channel-header">
+    <h3 class="lead">{{channelName$ | async}}</h3>
+  </div>
   <!-- <p class="lead">Some bio info</p> -->
 
-  <ul class="list-unstyled">
+  <!-- <ul class="list-unstyled">
     <li class="media" *ngIf="noMessagesYet$ | async">
       <div class="media-body">
         <h5 class="my-0 lead">No messages yet!</h5>
@@ -10,11 +15,17 @@
     </li>
     <channel-message *ngFor="let message of channelMessages$ | async" [message]="message">
     </channel-message>
-  </ul>
+  </ul> -->
+  <div class="p-4 channel-messages">
+    <channel-message *ngFor="let message of channelMessages$ | async" [message]="message">
+    </channel-message>
+  </div>
 
-  <input
-    type="text"
-    class="mt-1 container-fluid form-control form-control-lg"
-    placeholder="Say something"
-    (keydown.enter)="sendMessage($event.target)"/>
+  <div class="mt-auto px-4 py-1 channel-footer">
+    <input
+      type="text"
+      class="form-control form-control-lg border-0"
+      placeholder="Say something"
+      (keydown.enter)="sendMessage($event.target)"/>
+  </div>
 </div>

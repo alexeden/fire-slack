@@ -1,12 +1,24 @@
 import { Observable } from 'rxjs';
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ElementRef, Host } from '@angular/core';
 import { ChannelService, MessageService } from 'app/services';
 import { Channel, Message } from 'app/interfaces';
+import { tag$ } from 'util/tags';
 
 
 @Component({
   selector: 'channel-window',
-  templateUrl: './channel-window.html'
+  templateUrl: './channel-window.html',
+  styles: [`
+    .channel-messages {
+      overflow: scroll;
+    }
+    .channel-header {
+      box-shadow: 0 1px 5px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.17);
+    }
+    .channel-footer {
+      box-shadow: 0 -1px 5px rgba(0,0,0,0.08), 0 -1px 2px rgba(0,0,0,0.17);
+    }
+  `]
 })
 export class ChannelWindowComponent {
 
@@ -15,10 +27,15 @@ export class ChannelWindowComponent {
   private channelMessages$: Observable<Message[]>;
   private noMessagesYet$: Observable<boolean>;
 
+  private height$: Observable<number>;
+
   constructor(
     @Inject(ChannelService) private channelService: ChannelService,
-    @Inject(MessageService) private messageService: MessageService
+    @Inject(MessageService) private messageService: MessageService,
+    @Inject(ElementRef) @Host() private elementRef: ElementRef
   ) {
+    console.log(elementRef);
+
     this.activeChannel$ = channelService.activeChannel$;
     this.channelName$ = this.activeChannel$.map(channel => channel.name);
     this.channelMessages$
@@ -27,6 +44,16 @@ export class ChannelWindowComponent {
           .mergeMap(id => this.messageService.messagesForChannelId(id));
 
     this.noMessagesYet$ = this.channelMessages$.map(msgs => msgs.length < 1);
+
+    this.height$
+      = Observable.merge(
+          Observable.interval(200).take(10),
+          Observable.fromEvent(window, 'resize')
+        )
+        .startWith(null)
+        .mapTo(this.elementRef.nativeElement)
+        .map(elem => elem.getBoundingClientRect())
+        .map(({top}) => window.innerHeight - top);
   }
 
   sendMessage(input: HTMLInputElement) {
@@ -39,7 +66,5 @@ export class ChannelWindowComponent {
         })
       )
       .subscribe(_ => input.value = '');
-
-
   }
 }

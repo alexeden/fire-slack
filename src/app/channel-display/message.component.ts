@@ -8,7 +8,7 @@ import { UserService } from 'app/services';
 @Component({
   selector: 'channel-message',
   template: `
-    <li class="media mb-4">
+    <div class="media mb-4">
       <ng-template [ngIf]="sentByCurrentUser$ | async | not">
         <img
           class="mr-3 square-64 rounded-circle"
@@ -30,7 +30,7 @@ import { UserService } from 'app/services';
           class="d-flex ml-3 square-64 rounded-circle"
           src="{{message.author.avatarUrl || '/assets/unknown-user.jpg'}}">
       </ng-template>
-    </li>
+    </div>
   `
 })
 export class ChannelMessageComponent implements OnInit {
