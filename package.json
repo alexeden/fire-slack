@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "private": true,
   "description": "",
-  "main": "dist/main.js",
   "scripts": {
     "build": "npm run clean && webpack",
     "clean": "npm run clean:client && npm run clean:server",
@@ -11,7 +10,8 @@
     "clean:server": "rimraf server-dist",
     "build:watch-client": "npm run clean:client && nodemon --exec \"webpack\" -w webpack.client.config.js",
     "build:watch-server": "npm run clean:server && nodemon --exec \"webpack\" -w webpack.server.config.js",
-    "start": "webpack-dev-server --inline --config ./webpack.client.config.js"
+    "start": "webpack-dev-server --inline --config ./webpack.client.config.js",
+    "start:server": "npm run clean:server && nodemon -e ts,json -w server --exec \"webpack --config webpack.server.config.js && node server-dist/server.js\""
   },
   "author": "Alex Eden",
   "dependencies": {
