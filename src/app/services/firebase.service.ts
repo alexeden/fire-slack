@@ -1,14 +1,23 @@
-import { Observable } from 'rxjs';
+import { Observable, Subject, ConnectableObservable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import * as Firebase from 'firebase';
+
+export type FirebaseApp = Firebase.app.App;
+export type Auth = Firebase.auth.Auth;
+export type Storage = Firebase.storage.Storage;
+export type Database = Firebase.database.Database;
+export type User = Firebase.User;
 
 @Injectable()
 export class FirebaseService {
 
-  app: Firebase.app.App;
-  auth: Firebase.auth.Auth;
-  database: Firebase.database.Database;
-  storage: Firebase.storage.Storage;
+  app: FirebaseApp;
+  auth: Auth;
+  database: Database;
+  storage: Storage;
+  user$: ConnectableObservable<User>;
+  isLoggedIn$: Observable<boolean>;
+  private authState$ = new Subject<User>();
 
   constructor() {
     this.app =
@@ -20,11 +29,19 @@ export class FirebaseService {
         messagingSenderId: '915478226759'
       });
 
+
     this.auth = window['auth'] = this.app.auth();
     this.database = window['database'] = this.app.database();
     this.storage = window['storage'] = this.app.storage();
 
-    this.auth.onAuthStateChanged(this.authStateChanged.bind(this));
+    this.auth.onAuthStateChanged((authState: any) => this.authState$.next(authState));
+    this.user$
+      = this.authState$.asObservable()
+          .startWith(this.auth.currentUser)
+          .publishReplay();
+
+    this.isLoggedIn$ = this.user$.map(user => user === null);
+    this.user$.connect();
   }
 
   signIn(): Observable<any> {
