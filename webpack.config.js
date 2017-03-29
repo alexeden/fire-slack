@@ -11,8 +11,8 @@ module.exports = {
   context: path.resolve(__dirname, 'src'),
 
   entry: {
+    styles: './scss/main.scss',
     vendor: './vendor.ts',
-    styles: './styles.ts',
     app: './main.ts'
   },
 
