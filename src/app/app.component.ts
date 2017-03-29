@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { FireSlackData } from 'app/data.provider';
-import { MessageService, ChannelService, UserService } from 'app/services';
+import { MessageService, ChannelService, UserService, FirebaseService } from 'app/services';
 
 @Component({
   selector: 'chat-app',
@@ -23,6 +23,7 @@ export class AppComponent {
     @Inject(MessageService) private messageService: MessageService,
     @Inject(ChannelService) private channelService: ChannelService,
     @Inject(UserService) private userService: UserService,
+    @Inject(FirebaseService) private firebase: FirebaseService,
     @Inject(FireSlackData) private data: void
   ) {}
 }

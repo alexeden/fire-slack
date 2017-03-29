@@ -14,7 +14,6 @@ module.exports = {
 
   entry: {
     styles: './scss/main.scss',
-    firebase: './firebase.ts',
     vendor: './vendor.ts',
     app: './main.ts'
   },

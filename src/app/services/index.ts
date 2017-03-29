@@ -1,1 +1,1 @@
-export { ChannelService, UserService, FireSlackServicesModule, MessageService } from './services.module';
+export * from './services.module';
