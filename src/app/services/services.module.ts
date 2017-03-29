@@ -11,7 +11,7 @@ import { MessageService } from './messages.service';
     MessageService
   ]
 })
-export class RxChatServicesModule {}
+export class FireSlackServicesModule {}
 
 
 export { ChannelService } from './channels.service';

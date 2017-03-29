@@ -6,7 +6,7 @@ import { User, Channel, PartialMessage, AppUser } from 'app/interfaces';
 import { ChannelService, MessageService, UserService } from 'app/services';
 import { OpaqueToken } from '@angular/core';
 
-export const RxChatData = new OpaqueToken('rx-chat-data');
+export const FireSlackData = new OpaqueToken('rx-chat-data');
 
 const currentUser: User
   = {
@@ -89,8 +89,8 @@ const dataFactory =
       );
   };
 
-export const RxChatDataFactoryProvider: FactoryProvider = {
-  provide: RxChatData,
+export const FireSlackDataFactoryProvider: FactoryProvider = {
+  provide: FireSlackData,
   deps: [UserService, ChannelService, MessageService],
   useFactory: dataFactory
 };

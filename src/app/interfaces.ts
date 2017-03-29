@@ -53,6 +53,6 @@ export type UserListOperation = (msg: User[]) => User[];
 export const AppUser: User
   = {
       id: v1(),
-      name: 'RxChat',
+      name: 'Fire Slack',
       avatarUrl: ''
     };

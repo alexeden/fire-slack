@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { ChannelService, MessageService } from 'app/services';
-import { Channel, Message } from 'app/interfaces';
+import { Channel } from 'app/interfaces';
 import { tag$ } from 'util/tags';
 
 

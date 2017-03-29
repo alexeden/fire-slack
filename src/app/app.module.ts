@@ -1,20 +1,20 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { SharedModule } from '../shared';
 
 import { AppComponent } from './app.component';
-import { RxChatServicesModule } from 'app/services';
+import { FireSlackServicesModule } from 'app/services';
 import { NavBarComponent } from './nav-bar';
 import { ChannelListComponent, ChannelListItemComponent } from './channel-list';
 import { ChannelWindowComponent, ChannelMessageComponent } from './channel-display';
-import { FromNowPipe } from './from-now.pipe';
-import { NotPipe } from './not.pipe';
 
-import { RxChatDataFactoryProvider } from './data.provider';
+import { FireSlackDataFactoryProvider } from './data.provider';
 
 @NgModule({
   imports: [
     BrowserModule,
-    RxChatServicesModule
+    FireSlackServicesModule,
+    SharedModule
   ],
   declarations: [
     AppComponent,
@@ -22,12 +22,10 @@ import { RxChatDataFactoryProvider } from './data.provider';
     ChannelListComponent,
     ChannelListItemComponent,
     ChannelWindowComponent,
-    ChannelMessageComponent,
-    FromNowPipe,
-    NotPipe
+    ChannelMessageComponent
   ],
   providers: [
-    RxChatDataFactoryProvider
+    FireSlackDataFactoryProvider
   ],
   bootstrap: [ AppComponent ]
 })

@@ -1,1 +1,1 @@
-export { ChannelService, UserService, RxChatServicesModule, MessageService } from './services.module';
+export { ChannelService, UserService, FireSlackServicesModule, MessageService } from './services.module';

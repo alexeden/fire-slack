@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { RxChatData } from 'app/data.provider';
+import { FireSlackData } from 'app/data.provider';
 import { MessageService, ChannelService, UserService } from 'app/services';
 
 @Component({
@@ -23,6 +23,6 @@ export class AppComponent {
     @Inject(MessageService) private messageService: MessageService,
     @Inject(ChannelService) private channelService: ChannelService,
     @Inject(UserService) private userService: UserService,
-    @Inject(RxChatData) private data: void
+    @Inject(FireSlackData) private data: void
   ) {}
 }
