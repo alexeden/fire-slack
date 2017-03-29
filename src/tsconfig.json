@@ -4,8 +4,6 @@
         "baseUrl": ".",
         "experimentalDecorators": true,
         "lib": ["es2016", "dom"],
-        "jsx": "react",
-        "jsxFactory": "html",
         "module": "commonjs",
         "moduleResolution": "node",
         "outDir": "../client-dist/",

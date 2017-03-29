@@ -1,0 +1,30 @@
+{
+    "compilerOptions": {
+        "allowSyntheticDefaultImports": true,
+        "baseUrl": ".",
+        "experimentalDecorators": true,
+        "lib": ["es2016"],
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "outDir": "../server-dist/",
+        "noImplicitAny": true,
+        "suppressImplicitAnyIndexErrors": true,
+        "paths": {
+          "*": [
+            "*",
+            "app/*",
+            "util/*"
+          ]
+        },
+        "skipLibCheck": true,
+        "sourceMap": true,
+        "strictNullChecks": true,
+        "target": "es5",
+        "typeRoots": [
+          "../node_modules/@types/"
+        ]
+    },
+    "exclude": [
+      "../node_modules"
+    ]
+}
