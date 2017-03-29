@@ -1,9 +1,10 @@
-const webpack = require('webpack');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ContextReplacementPlugin = require('webpack/lib/ContextReplacementPlugin');
+const CommonsChunkPlugin = require('webpack/optimize/CommonsChunkPlugin');
+
 const paths = require('./webpack.paths');
 
 module.exports = {
@@ -13,6 +14,7 @@ module.exports = {
 
   entry: {
     styles: './scss/main.scss',
+    firebase: './firebase.ts',
     vendor: './vendor.ts',
     app: './main.ts'
   },
@@ -68,7 +70,7 @@ module.exports = {
       disable: true
     }),
 
-    new webpack.optimize.CommonsChunkPlugin({
+    new CommonsChunkPlugin({
       // Specify the name of the common bundle
       names: ['vendor', 'manifest']
     }),
