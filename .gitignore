@@ -1,14 +1,15 @@
-# The old digital ocean droplet
 build
 dist
 client-dist
 server-dist
+server/service-account-key.json
 *.webpack.json
 # Logs
 logs
 *.log
 npm-debug.log*
 typings
+
 
 # Runtime data
 pids
