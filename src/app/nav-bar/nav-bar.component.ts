@@ -15,6 +15,7 @@ import { MessageService, FirebaseService } from 'app/services';
       You have {{unseenMessageCount$ | async}} unseen messages
     </span>
     <a class="nav-item nav-link" href="#" (click)="firebase.signIn()">Login</a>
+    <a class="nav-item nav-link" href="#" (click)="firebase.signOut()">Leave</a>
   </nav>
   `
 })

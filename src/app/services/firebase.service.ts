@@ -20,13 +20,11 @@ export class FirebaseService {
         messagingSenderId: '915478226759'
       });
 
-    this.auth = this.app.auth();
-    this.database = this.app.database();
-    this.storage = this.app.storage();
+    this.auth = window['auth'] = this.app.auth();
+    this.database = window['database'] = this.app.database();
+    this.storage = window['storage'] = this.app.storage();
 
     this.auth.onAuthStateChanged(this.authStateChanged.bind(this));
-
-    console.log(this.app);
   }
 
   signIn(): Observable<any> {
