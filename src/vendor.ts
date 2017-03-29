@@ -5,6 +5,9 @@ import 'core-js/es7';
 import 'zone.js/dist/zone';
 import 'whatwg-fetch';
 
+/* Services */
+import 'firebase';
+
 /* Framework */
 import '@angular/common';
 import '@angular/core';

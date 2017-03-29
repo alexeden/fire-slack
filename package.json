@@ -9,8 +9,9 @@
     "clean": "npm run clean:client && npm run clean:server",
     "clean:client": "rimraf client-dist",
     "clean:server": "rimraf server-dist",
-    "build:watch": "npm run clean && nodemon --exec \"webpack\" -w webpack.config.js",
-    "start": "webpack-dev-server --inline"
+    "build:watch-client": "npm run clean:client && nodemon --exec \"webpack\" -w webpack.client.config.js",
+    "build:watch-server": "npm run clean:server && nodemon --exec \"webpack\" -w webpack.server.config.js",
+    "start": "webpack-dev-server --inline --config ./webpack.client.config.js"
   },
   "author": "Alex Eden",
   "dependencies": {
@@ -27,6 +28,7 @@
     "@types/uuid": "^2.0.29",
     "bootstrap": "^4.0.0-alpha.6",
     "core-js": "^2.4.1",
+    "firebase": "^3.7.4",
     "firebase-admin": "^4.1.4",
     "jquery": "^3.2.1",
     "moment": "^2.18.1",

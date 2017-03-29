@@ -9,13 +9,6 @@
         "outDir": "../server-dist/",
         "noImplicitAny": true,
         "suppressImplicitAnyIndexErrors": true,
-        "paths": {
-          "*": [
-            "*",
-            "app/*",
-            "util/*"
-          ]
-        },
         "skipLibCheck": true,
         "sourceMap": true,
         "strictNullChecks": true,
