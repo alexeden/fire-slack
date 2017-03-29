@@ -1,14 +1,14 @@
 {
     "compilerOptions": {
         "allowSyntheticDefaultImports": true,
-        "baseUrl": "./src",
+        "baseUrl": ".",
         "experimentalDecorators": true,
         "lib": ["es2016", "dom"],
         "jsx": "react",
         "jsxFactory": "html",
         "module": "commonjs",
         "moduleResolution": "node",
-        "outDir": "./dist/",
+        "outDir": "../client-dist/",
         "noImplicitAny": true,
         "suppressImplicitAnyIndexErrors": true,
         "paths": {
@@ -23,10 +23,10 @@
         "strictNullChecks": true,
         "target": "es5",
         "typeRoots": [
-          "./node_modules/@types/"
+          "../node_modules/@types/"
         ]
     },
     "exclude": [
-      "node_modules"
+      "../node_modules"
     ]
 }

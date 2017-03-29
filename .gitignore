@@ -1,6 +1,8 @@
 # The old digital ocean droplet
 build
 dist
+client-dist
+server-dist
 *.webpack.json
 # Logs
 logs

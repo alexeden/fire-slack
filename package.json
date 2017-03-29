@@ -6,7 +6,9 @@
   "main": "dist/main.js",
   "scripts": {
     "build": "npm run clean && webpack",
-    "clean": "rimraf dist",
+    "clean": "npm run clean:client && npm run clean:server",
+    "clean:client": "rimraf client-dist",
+    "clean:server": "rimraf server-dist",
     "build:watch": "npm run clean && nodemon --exec \"webpack\" -w webpack.config.js",
     "start": "webpack-dev-server --inline"
   },

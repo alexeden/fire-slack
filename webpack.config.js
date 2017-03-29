@@ -8,6 +8,7 @@ const ContextReplacementPlugin = require('webpack/lib/ContextReplacementPlugin')
 
 module.exports = {
   // Base directory for resolving entry points
+  target: 'web',
   context: path.resolve(__dirname, 'src'),
 
   entry: {
@@ -17,7 +18,7 @@ module.exports = {
   },
 
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'client-dist'),
     filename: '[name].js',
     chunkFilename: '[name].[chunkhash].js'
   },
@@ -41,7 +42,10 @@ module.exports = {
         test: /\.tsx?|\.ts?$/,
         loaders: [
             {
-                loader: 'awesome-typescript-loader'
+                loader: 'awesome-typescript-loader',
+                options: {
+                  configFileName: path.resolve(__dirname, 'src', 'client.tsconfig.json')
+                }
             },
             'angular2-template-loader'
         ]
@@ -91,7 +95,7 @@ module.exports = {
   devtool: 'inline-source-map',
 
   devServer: {
-    contentBase: path.join(__dirname, 'dist'),
+    contentBase: path.join(__dirname, 'client-dist'),
     publicPath: '/',
     port: 4000
   }
