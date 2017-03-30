@@ -11,6 +11,8 @@ export class AuthService {
   private auth: Auth;
   user$: ConnectableObservable<UserInfo>;
   isLoggedIn$: Observable<boolean>;
+  loggedInNotifier$: Observable<UserInfo>;
+  loggedOutNotifier$: Observable<UserInfo>;
   private authState$ = new Subject<UserInfo>();
 
   constructor(
@@ -18,13 +20,19 @@ export class AuthService {
   ) {
     this.auth = this.firebase.app.auth();
     this.auth.onAuthStateChanged((authState: any) => this.authState$.next(authState));
-    this.user$
-      = this.authState$.asObservable()
-          .do(tag$('user$'))
-          .startWith(this.auth.currentUser)
-          .publishReplay();
+    this.user$ = this.authState$.asObservable().publishReplay(1);
 
-    this.isLoggedIn$ = this.user$.map(user => user !== null);
+    this.isLoggedIn$ = this.user$.do(tag$('user$')).map(user => user !== null);
+    this.loggedInNotifier$
+      = this.user$.pairwise()
+          .filter(([was, is]) => was === null && !!is)
+          .map(([, is]) => is);
+
+    this.loggedOutNotifier$
+      = this.user$.pairwise()
+          .filter(([was, is]) => !!was && is === null)
+          .map(([was]) => was);
+
     this.user$.connect();
   }
 

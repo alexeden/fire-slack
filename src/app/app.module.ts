@@ -1,15 +1,12 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { SharedModule } from 'fire-slack/shared';
 import { FireSlackRouterModule } from './router';
 import { FireSlackLayoutModule } from './layout';
-import { SharedModule } from '../shared';
+import { FireSlackServicesModule } from './services';
+import { FireSlackChannelsModule } from './channels';
 
 import { AppComponent } from './app.component';
-import { FireSlackServicesModule } from 'fire-slack/app/services';
-import { ChannelListComponent, ChannelListItemComponent } from './channel-list';
-import { ChannelWindowComponent, ChannelMessageComponent } from './channel-display';
-
-// import { FireSlackDataFactoryProvider } from './data.provider';
 
 @NgModule({
   imports: [
@@ -17,18 +14,10 @@ import { ChannelWindowComponent, ChannelMessageComponent } from './channel-displ
     FireSlackRouterModule,
     FireSlackServicesModule,
     FireSlackLayoutModule,
+    FireSlackChannelsModule,
     SharedModule
   ],
-  declarations: [
-    AppComponent,
-    ChannelListComponent,
-    ChannelListItemComponent,
-    ChannelWindowComponent,
-    ChannelMessageComponent
-  ],
-  // providers: [
-  //   FireSlackDataFactoryProvider
-  // ],
+  declarations: [ AppComponent ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule {}
