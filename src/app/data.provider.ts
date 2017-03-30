@@ -3,7 +3,7 @@ import { v1 } from 'uuid';
 import { FactoryProvider } from '@angular/core';
 
 import { User, Channel, PartialMessage, AppUser } from 'app/interfaces';
-import { ChannelService, MessageService, UserService } from 'app/services';
+import { ChannelService, MessageService, UserService } from 'fire-slack/app/services';
 import { OpaqueToken } from '@angular/core';
 
 export const FireSlackData = new OpaqueToken('rx-chat-data');

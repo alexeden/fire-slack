@@ -7,7 +7,7 @@ export type FirebaseApp = Firebase.app.App;
 export type Auth = Firebase.auth.Auth;
 export type Storage = Firebase.storage.Storage;
 export type Database = Firebase.database.Database;
-export type User = Firebase.User;
+export type UserInfo = Firebase.UserInfo;
 
 @Injectable()
 export class FirebaseService {
@@ -16,9 +16,9 @@ export class FirebaseService {
   auth: Auth;
   database: Database;
   storage: Storage;
-  user$: ConnectableObservable<User>;
+  user$: ConnectableObservable<UserInfo>;
   isLoggedIn$: Observable<boolean>;
-  private authState$ = new Subject<User>();
+  private authState$ = new Subject<UserInfo>();
 
   constructor() {
     this.app =
@@ -38,8 +38,8 @@ export class FirebaseService {
     this.auth.onAuthStateChanged((authState: any) => this.authState$.next(authState));
     this.user$
       = this.authState$.asObservable()
-          .startWith(this.auth.currentUser)
           .do(tag$('user$'))
+          .startWith(this.auth.currentUser)
           .publishReplay();
 
     this.isLoggedIn$ = this.user$.map(user => user !== null);

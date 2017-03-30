@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 import { Component, Inject } from '@angular/core';
-import { MessageService, FirebaseService } from 'app/services';
+import { MessageService, FirebaseService } from 'fire-slack/app/services';
 
 @Component({
   selector: 'nav-bar',

@@ -3,7 +3,7 @@ import { Injectable, Inject } from '@angular/core';
 import { ConnectableObservable, Subject, Observable } from 'rxjs';
 import { v1 } from 'uuid';
 import { PartialMessage, Message, MessageListOperation } from 'app/interfaces';
-import { UserService } from 'app/services/user.service';
+import { UserService } from './user.service';
 
 
 @Injectable()

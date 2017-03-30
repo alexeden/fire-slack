@@ -1,9 +1,9 @@
 import { Component, Inject } from '@angular/core';
-import { FireSlackData } from 'app/data.provider';
-import { MessageService, ChannelService, UserService, FirebaseService } from 'app/services';
+// import { FireSlackData } from 'app/data.provider';
+import { MessageService, ChannelService, UserService, FirebaseService } from 'fire-slack/app/services';
 
 @Component({
-  selector: 'chat-app',
+  selector: 'fire-slack-app',
   template: `
   <div class="container-fluid px-0">
     <div class="row mx-0">
@@ -19,11 +19,12 @@ import { MessageService, ChannelService, UserService, FirebaseService } from 'ap
   `
 })
 export class AppComponent {
-  constructor(
-    @Inject(MessageService) private messageService: MessageService,
-    @Inject(ChannelService) private channelService: ChannelService,
-    @Inject(UserService) private userService: UserService,
-    @Inject(FirebaseService) private firebase: FirebaseService,
-    @Inject(FireSlackData) private data: void
-  ) {}
+  constructor
+    ( @Inject(MessageService) private messageService: MessageService
+    , @Inject(ChannelService) private channelService: ChannelService
+    , @Inject(UserService) private userService: UserService
+    , @Inject(FirebaseService) private firebase: FirebaseService
+    // @Inject(FireSlackData) private data: void
+    ) {
+    }
 }

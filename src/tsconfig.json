@@ -10,7 +10,7 @@
         "noImplicitAny": true,
         "suppressImplicitAnyIndexErrors": true,
         "paths": {
-          "*": [
+          "fire-slack/*": [
             "*",
             "app/*",
             "util/*"

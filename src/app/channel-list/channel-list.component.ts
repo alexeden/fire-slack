@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 import { Component, Inject } from '@angular/core';
-import { ChannelService } from 'app/services';
+import { ChannelService } from 'fire-slack/app/services';
 import { Channel } from 'app/interfaces';
 
 

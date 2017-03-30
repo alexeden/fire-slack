@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { SharedPipesModule } from './pipes';
 
 @NgModule({
   exports: [
-    SharedPipesModule
+    SharedPipesModule,
+    CommonModule
   ]
 })
 export class SharedModule {}

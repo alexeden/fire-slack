@@ -1,7 +1,7 @@
 import { Component, Input, Inject, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Message } from 'app/interfaces';
-import { UserService } from 'app/services';
+import { UserService } from 'fire-slack/app/services';
 
 
 

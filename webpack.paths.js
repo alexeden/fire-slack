@@ -8,7 +8,7 @@ module.exports = {
     assets: path.resolve(__dirname, 'assets'),
     alias: {
       'util': path.resolve(__dirname, 'src/util/'),
-      'app': path.resolve(__dirname, 'src/app/')
+      'fire-slack': path.resolve(__dirname, 'src/')
     }
   },
   server: {
