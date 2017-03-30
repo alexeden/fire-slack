@@ -5,6 +5,7 @@ import { MessageService, ChannelService, UserService, FirebaseService } from 'fi
   selector: 'fire-slack-app',
   template: `
     <nav-bar></nav-bar>
+    <router-outlet></router-outlet>
     <channels></channels>
   `
 })

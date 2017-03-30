@@ -34,6 +34,7 @@
   "parser": "babel-eslint",
   "rules": {
     "strict": 0,
-    "no-underscore-dangle": 0
+    "no-underscore-dangle": 0,
+    "no-console": 0
   }
 }

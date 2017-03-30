@@ -23,6 +23,7 @@ import { ChannelListComponent } from './list/channel-list.component';
   ]
 })
 export class FireSlackChannelsModule {}
+export * from './channels.component';
 export * from './conversation/conversation.component';
 export * from './conversation/message.component';
 export * from './list/channel-list-item.component';

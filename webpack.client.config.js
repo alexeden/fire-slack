@@ -95,6 +95,13 @@ module.exports = {
   devServer: {
     contentBase: paths.client.dist,
     publicPath: '/',
-    port: 4000
+    port: 4000,
+    proxy: {
+      '/*': {
+        bypass() {
+          return '/';
+        }
+      }
+    }
   }
 };
