@@ -1,4 +1,3 @@
-import { Observable, Subject, ConnectableObservable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import * as Firebase from 'firebase';
 import { tag$ } from 'fire-slack/util/tags';
@@ -13,12 +12,8 @@ export type UserInfo = Firebase.UserInfo;
 export class FirebaseService {
 
   app: FirebaseApp;
-  auth: Auth;
   database: Database;
   storage: Storage;
-  user$: ConnectableObservable<UserInfo>;
-  isLoggedIn$: Observable<boolean>;
-  private authState$ = new Subject<UserInfo>();
 
   constructor() {
     this.app =
@@ -31,27 +26,7 @@ export class FirebaseService {
       });
 
 
-    this.auth = window['auth'] = this.app.auth();
     this.database = window['database'] = this.app.database();
     this.storage = window['storage'] = this.app.storage();
-
-    this.auth.onAuthStateChanged((authState: any) => this.authState$.next(authState));
-    this.user$
-      = this.authState$.asObservable()
-          .do(tag$('user$'))
-          .startWith(this.auth.currentUser)
-          .publishReplay();
-
-    this.isLoggedIn$ = this.user$.map(user => user !== null);
-    this.user$.connect();
-  }
-
-  signIn(): Observable<any> {
-    const provider = new Firebase.auth.GoogleAuthProvider();
-    return Observable.fromPromise(this.auth.signInWithPopup(provider) as Promise<any>);
-  }
-
-  signOut(): Observable<any> {
-    return Observable.fromPromise(this.auth.signOut() as Promise<any>);
   }
 }
