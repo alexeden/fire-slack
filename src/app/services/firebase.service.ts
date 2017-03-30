@@ -1,6 +1,7 @@
 import { Observable, Subject, ConnectableObservable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import * as Firebase from 'firebase';
+import { tag$ } from 'util/tags';
 
 export type FirebaseApp = Firebase.app.App;
 export type Auth = Firebase.auth.Auth;
@@ -38,9 +39,10 @@ export class FirebaseService {
     this.user$
       = this.authState$.asObservable()
           .startWith(this.auth.currentUser)
+          .do(tag$('user$'))
           .publishReplay();
 
-    this.isLoggedIn$ = this.user$.map(user => user === null);
+    this.isLoggedIn$ = this.user$.map(user => user !== null);
     this.user$.connect();
   }
 
@@ -51,9 +53,5 @@ export class FirebaseService {
 
   signOut(): Observable<any> {
     return Observable.fromPromise(this.auth.signOut() as Promise<any>);
-  }
-
-  private authStateChanged(...args: any[]) {
-    console.log('authStateChanged args: ', args);
   }
 }
