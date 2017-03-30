@@ -2,15 +2,23 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { FireSlackServicesModule } from 'fire-slack/app/services';
 import { ChannelsComponent } from 'fire-slack/app/channels';
+import { LoginComponent } from 'fire-slack/app/layout';
+import { AuthGuard, UnauthGuard } from './auth-guard.service';
 
 const routes: Routes = [
   {
+    path: 'login',
+    component: LoginComponent,
+    canActivate: [ UnauthGuard ]
+  },
+  {
     path: 'channels',
-    component: ChannelsComponent
+    component: ChannelsComponent,
+    canActivate: [ AuthGuard ]
   },
   {
     path: '',
-    redirectTo: '/channels',
+    redirectTo: '/login',
     pathMatch: 'full'
   }
 ];
@@ -22,6 +30,10 @@ const routes: Routes = [
   ],
   exports: [
     RouterModule
+  ],
+  providers: [
+    AuthGuard,
+    UnauthGuard
   ]
 })
 export class FireSlackRouterModule {}

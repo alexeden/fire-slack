@@ -6,7 +6,6 @@ import { MessageService, ChannelService, UserService, FirebaseService } from 'fi
   template: `
     <nav-bar></nav-bar>
     <router-outlet></router-outlet>
-    <channels></channels>
   `
 })
 export class AppComponent {

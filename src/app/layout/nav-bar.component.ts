@@ -14,7 +14,7 @@ import { MessageService, AuthService } from 'fire-slack/app/services';
       class="navbar-text">
       You have {{unseenMessageCount$ | async}} unseen messages
     </span>
-    <a class="nav-item nav-link" href="#" (click)="authService.signIn()">Login</a>
+    <a class="nav-item nav-link" href="#" (click)="login($event)">Login</a>
     <a class="nav-item nav-link" href="#" (click)="authService.signOut()">Leave</a>
   </nav>
   `
@@ -27,5 +27,10 @@ export class NavBarComponent {
     @Inject(AuthService) private authService: AuthService
   ) {
     this.unseenMessageCount$ = this.messageService.unseenMessages$.map(msgs => msgs.length);
+  }
+
+  login(event: Event) {
+    event.preventDefault();
+    this.authService.signIn();
   }
 }
