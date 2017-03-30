@@ -1,30 +1,30 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from 'fire-slack/shared';
 
-import { ChannelWindowComponent } from './channel-window.component';
-import { ChannelMessageComponent } from './message.component';
-import { ChannelListItemComponent } from './channel-list-item.component';
-import { ChannelListComponent } from './channel-list.component';
+import { ConversationComponent } from './conversation/conversation.component';
+import { MessageComponent } from './conversation/message.component';
+import { ChannelListItemComponent } from './list/channel-list-item.component';
+import { ChannelListComponent } from './list/channel-list.component';
 
 @NgModule({
   imports: [
     SharedModule
   ],
   declarations: [
-    ChannelWindowComponent,
-    ChannelMessageComponent,
+    ConversationComponent,
+    MessageComponent,
     ChannelListItemComponent,
     ChannelListComponent
   ],
   exports: [
-    ChannelWindowComponent,
-    ChannelMessageComponent,
+    ConversationComponent,
+    MessageComponent,
     ChannelListItemComponent,
     ChannelListComponent
   ]
 })
 export class FireSlackChannelsModule {}
-export * from './channel-window.component';
-export * from './message.component';
-export * from './channel-list-item.component';
-export * from './channel-list.component';
+export * from './conversation/conversation.component';
+export * from './conversation/message.component';
+export * from './list/channel-list-item.component';
+export * from './list/channel-list.component';

@@ -1,12 +1,11 @@
 import { Component, Input, Inject, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Message } from 'app/interfaces';
+import { Message } from 'fire-slack/app/interfaces';
 import { UserService } from 'fire-slack/app/services';
 
 
-
 @Component({
-  selector: 'channel-message',
+  selector: 'message',
   template: `
     <div class="media mb-4">
       <ng-template [ngIf]="sentByCurrentUser$ | async | not">
@@ -33,7 +32,7 @@ import { UserService } from 'fire-slack/app/services';
     </div>
   `
 })
-export class ChannelMessageComponent implements OnInit {
+export class MessageComponent implements OnInit {
   @Input() message: Message;
   private sentByCurrentUser$: Observable<boolean>;
 

@@ -17,8 +17,8 @@
     </channel-message>
   </ul> -->
   <div class="p-4 channel-messages">
-    <channel-message *ngFor="let message of channelMessages$ | async" [message]="message">
-    </channel-message>
+    <message *ngFor="let message of channelMessages$ | async" [message]="message">
+    </message>
   </div>
 
   <div class="mt-auto px-4 py-1 channel-footer">

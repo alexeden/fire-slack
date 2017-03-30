@@ -6,8 +6,8 @@ import { tag$ } from 'util/tags';
 
 
 @Component({
-  selector: 'channel-window',
-  templateUrl: './channel-window.html',
+  selector: 'conversation',
+  templateUrl: './conversation.html',
   styles: [`
     .channel-messages {
       overflow: scroll;
@@ -20,7 +20,7 @@ import { tag$ } from 'util/tags';
     }
   `]
 })
-export class ChannelWindowComponent {
+export class ConversationComponent {
 
   private activeChannel$: Observable<Channel>;
   private channelName$: Observable<string>;
@@ -34,8 +34,6 @@ export class ChannelWindowComponent {
     @Inject(MessageService) private messageService: MessageService,
     @Inject(ElementRef) @Host() private elementRef: ElementRef
   ) {
-    console.log(elementRef);
-
     this.activeChannel$ = channelService.activeChannel$;
     this.channelName$ = this.activeChannel$.map(channel => channel.name);
     this.channelMessages$
