@@ -1,7 +1,7 @@
 import { Observable, Subject, ConnectableObservable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import * as Firebase from 'firebase';
-import { tag$ } from 'util/tags';
+import { tag$ } from 'fire-slack/util/tags';
 
 export type FirebaseApp = Firebase.app.App;
 export type Auth = Firebase.auth.Auth;

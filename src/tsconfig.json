@@ -11,9 +11,7 @@
         "suppressImplicitAnyIndexErrors": true,
         "paths": {
           "fire-slack/*": [
-            "*",
-            "app/*",
-            "util/*"
+            "*"
           ]
         },
         "skipLibCheck": true,

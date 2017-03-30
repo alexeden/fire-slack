@@ -7,7 +7,6 @@ module.exports = {
     tsconfig: path.resolve(__dirname, 'src', 'tsconfig.json'),
     assets: path.resolve(__dirname, 'assets'),
     alias: {
-      'util': path.resolve(__dirname, 'src/util/'),
       'fire-slack': path.resolve(__dirname, 'src/')
     }
   },
