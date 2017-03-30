@@ -6,7 +6,6 @@ import { SharedModule } from '../shared';
 
 import { AppComponent } from './app.component';
 import { FireSlackServicesModule } from 'fire-slack/app/services';
-import { NavBarComponent } from './nav-bar';
 import { ChannelListComponent, ChannelListItemComponent } from './channel-list';
 import { ChannelWindowComponent, ChannelMessageComponent } from './channel-display';
 
@@ -22,7 +21,6 @@ import { ChannelWindowComponent, ChannelMessageComponent } from './channel-displ
   ],
   declarations: [
     AppComponent,
-    NavBarComponent,
     ChannelListComponent,
     ChannelListItemComponent,
     ChannelWindowComponent,
