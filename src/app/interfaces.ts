@@ -4,6 +4,8 @@ export type FirebaseApp = Firebase.app.App;
 export type Auth = Firebase.auth.Auth;
 export type Storage = Firebase.storage.Storage;
 export type Database = Firebase.database.Database;
+export type DbReference = Firebase.database.Reference;
+export type DataSnapshot = Firebase.database.DataSnapshot;
 export type UserInfo = Firebase.UserInfo;
 
 

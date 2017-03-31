@@ -2,8 +2,7 @@ import * as moment from 'moment';
 import { Injectable, Inject } from '@angular/core';
 import { ConnectableObservable, Subject, Observable } from 'rxjs';
 import { v1 } from 'uuid';
-import * as Firebase from 'firebase';
-import { PartialMessage, Message, MessageListOperation } from 'fire-slack/app/interfaces';
+import { PartialMessage, Message, MessageListOperation, DbReference } from 'fire-slack/app/interfaces';
 import { FirebaseService } from './firebase.service';
 import { UserService } from './user.service';
 
@@ -11,7 +10,7 @@ import { UserService } from './user.service';
 @Injectable()
 export class MessageService {
 
-  private messagesRef: Firebase.database.Reference;
+  private messagesRef: DbReference;
   private operations$: Subject<MessageListOperation>;
   messages$: ConnectableObservable<Message[]>;
   unseenMessages$: Observable<Message[]>;
