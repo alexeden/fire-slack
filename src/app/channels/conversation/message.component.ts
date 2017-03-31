@@ -41,7 +41,7 @@ export class MessageComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.sentByCurrentUser$ = this.userService.currentUser$.map(user => user.id === this.message.author.id);
+    this.sentByCurrentUser$ = this.userService.currentUser$.map(user => user.uid === this.message.author);
   }
 
 

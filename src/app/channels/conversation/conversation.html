@@ -1,31 +1,33 @@
-<div
-  class="d-flex flex-column justify-content-start"
-  [ngStyle]="{ 'height.px': height$ | async }">
+<!-- <div class="col-md-8 col-lg-8 col-xl-9 px-0 mx-0"> -->
+  <div
+    class="d-flex flex-column justify-content-start"
+    [ngStyle]="{ 'height.px': height$ | async }">
 
-  <div class="p-4 channel-header">
-    <h3 class="lead">{{channelName$ | async}}</h3>
-  </div>
-  <!-- <p class="lead">Some bio info</p> -->
+    <div class="p-4 channel-header">
+      <h3 class="lead">{{channelName$ | async}}</h3>
+    </div>
+    <!-- <p class="lead">Some bio info</p> -->
 
-  <!-- <ul class="list-unstyled">
-    <li class="media" *ngIf="noMessagesYet$ | async">
-      <div class="media-body">
-        <h5 class="my-0 lead">No messages yet!</h5>
-      </div>
-    </li>
-    <channel-message *ngFor="let message of channelMessages$ | async" [message]="message">
-    </channel-message>
-  </ul> -->
-  <div class="p-4 channel-messages">
-    <message *ngFor="let message of channelMessages$ | async" [message]="message">
-    </message>
-  </div>
+    <!-- <ul class="list-unstyled">
+      <li class="media" *ngIf="noMessagesYet$ | async">
+        <div class="media-body">
+          <h5 class="my-0 lead">No messages yet!</h5>
+        </div>
+      </li>
+      <channel-message *ngFor="let message of channelMessages$ | async" [message]="message">
+      </channel-message>
+    </ul> -->
+    <div class="p-4 channel-messages">
+      <message *ngFor="let message of channelMessages$ | async" [message]="message">
+      </message>
+    </div>
 
-  <div class="mt-auto px-4 py-1 channel-footer">
-    <input
-      type="text"
-      class="form-control form-control-lg border-0"
-      placeholder="Say something"
-      (keydown.enter)="sendMessage($event.target)"/>
+    <div class="mt-auto px-4 py-1 channel-footer">
+      <input
+        type="text"
+        class="form-control form-control-lg border-0"
+        placeholder="Say something"
+        (keydown.enter)="sendMessage($event.target)"/>
+    </div>
   </div>
-</div>
+<!-- </div> -->

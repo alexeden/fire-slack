@@ -1,12 +1,9 @@
 import { Injectable } from '@angular/core';
 import * as Firebase from 'firebase';
 import { tag$ } from 'fire-slack/util/tags';
+import { Storage, Database } from 'fire-slack/app/interfaces';
 
 export type FirebaseApp = Firebase.app.App;
-export type Auth = Firebase.auth.Auth;
-export type Storage = Firebase.storage.Storage;
-export type Database = Firebase.database.Database;
-export type UserInfo = Firebase.UserInfo;
 
 @Injectable()
 export class FirebaseService {

@@ -1,4 +1,5 @@
 import { Observable } from 'rxjs';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Component, Inject, ElementRef, Host } from '@angular/core';
 import { ChannelService, MessageService } from 'fire-slack/app/services';
 import { Channel, Message } from 'fire-slack/app/interfaces';
@@ -32,7 +33,9 @@ export class ConversationComponent {
   constructor(
     @Inject(ChannelService) private channelService: ChannelService,
     @Inject(MessageService) private messageService: MessageService,
-    @Inject(ElementRef) @Host() private elementRef: ElementRef
+    @Inject(ElementRef) @Host() private elementRef: ElementRef,
+    @Inject(ActivatedRoute) private route: ActivatedRoute,
+    @Inject(Router) private router: Router
   ) {
     this.activeChannel$ = channelService.activeChannel$;
     this.channelName$ = this.activeChannel$.map(channel => channel.name);

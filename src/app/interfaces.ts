@@ -1,11 +1,18 @@
-import { v1 } from 'uuid';
+import * as Firebase from 'firebase';
+
+export type FirebaseApp = Firebase.app.App;
+export type Auth = Firebase.auth.Auth;
+export type Storage = Firebase.storage.Storage;
+export type Database = Firebase.database.Database;
+export type UserInfo = Firebase.UserInfo;
+
 
 export interface PartialMessage {
   channel: Channel;
   content: string;
   id?: string;
   timestamp?: Date;
-  author?: User;
+  author?: string;
   seenBy?: Array<string>;
 }
 
@@ -14,7 +21,7 @@ export interface Message {
   content: string;
   id: string;
   timestamp: Date;
-  author: User;
+  author: string;
   seenBy: Array<string>;
 }
 
@@ -22,37 +29,20 @@ export type MessageOperation = (msg: Message) => Message;
 export type MessageListOperation = (msg: Message[]) => Message[];
 
 export interface PartialChannel {
-  members: User[];
+  members: string[];
   name?: string;
   id?: string;
-  creator?: User;
+  creator?: string;
   isPrivate?: boolean;
 }
 
 export interface Channel {
   id: string;
-  creator: User;
+  creator: string;
   name: string;
   isPrivate: boolean;
-  members: User[];
+  members: string[];
 }
 
 export type ChannelOperation = (msg: Channel) => Channel;
 export type ChannelListOperation = (msg: Channel[]) => Channel[];
-
-
-export interface User {
-  readonly id: string;
-  readonly name: string;
-  avatarUrl?: string;
-}
-
-export type UserOperation = (msg: User) => User;
-export type UserListOperation = (msg: User[]) => User[];
-
-export const AppUser: User
-  = {
-      id: v1(),
-      name: 'Fire Slack',
-      avatarUrl: ''
-    };

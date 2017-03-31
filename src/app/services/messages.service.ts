@@ -2,20 +2,26 @@ import * as moment from 'moment';
 import { Injectable, Inject } from '@angular/core';
 import { ConnectableObservable, Subject, Observable } from 'rxjs';
 import { v1 } from 'uuid';
+import * as Firebase from 'firebase';
 import { PartialMessage, Message, MessageListOperation } from 'fire-slack/app/interfaces';
+import { FirebaseService } from './firebase.service';
 import { UserService } from './user.service';
 
 
 @Injectable()
 export class MessageService {
 
+  private messagesRef: Firebase.database.Reference;
   private operations$: Subject<MessageListOperation>;
   messages$: ConnectableObservable<Message[]>;
   unseenMessages$: Observable<Message[]>;
 
   constructor(
-    @Inject(UserService) private userService: UserService
+    @Inject(UserService) private userService: UserService,
+    @Inject(FirebaseService) private firebase: FirebaseService
   ) {
+    this.messagesRef = window['messagesRef'] = firebase.database.ref('messages');
+
     this.operations$ = new Subject();
 
     this.messages$
@@ -29,9 +35,9 @@ export class MessageService {
 
     this.unseenMessages$
       = this.messages$
-          .withLatestFrom(this.userService.currentUser$.map(user => user.id))
+          .withLatestFrom(this.userService.currentUser$.map(user => user.uid))
           .map(([msgs, userId]) =>
-            msgs.filter(msg => !msg.seenBy.includes(userId) && msg.author.id !== userId)
+            msgs.filter(msg => !msg.seenBy.includes(userId) && msg.author !== userId)
           );
 
 
@@ -50,7 +56,7 @@ export class MessageService {
             author: message.author || user,
             id: message.id || v1(),
             timestamp: message.timestamp || moment().toDate(),
-            seenBy: (message.seenBy || []).concat((message.author || user).id)
+            seenBy: (message.seenBy || []).concat((message.author || user.uid))
           } as Message
         ])
       );
@@ -77,8 +83,8 @@ export class MessageService {
         this.operations$.next(
           messages =>
             messages.map(msg =>
-              msg.channel.id === channelId && !msg.seenBy.includes(currentUser.id)
-              ? { ...msg, seenBy: [...msg.seenBy, currentUser.id] }
+              msg.channel.id === channelId && !msg.seenBy.includes(currentUser.uid)
+              ? { ...msg, seenBy: [...msg.seenBy, currentUser.uid] }
               : msg
             )
         )
