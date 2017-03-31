@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from 'fire-slack/shared';
 
+import { FireSlackChannelRouterModule } from './channel-router.module';
 import { ChannelsComponent } from './channels.component';
 import { ConversationComponent } from './conversation/conversation.component';
 import { MessageComponent } from './conversation/message.component';
@@ -9,6 +10,7 @@ import { ChannelListComponent } from './list/channel-list.component';
 
 @NgModule({
   imports: [
+    FireSlackChannelRouterModule,
     SharedModule
   ],
   declarations: [
@@ -24,7 +26,3 @@ import { ChannelListComponent } from './list/channel-list.component';
 })
 export class FireSlackChannelsModule {}
 export * from './channels.component';
-export * from './conversation/conversation.component';
-export * from './conversation/message.component';
-export * from './list/channel-list-item.component';
-export * from './list/channel-list.component';

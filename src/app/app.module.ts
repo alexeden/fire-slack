@@ -11,11 +11,11 @@ import { AppComponent } from './app.component';
 @NgModule({
   imports: [
     BrowserModule,
-    FireSlackRouterModule,
     FireSlackServicesModule,
     FireSlackLayoutModule,
     FireSlackChannelsModule,
-    SharedModule
+    SharedModule,
+    FireSlackRouterModule // must be last!
   ],
   declarations: [ AppComponent ],
   bootstrap: [ AppComponent ]

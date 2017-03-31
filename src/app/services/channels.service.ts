@@ -2,7 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { ConnectableObservable, Subject, BehaviorSubject, Observable } from 'rxjs';
 import { tag, tag$ }  from 'util/tags';
 import { v1 } from 'uuid';
-import { Channel, PartialChannel, ChannelListOperation } from 'app/interfaces';
+import { Channel, PartialChannel, ChannelListOperation } from 'fire-slack/app/interfaces';
 import { MessageService } from './messages.service';
 
 

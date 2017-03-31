@@ -2,7 +2,7 @@ import * as moment from 'moment';
 import { Injectable, Inject } from '@angular/core';
 import { ConnectableObservable, Subject, Observable } from 'rxjs';
 import { v1 } from 'uuid';
-import { PartialMessage, Message, MessageListOperation } from 'app/interfaces';
+import { PartialMessage, Message, MessageListOperation } from 'fire-slack/app/interfaces';
 import { UserService } from './user.service';
 
 

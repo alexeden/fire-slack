@@ -2,7 +2,7 @@ import * as moment from 'moment';
 import { v1 } from 'uuid';
 import { FactoryProvider } from '@angular/core';
 
-import { User, Channel, PartialMessage, AppUser } from 'app/interfaces';
+import { User, Channel, PartialMessage, AppUser } from 'fire-slack/app/interfaces';
 import { ChannelService, MessageService, UserService } from 'fire-slack/app/services';
 import { OpaqueToken } from '@angular/core';
 

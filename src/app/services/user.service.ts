@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject, ConnectableObservable } from 'rxjs';
-import { User, UserListOperation } from 'app/interfaces';
+import { User, UserListOperation } from 'fire-slack/app/interfaces';
 // import { tag$ } from 'util/tags';
 
 

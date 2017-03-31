@@ -1,2 +1,2 @@
-// export * from './function-tag';
+export * from './tags';
 // export * from './stream-tag';
