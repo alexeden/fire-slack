@@ -93,15 +93,7 @@ module.exports = {
   devtool: 'inline-source-map',
 
   devServer: {
-    contentBase: paths.client.dist,
-    publicPath: '/',
     port: 4000,
-    proxy: {
-      '/*': {
-        bypass() {
-          return '/';
-        }
-      }
-    }
+    historyApiFallback: true
   }
 };
