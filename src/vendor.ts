@@ -23,8 +23,8 @@ import 'ramda';
 import 'uuid';
 
 /* Store jQuery & Tether on the window before importing Bootstrap */
-import * as jQuery from 'jquery';
-import * as Tether from 'tether';
-window['jQuery'] = jQuery;
-window['Tether'] = Tether;
-import 'bootstrap';
+// import * as jQuery from 'jquery';
+// import * as Tether from 'tether';
+// window['jQuery'] = jQuery;
+// window['Tether'] = Tether;
+// import 'bootstrap';
