@@ -7,6 +7,7 @@ import { ConversationComponent } from './conversation/conversation.component';
 import { MessageComponent } from './conversation/message.component';
 import { ChannelListItemComponent } from './list/channel-list-item.component';
 import { ChannelListComponent } from './list/channel-list.component';
+import { CreateChannelOverlayComponent } from './overlays/create-channel.component';
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ import { ChannelListComponent } from './list/channel-list.component';
     ConversationComponent,
     MessageComponent,
     ChannelListItemComponent,
-    ChannelListComponent
+    ChannelListComponent,
+    CreateChannelOverlayComponent
   ],
   exports: [
     ChannelsComponent

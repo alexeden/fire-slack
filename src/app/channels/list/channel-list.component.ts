@@ -16,12 +16,14 @@ import { tag$ } from 'fire-slack/util';
         <ul class="list-group">
           <channel-list-item *ngFor="let channel of channels$ | async" [channel]="channel"></channel-list-item>
         </ul>
+        <div class="mt-auto">
+          <button [routerLink]="[{outlets: {overlay: 'create-channel'}}]" type="button" class="btn btn-primary">+</button>
+        </div>
       </div>
       <div class="col-md-8 col-lg-8 col-xl-9 px-0 mx-0">
         <router-outlet></router-outlet>
       </div>
     </div>
-
   `
 })
 export class ChannelListComponent {
@@ -33,8 +35,5 @@ export class ChannelListComponent {
     @Inject(Router) private router: Router
   ) {
     this.channels$ = channelService.channels$;
-
-    this.router.events.subscribe(tag$('router.events'));
-
   }
 }

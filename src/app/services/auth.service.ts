@@ -10,7 +10,7 @@ import { FirebaseService } from './firebase.service';
 export class AuthService {
 
   private auth: Auth;
-  private usersReference: DbReference;
+  private usersRef: DbReference;
   user$: ConnectableObservable<UserInfo>;
   isLoggedIn$: Observable<boolean>;
   loggedInNotifier$: Observable<UserInfo>;
@@ -20,14 +20,16 @@ export class AuthService {
   constructor(
     @Inject(FirebaseService) private firebase: FirebaseService
   ) {
+    this.usersRef = this.firebase.database.ref('users');
     this.auth = this.firebase.app.auth();
-    this.usersReference = this.firebase.database.ref('users');
+
     this.auth.onAuthStateChanged((authState: any) => this.authState$.next(authState));
     this.user$ = this.authState$.asObservable().publishReplay(1);
 
     this.user$.take(1).subscribe(this.updateUserRecord.bind(this));
 
-    this.isLoggedIn$ = this.user$.do(tag$('user$')).map(user => user !== null);
+    this.isLoggedIn$ = this.user$.map(user => user !== null);
+
     this.loggedInNotifier$
       = this.user$.pairwise()
           .filter(([was, is]) => was === null && !!is)
@@ -38,13 +40,6 @@ export class AuthService {
           .filter(([was, is]) => !!was && is === null)
           .map(([was]) => was);
 
-
-    /* When the user logs in, make sure a user record exists in the db */
-    // this.loggedInNotifier$
-    //   .mergeMapTo(this.user$)
-    //   .do()
-    //   .subscribe();
-
     this.user$.connect();
   }
 
@@ -54,7 +49,7 @@ export class AuthService {
     const userInfo = userInfoKeys.reduce((info, k) => ({...info, [k]: user[k] || null}), {});
 
     Observable.fromPromise(
-      this.usersReference.child(user.uid + '/info').set(userInfo) as Promise<void>
+      this.usersRef.child(user.uid + '/info').set(userInfo) as Promise<void>
     )
     .subscribe(tag$('updateUserRecord'));
     // .mapTo(user)

@@ -1,5 +1,6 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Inject } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 import { SharedModule } from 'fire-slack/shared';
 import { FireSlackRouterModule } from './router';
 import { FireSlackLayoutModule } from './layout';
@@ -11,13 +12,17 @@ import { AppComponent } from './app.component';
 @NgModule({
   imports: [
     BrowserModule,
+    SharedModule,
     FireSlackServicesModule,
     FireSlackLayoutModule,
     FireSlackChannelsModule,
-    SharedModule,
     FireSlackRouterModule // must be last!
   ],
   declarations: [ AppComponent ],
   bootstrap: [ AppComponent ]
 })
-export class AppModule {}
+export class AppModule {
+  constructor(@Inject(Router) private router: Router) {
+    console.log('Routes: ', JSON.stringify(router.config, undefined, 2));
+  }
+}

@@ -5,10 +5,11 @@ import { FireSlackServicesModule } from 'fire-slack/app/services';
 import { ChannelsComponent } from './channels.component';
 import { ConversationComponent } from './conversation/conversation.component';
 import { ChannelListComponent } from './list/channel-list.component';
+import { CreateChannelOverlayComponent } from './overlays/create-channel.component';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'channels',
     component: ChannelsComponent,
     children: [
       {
@@ -18,12 +19,17 @@ const routes: Routes = [
           {
             path: ':id',
             component: ConversationComponent
+          },
+          {
+            path: '',
+            component: ConversationComponent
           }
-          // {
-          //   path: '',
-          //   component: ConversationComponent
-          // }
         ]
+      },
+      {
+        path: 'create-channel',
+        component: CreateChannelOverlayComponent,
+        outlet: 'overlay'
       }
     ]
   }
