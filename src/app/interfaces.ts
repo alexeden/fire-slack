@@ -8,7 +8,6 @@ export type DbReference = Firebase.database.Reference;
 export type DataSnapshot = Firebase.database.DataSnapshot;
 export type UserInfo = Firebase.UserInfo;
 
-
 export interface PartialMessage {
   channel: Channel;
   content: string;
@@ -30,20 +29,14 @@ export interface Message {
 export type MessageOperation = (msg: Message) => Message;
 export type MessageListOperation = (msg: Message[]) => Message[];
 
-export interface PartialChannel {
-  members: string[];
-  name?: string;
-  id?: string;
-  creator?: string;
-  isPrivate?: boolean;
-}
-
 export interface Channel {
-  id: string;
+  cid: string;
   creator: string;
-  name: string;
-  isPrivate: boolean;
-  members: string[];
+  name?: string;
+  latestMessage?: string;
+  timestamp: Date;
+  private: boolean;
+  members: { [uid: string]: boolean };
 }
 
 export type ChannelOperation = (msg: Channel) => Channel;

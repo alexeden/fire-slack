@@ -23,6 +23,6 @@ import { AppComponent } from './app.component';
 })
 export class AppModule {
   constructor(@Inject(Router) private router: Router) {
-    console.log('Routes: ', JSON.stringify(router.config, undefined, 2));
+    // console.log('Routes: ', JSON.stringify(router.config, undefined, 2));
   }
 }

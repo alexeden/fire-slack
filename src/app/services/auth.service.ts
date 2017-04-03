@@ -2,7 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { Observable, Subject, ConnectableObservable } from 'rxjs';
 import * as Firebase from 'firebase';
 import { tag$ } from 'fire-slack/util/tags';
-import { UserInfo, Auth, DbReference, DataSnapshot } from 'fire-slack/app/interfaces';
+import { UserInfo, Auth, DbReference } from 'fire-slack/app/interfaces';
 import { FirebaseService } from './firebase.service';
 
 
@@ -44,17 +44,13 @@ export class AuthService {
   }
 
   private updateUserRecord(user: UserInfo) {
-    console.log('updating or creating user record', user);
     const userInfoKeys = ['displayName', 'email', 'photoURL', 'providerId', 'uid'];
     const userInfo = userInfoKeys.reduce((info, k) => ({...info, [k]: user[k] || null}), {});
 
     Observable.fromPromise(
-      this.usersRef.child(user.uid + '/info').set(userInfo) as Promise<void>
+      this.usersRef.child(user.uid).set(userInfo) as Promise<void>
     )
-    .subscribe(tag$('updateUserRecord'));
-    // .mapTo(user)
-    // .map(data =>
-    //
+    .subscribe();
   }
 
   signIn(): Observable<any> {

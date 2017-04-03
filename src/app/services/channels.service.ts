@@ -1,55 +1,62 @@
 import { Injectable, Inject } from '@angular/core';
-import { ConnectableObservable, Subject, BehaviorSubject, Observable } from 'rxjs';
-import { tag, tag$ }  from 'util/tags';
-import { v1 } from 'uuid';
-import { Channel, PartialChannel, ChannelListOperation } from 'fire-slack/app/interfaces';
+import { ConnectableObservable, Observable } from 'rxjs';
+import { tag, tag$ }  from 'fire-slack/util/tags';
+import { Channel, DataSnapshot, DbReference } from 'fire-slack/app/interfaces';
+import { FirebaseService } from './firebase.service';
+import { AuthService } from './auth.service';
 import { MessageService } from './messages.service';
 
 
 @Injectable()
 export class ChannelService {
-  private operations$: Subject<ChannelListOperation>;
-  private activeChannelSource$: BehaviorSubject<Channel>;
-
+  private channelsRef: DbReference;
   channels$: ConnectableObservable<Channel[]>;
   activeChannel$: Observable<Channel>;
 
   constructor(
-    @Inject(MessageService) private messageService: MessageService
+    @Inject(FirebaseService) private firebase: FirebaseService,
+    @Inject(MessageService) private messageService: MessageService,
+    @Inject(AuthService) private authService: AuthService
   ) {
-    this.operations$ = new Subject();
+    this.channelsRef = this.firebase.database.ref('channels');
 
-    this.channels$
-      = this.operations$
-          .scan(
-            (channels, operation) => operation(channels),
-            [] as Channel[]
-          )
-          .publishReplay(1);
+    const channelsQuery =
+      Observable.bindCallback(
+        cb => this.channelsRef.on('value', cb),
+        (data: any): DataSnapshot => data
+      );
 
-    this.activeChannelSource$ = new BehaviorSubject({} as Channel);
+    this.channels$ =
+      channelsQuery()
+        .map((data): {[cid: string]: Channel} => data.val())
+        .filter(val => val !== null)
+        .map(channelObj => Object.keys(channelObj).map(cid => channelObj[cid]))
+        .publishReplay(1);
+
+
 
     this.activeChannel$
-      = this.activeChannelSource$.asObservable()
-          .filter(channel => !!(channel && channel.id && channel.id.length > 0))
-          .distinctUntilKeyChanged('id');
+      = this.channels$
+          .map(channels => channels[0])
+          .filter(channel => !!(channel && channel.cid && channel.cid.length > 0))
+          .distinctUntilKeyChanged('cid');
 
     this.channels$.connect();
   }
 
-  createChannel(channel: PartialChannel) {
-    this.operations$.next(channels => [
-      ...channels,
-      {
-        ...channel,
-        id: channel.id || v1(),
-        isPrivate: channel.isPrivate || false
-      } as Channel
-    ]);
+  createChannel(channel: Channel) {
+    // this.operations$.next(channels => [
+    //   ...channels,
+    //   {
+    //     ...channel,
+    //     cid: channel.cid || v1(),
+    //     private: channel.private || false
+    //   } as Channel
+    // ]);
   }
 
   setActiveChannel(channel: Channel) {
-    this.activeChannelSource$.next(channel);
+    // this.activeChannelSource$.next(channel);
   }
 
 

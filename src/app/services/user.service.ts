@@ -1,44 +1,36 @@
-import { Injectable } from '@angular/core';
-import { Subject, ConnectableObservable } from 'rxjs';
-import { UserInfo } from 'fire-slack/app/interfaces';
-// import { tag$ } from 'util/tags';
+import { Injectable, Inject } from '@angular/core';
+import { ConnectableObservable, Observable } from 'rxjs';
+import { UserInfo, DbReference, DataSnapshot } from 'fire-slack/app/interfaces';
+// import { AuthService } from './auth.service';
+import { FirebaseService } from './firebase.service';
+import { tag$ } from 'fire-slack/util/tags';
 
 type UserInfoOperation = (msg: UserInfo[]) => UserInfo[];
 
 
 @Injectable()
 export class UserService {
-  private operations$: Subject<UserInfoOperation>;
-  private currentUserSource$: Subject<UserInfo>;
-
-  currentUser$: ConnectableObservable<UserInfo>;
+  private usersRef: DbReference;
   users$: ConnectableObservable<UserInfo[]>;
 
-  constructor() {
-    this.currentUserSource$ = new Subject();
-    this.currentUser$ = this.currentUserSource$.publishReplay(1);
+  constructor(
+    @Inject(FirebaseService) private firebase: FirebaseService
+  ) {
+    this.usersRef = this.firebase.database.ref('users');
 
-    this.operations$ = new Subject();
+    const usersQuery =
+      Observable.bindCallback(
+        cb => this.usersRef.on('value', cb),
+        (data: any): DataSnapshot => data
+      );
 
-    this.users$
-      = this.operations$
-          .scan(
-            (users, operation) => operation(users),
-            [] as UserInfo[]
-          )
-          .publishReplay(1);
+    this.users$ =
+      usersQuery()
+        .map((data): {[uid: string]: UserInfo} => data.val())
+        .map(userObj => Object.keys(userObj).map(uid => userObj[uid]))
+        .publishReplay(1);
 
     this.users$.connect();
   }
 
-  setCurrentUser(user: UserInfo) {
-    this.currentUser$.connect();
-    this.currentUserSource$.next(user);
-  }
-
-  // addKnownUser(...user: User[]) {
-  //   this.operations$.next(
-  //     users => [...users, ...user]
-  //   );
-  // }
 }

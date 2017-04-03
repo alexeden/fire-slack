@@ -41,7 +41,7 @@ export class ConversationComponent {
     this.channelName$ = this.activeChannel$.map(channel => channel.name);
     this.channelMessages$
       = this.activeChannel$
-          .map(channel => channel.id)
+          .map(channel => channel.cid)
           .mergeMap(id => this.messageService.messagesForChannelId(id));
 
     this.noMessagesYet$ = this.channelMessages$.map(msgs => msgs.length < 1);
@@ -58,14 +58,14 @@ export class ConversationComponent {
   }
 
   sendMessage(input: HTMLInputElement) {
-    this.activeChannel$
-      .take(1)
-      .do(channel =>
-        this.messageService.createMessage({
-          content: input.value,
-          channel
-        })
-      )
-      .subscribe(_ => input.value = '');
+    // this.activeChannel$
+    //   .take(1)
+    //   .do(channel =>
+    //     this.messageService.createMessage({
+    //       content: input.value,
+    //       channel
+    //     })
+    //   )
+    //   .subscribe(_ => input.value = '');
   }
 }

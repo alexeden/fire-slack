@@ -1,7 +1,7 @@
 import { Component, Input, Inject, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Message } from 'fire-slack/app/interfaces';
-import { UserService } from 'fire-slack/app/services';
+import { AuthService } from 'fire-slack/app/services';
 
 
 @Component({
@@ -37,11 +37,11 @@ export class MessageComponent implements OnInit {
   private sentByCurrentUser$: Observable<boolean>;
 
   constructor(
-    @Inject(UserService) private userService: UserService
+    @Inject(AuthService) private authService: AuthService
   ) {}
 
   ngOnInit() {
-    this.sentByCurrentUser$ = this.userService.currentUser$.map(user => user.uid === this.message.author);
+    this.sentByCurrentUser$ = this.authService.user$.map(user => user.uid === this.message.author);
   }
 
 

@@ -34,7 +34,7 @@ linters:
     enabled: true
 
   Comment:
-    enabled: true
+    enabled: false
     style: silent
 
   DebugStatement:
@@ -215,7 +215,7 @@ linters:
 
   StringQuotes:
     enabled: true
-    style: single_quotes # or double_quotes
+    style: double_quotes
 
   TrailingSemicolon:
     enabled: true
