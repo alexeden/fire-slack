@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { FireSlackServicesModule } from 'fire-slack/app/services';
+import { AuthGuard } from 'fire-slack/app/router/auth-guard.service';
 
 import { ChannelsComponent } from './channels.component';
 import { ConversationComponent } from './conversation/conversation.component';
@@ -11,6 +12,7 @@ const routes: Routes = [
   {
     path: 'channels',
     component: ChannelsComponent,
+    canActivate: [ AuthGuard ],
     children: [
       {
         path: '',

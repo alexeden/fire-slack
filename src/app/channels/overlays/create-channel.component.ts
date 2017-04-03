@@ -45,13 +45,12 @@ export class CreateChannelOverlayComponent {
   ) {
     this.users$ = this.userService.users$;
     this.uid$ = this.authService.user$.map(user => user && user.uid);
-
+    window['createChannel'] = this;
     this.newChannelForm =
       fb.group({
         name: [null, Validators.required],
         private: [false],
-        members: fb.group({
-        })
+        members: fb.group({})
       });
 
     this.users$
@@ -59,7 +58,7 @@ export class CreateChannelOverlayComponent {
       .subscribe(([users, uid]) =>
         users.map(user =>
           (this.newChannelForm.get('members') as FormGroup)
-            .addControl(user.uid, new FormControl({
+            .registerControl(user.uid, new FormControl({
               value: user.uid === uid,
               disabled: user.uid === uid
             }))

@@ -26,7 +26,9 @@ export class AuthService {
     this.auth.onAuthStateChanged((authState: any) => this.authState$.next(authState));
     this.user$ = this.authState$.asObservable().publishReplay(1);
 
-    this.user$.take(1).subscribe(this.updateUserRecord.bind(this));
+    this.user$
+      .filter(user => user !== null)
+      .take(1).subscribe(this.updateUserRecord.bind(this));
 
     this.isLoggedIn$ = this.user$.map(user => user !== null);
 
@@ -53,9 +55,13 @@ export class AuthService {
     .subscribe();
   }
 
-  signIn(): Observable<any> {
+  signInWithGoogle(): Observable<any> {
     const provider = new Firebase.auth.GoogleAuthProvider();
     return Observable.fromPromise(this.auth.signInWithPopup(provider) as Promise<any>);
+  }
+
+  signInWithEmailAndPassword(email: string, password: string): Observable<any> {
+    return Observable.fromPromise(this.auth.signInWithEmailAndPassword(email, password) as Promise<any>);
   }
 
   signOut(): Observable<any> {

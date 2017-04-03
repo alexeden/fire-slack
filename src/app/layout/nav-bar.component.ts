@@ -42,6 +42,6 @@ export class NavBarComponent {
 
   login(event: Event) {
     event.preventDefault();
-    this.authService.signIn();
+    this.authService.signInWithGoogle();
   }
 }
