@@ -1,46 +1,12 @@
 import { Component, Inject } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { FirebaseService, ChannelService } from 'fire-slack/app/services';
-
-
+import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
+import { UserInfo } from 'fire-slack/app/interfaces';
+import { FirebaseService, ChannelService, UserService, AuthService } from 'fire-slack/app/services';
 
 @Component({
-  template: `
-    <div class="overlay-wrapper">
-      <div class="overlay" tabindex="-1" role="dialog">
-        <div class="container py-2" [formGroup]="newChannelForm">
-          <div class="row form-group my-4">
-            <div class="col-sm-12">
-              <h2>Create a new channel</h2>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label for="channelName" class="col-2 col-form-label">Give it a name</label>
-            <div class="col-10">
-              <input type="text" formControlName="name" class="form-control" id="channelName" placeholder="Name the channel">
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="col-sm-2">Private channel?</label>
-            <div class="col-sm-10">
-              <div class="form-check">
-                <label class="form-check-label">
-                  <input class="form-check-input" type="checkbox" formControlName="private">
-                </label>
-              </div>
-            </div>
-          </div>
-          <div class="form-group row">
-            <div class="offset-sm-2 col-sm-10">
-              <button (click)="cancel()" type="button" class="btn btn-primary">Close</button>
-            </div>
-          </div>
-          <pre>{{newChannelForm.value | json}}</pre>
-        </div>
-      </div>
-    </div>
-  `,
+  templateUrl: './create-channel.component.html',
   styles: [`
     .overlay-wrapper{
       bottom: 0;
@@ -65,19 +31,40 @@ import { FirebaseService, ChannelService } from 'fire-slack/app/services';
 export class CreateChannelOverlayComponent {
 
   private newChannelForm: FormGroup;
+  private uid$: Observable<string>;
+  private users$: Observable<UserInfo[]>;
 
   constructor(
     @Inject(Router) private router: Router,
     @Inject(ActivatedRoute) private route: ActivatedRoute,
     @Inject(FormBuilder) private fb: FormBuilder,
     @Inject(FirebaseService) private firebase: FirebaseService,
-    @Inject(ChannelService) private channelService: ChannelService
+    @Inject(ChannelService) private channelService: ChannelService,
+    @Inject(AuthService) private authService: AuthService,
+    @Inject(UserService) private userService: UserService
   ) {
+    this.users$ = this.userService.users$;
+    this.uid$ = this.authService.user$.map(user => user && user.uid);
+
     this.newChannelForm =
       fb.group({
         name: [null, Validators.required],
-        private: [false]
+        private: [false],
+        members: fb.group({
+        })
       });
+
+    this.users$
+      .withLatestFrom(this.uid$)
+      .subscribe(([users, uid]) =>
+        users.map(user =>
+          (this.newChannelForm.get('members') as FormGroup)
+            .addControl(user.uid, new FormControl({
+              value: user.uid === uid,
+              disabled: user.uid === uid
+            }))
+        )
+      );
   }
 
   createChannel() {
