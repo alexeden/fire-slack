@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { ConnectableObservable, Subject, Observable } from 'rxjs';
-import { Message, MessageListOperation, DbReference } from 'fire-slack/app/interfaces';
+import { Message, MessageListOperation, Reference } from 'fire-slack/app/interfaces';
 import { FirebaseService } from './firebase.service';
 import { AuthService } from './auth.service';
 import { UserService } from './user.service';
@@ -9,16 +9,16 @@ import { UserService } from './user.service';
 @Injectable()
 export class MessageService {
 
-  private messagesRef: DbReference;
+  private messagesRef: Reference;
   private operations$: Subject<MessageListOperation>;
   messages$: ConnectableObservable<Message[]>;
   unseenMessages$: Observable<Message[]>;
 
   constructor(
-    @Inject(AuthService) private authervice: AuthService,
-    @Inject(FirebaseService) private firebase: FirebaseService
+    @Inject(UserService) private userService: UserService,
+    @Inject(FirebaseService) private firebaseService: FirebaseService
   ) {
-    this.messagesRef = window['messagesRef'] = firebase.database.ref('messages');
+    this.messagesRef = window['messagesRef'] = this.firebaseService.database.ref('messages');
 
     this.operations$ = new Subject();
 
@@ -33,7 +33,7 @@ export class MessageService {
 
     this.unseenMessages$
       = this.messages$
-          .withLatestFrom(this.authervice.user$.map(user => user && user.uid))
+          .withLatestFrom(this.userService.currentUid$)
           .map(([msgs, userId]) =>
             msgs.filter(msg => !msg.seenBy.includes(userId) && msg.author !== userId)
           );

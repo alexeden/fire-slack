@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 import { Component, Inject } from '@angular/core';
-import { MessageService, AuthService } from 'fire-slack/app/services';
+import { MessageService, UserService, AuthService } from 'fire-slack/app/services';
 
 @Component({
   selector: 'nav-bar',
@@ -14,8 +14,7 @@ import { MessageService, AuthService } from 'fire-slack/app/services';
       class="navbar-text">
       You have {{unseenMessageCount$ | async}} unseen messages
     </span>
-    <a class="nav-item nav-link" href="#" (click)="login($event)">Login</a>
-    <a class="nav-item nav-link" href="#" (click)="authService.signOut()">Leave</a>
+    <a class="nav-item nav-link" href="#" (click)="signOut()">Leave</a>
   </nav>
   `
 })
@@ -25,14 +24,12 @@ export class NavBarComponent {
 
   constructor(
     @Inject(MessageService) private messageService: MessageService,
+    @Inject(UserService) private userService: UserService,
     @Inject(AuthService) private authService: AuthService
   ) {
     this.unseenMessageCount$ = this.messageService.unseenMessages$.map(msgs => msgs.length);
 
-    const userName$
-      = this.authService.user$
-          .filter(user => user !== null)
-          .map(user => user.displayName);
+    const userName$ = this.userService.currentDisplayName$;
 
     this.brandLinkText$
       = this.authService.isLoggedIn$
@@ -40,8 +37,8 @@ export class NavBarComponent {
 
   }
 
-  login(event: Event) {
+  signOut(event: Event) {
     event.preventDefault();
-    this.authService.signInWithGoogle();
+    this.authService.signOut();
   }
 }

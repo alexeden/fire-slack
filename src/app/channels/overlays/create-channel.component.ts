@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
@@ -28,7 +28,7 @@ import { FirebaseService, ChannelService, UserService, AuthService } from 'fire-
     }
   `]
 })
-export class CreateChannelOverlayComponent {
+export class CreateChannelOverlayComponent implements OnDestroy {
 
   private newChannelForm: FormGroup;
   private uid$: Observable<string>;
@@ -38,13 +38,13 @@ export class CreateChannelOverlayComponent {
     @Inject(Router) private router: Router,
     @Inject(ActivatedRoute) private route: ActivatedRoute,
     @Inject(FormBuilder) private fb: FormBuilder,
-    @Inject(FirebaseService) private firebase: FirebaseService,
+    @Inject(FirebaseService) private firebaseService: FirebaseService,
     @Inject(ChannelService) private channelService: ChannelService,
     @Inject(AuthService) private authService: AuthService,
     @Inject(UserService) private userService: UserService
   ) {
     this.users$ = this.userService.users$;
-    this.uid$ = this.authService.user$.map(user => user && user.uid);
+    this.uid$ = this.userService.currentUid$;
     window['createChannel'] = this;
     this.newChannelForm =
       fb.group({
@@ -55,15 +55,18 @@ export class CreateChannelOverlayComponent {
 
     this.users$
       .withLatestFrom(this.uid$)
-      .subscribe(([users, uid]) =>
-        users.map(user =>
-          (this.newChannelForm.get('members') as FormGroup)
-            .registerControl(user.uid, new FormControl({
-              value: user.uid === uid,
-              disabled: user.uid === uid
-            }))
-        )
-      );
+      .subscribe(([users, uid]) => {
+        const membersGroup = this.newChannelForm.get('members') as FormGroup;
+        users.map(user => {
+          const control = new FormControl(user.uid === uid);
+          membersGroup.registerControl(user.uid, control);
+          // if(user.uid === uid) control.disable();
+        });
+      });
+  }
+
+  ngOnDestroy() {
+    console.log('destroying the channel creation form');
   }
 
   createChannel() {

@@ -2,11 +2,20 @@ import * as Firebase from 'firebase';
 
 export type FirebaseApp = Firebase.app.App;
 export type Auth = Firebase.auth.Auth;
+export type AuthError = Firebase.auth.Error;
+export type Query = Firebase.database.Query;
 export type Storage = Firebase.storage.Storage;
 export type Database = Firebase.database.Database;
-export type DbReference = Firebase.database.Reference;
+export type Reference = Firebase.database.Reference;
 export type DataSnapshot = Firebase.database.DataSnapshot;
 export type UserInfo = Firebase.UserInfo;
+
+export type ReferenceEvent
+  = 'value'
+  | 'child_added'
+  | 'child_removed'
+  | 'child_changed'
+  | 'child_moved';
 
 export interface PartialMessage {
   channel: Channel;

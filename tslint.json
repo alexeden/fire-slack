@@ -13,7 +13,7 @@
       true,
       "check-space"
     ],
-    "curly": true,
+    "curly": false,
     "indent": [
       true,
       "spaces"

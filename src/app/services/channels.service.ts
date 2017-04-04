@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { ConnectableObservable, Observable } from 'rxjs';
 import { tag, tag$ }  from 'fire-slack/util/tags';
-import { Channel, DataSnapshot, DbReference } from 'fire-slack/app/interfaces';
+import { Channel, DataSnapshot, Reference } from 'fire-slack/app/interfaces';
 import { FirebaseService } from './firebase.service';
 import { AuthService } from './auth.service';
 import { MessageService } from './messages.service';
@@ -9,7 +9,7 @@ import { MessageService } from './messages.service';
 
 @Injectable()
 export class ChannelService {
-  private channelsRef: DbReference;
+  private channelsRef: Reference;
   channels$: ConnectableObservable<Channel[]>;
   activeChannel$: Observable<Channel>;
 

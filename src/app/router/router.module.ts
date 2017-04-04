@@ -7,8 +7,7 @@ import { AuthGuard, UnauthGuard } from './auth-guard.service';
 const routes: Routes = [
   {
     path: 'login',
-    component: LoginComponent,
-    canActivate: [ UnauthGuard ]
+    component: LoginComponent
   },
   {
     path: '',
