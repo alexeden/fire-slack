@@ -4,6 +4,7 @@ import { SharedModule } from 'fire-slack/shared';
 import { FireSlackChannelRouterModule } from './channel-router.module';
 import { ChannelsComponent } from './channels.component';
 import { ConversationComponent } from './conversation/conversation.component';
+import { NoConversationSelectedComponent } from './conversation/no-conversation-selected.component';
 import { MessageComponent } from './conversation/message.component';
 import { ChannelListItemComponent } from './list/channel-list-item.component';
 import { ChannelListComponent } from './list/channel-list.component';
@@ -20,7 +21,8 @@ import { CreateChannelOverlayComponent } from './overlays/create-channel.compone
     MessageComponent,
     ChannelListItemComponent,
     ChannelListComponent,
-    CreateChannelOverlayComponent
+    CreateChannelOverlayComponent,
+    NoConversationSelectedComponent
   ],
   exports: [
     ChannelsComponent

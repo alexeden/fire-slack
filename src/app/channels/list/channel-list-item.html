@@ -1,7 +1,6 @@
 <li
-  class="rounded-0 list-group-item list-group-item-action justify-content-between border-0"
-  (click)="setActiveChannel(channel)"
-  [ngClass]="{'active': (isActive$ | async)}">
+  class="rounded-0 list-group-item list-group-item-action justify-content-between border-0">
+  <!-- [ngClass]="{'active': (isActive$ | async)}"> -->
   <span>
     <img class="square-16 img-circle hidden-xs-down" src="{{channel.avatarSrc || '/assets/unknown-channel.png'}}">
     {{channel.name}}

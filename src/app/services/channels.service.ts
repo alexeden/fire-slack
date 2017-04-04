@@ -12,7 +12,7 @@ export class ChannelService {
   private channelsRef: Reference;
   channelsRef$: ConnectableObservable<DataSnapshot>;
   channels$: Observable<Channel[]>;
-  activeChannel$: Observable<Channel>;
+  // activeChannel$: Observable<Channel>;
 
   constructor(
     @Inject(FirebaseService) private firebaseService: FirebaseService,
@@ -27,14 +27,22 @@ export class ChannelService {
       = this.channelsRef$
           .map((data): {[cid: string]: Channel} => data.val())
           .filter(val => val !== null)
-          .map(channelObj => Object.keys(channelObj).map(cid => channelObj[cid]))
+          .map(channelObj =>
+            Object.keys(channelObj)
+              .map(cid => (
+                {
+                  cid,
+                  ...channelObj[cid]
+                })
+              )
+          )
           .share();
 
-    this.activeChannel$
-      = this.channels$
-          .map(channels => channels[0])
-          .filter(channel => !!(channel && channel.cid && channel.cid.length > 0))
-          .distinctUntilKeyChanged('cid');
+    // this.activeChannel$
+    //   = this.channels$
+    //       .map(channels => channels[0])
+    //       .filter(channel => !!(channel && channel.cid && channel.cid.length > 0))
+    //       .distinctUntilKeyChanged('cid');
 
     this.channelsRef$.connect();
   }
@@ -51,15 +59,21 @@ export class ChannelService {
           timestamp: Date.now()
         }
       ))
-      .do(tag$('channel to add'))
       .mergeMap((channel): Observable<string> => {
         const newChannelRef = this.channelsRef.push();
-        console.log('newChannelRef: ', newChannelRef);
         return Observable.fromPromise(
           newChannelRef.set(channel) as Promise<any>
         )
         .mapTo(newChannelRef.key);
       });
+  }
+
+  // cidExists(cid: string): boolean {
+  //   this.channelsRef.child(cid).ex
+  // }
+
+  observeChannelById(cid: string): Observable<DataSnapshot> {
+    return FirebaseService.observe(this.channelsRef.child(cid));
   }
 
   setActiveChannel(channel: Channel) {

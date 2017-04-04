@@ -14,7 +14,11 @@ import { tag$ } from 'fire-slack/util';
     <div class="row mx-0">
       <div class="col-md-4 col-lg-4 col-xl-3 mx-0 px-0" style="z-index: 10; background-color: #ffffff; box-shadow: 1px 0 3px rgba(0,0,0,0.06), 1px 0 2px rgba(0,0,0,0.12);">
         <ul class="list-group">
-          <channel-list-item *ngFor="let channel of channels$ | async" [channel]="channel"></channel-list-item>
+          <channel-list-item
+            *ngFor="let channel of channels$ | async"
+            (click)="gotoChannel(channel)"
+            [channel]="channel">
+          </channel-list-item>
         </ul>
         <div class="mt-auto">
           <button [routerLink]="[{outlets: {overlay: 'create-channel'}}]" type="button" class="btn btn-primary">+</button>
@@ -35,5 +39,12 @@ export class ChannelListComponent {
     @Inject(Router) private router: Router
   ) {
     this.channels$ = channelService.channels$;
+  }
+
+  gotoChannel(channel: Channel) {
+    console.log('gotoChannel: ', channel);
+    this.router.navigate([channel.cid], {
+      relativeTo: this.route
+    });
   }
 }

@@ -11,7 +11,7 @@ import { tag$ } from 'util/tags';
 })
 export class ChannelListItemComponent implements OnInit {
   @Input() channel: Channel;
-  private isActive$: Observable<boolean>;
+  // private isActive$: Observable<boolean>;
   private unseenMessageCount$: Observable<number>;
 
   constructor(
@@ -20,7 +20,7 @@ export class ChannelListItemComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.isActive$ = this.channelService.activeChannel$.map(channel => channel.cid === this.channel.cid);
+    // this.isActive$ = this.channelService.activeChannel$.map(channel => channel.cid === this.channel.cid);
     this.unseenMessageCount$ = Observable.of(0);
     // this.messageService.unseenMessagesForChannelId(this.channel.cid).map(msgs => msgs.length);
 
@@ -33,8 +33,8 @@ export class ChannelListItemComponent implements OnInit {
     //   });
   }
 
-  setActiveChannel(channel: Channel) {
-    this.channelService.setActiveChannel(channel);
-  }
+  // setActiveChannel(channel: Channel) {
+  //   this.channelService.setActiveChannel(channel);
+  // }
 
 }

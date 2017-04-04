@@ -5,6 +5,7 @@ import { AuthGuard } from 'fire-slack/app/router/auth-guard.service';
 
 import { ChannelsComponent } from './channels.component';
 import { ConversationComponent } from './conversation/conversation.component';
+import { NoConversationSelectedComponent } from './conversation/no-conversation-selected.component';
 import { ChannelListComponent } from './list/channel-list.component';
 import { CreateChannelOverlayComponent } from './overlays/create-channel.component';
 
@@ -19,12 +20,12 @@ const routes: Routes = [
         component: ChannelListComponent,
         children: [
           {
-            path: ':id',
+            path: ':cid',
             component: ConversationComponent
           },
           {
             path: '',
-            component: ConversationComponent
+            component: NoConversationSelectedComponent
           }
         ]
       },

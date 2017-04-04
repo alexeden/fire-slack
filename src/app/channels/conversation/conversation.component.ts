@@ -1,9 +1,9 @@
-import { Observable } from 'rxjs';
+import { Component, Inject, ElementRef, Host, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Component, Inject, ElementRef, Host } from '@angular/core';
+import { Observable } from 'rxjs';
 import { ChannelService, MessageService } from 'fire-slack/app/services';
-import { Channel, Message } from 'fire-slack/app/interfaces';
-import { tag$ } from 'util/tags';
+import { Channel, Message, DataSnapshot } from 'fire-slack/app/interfaces';
+import { tag$ } from 'fire-slack/util/tags';
 
 
 @Component({
@@ -21,9 +21,9 @@ import { tag$ } from 'util/tags';
     }
   `]
 })
-export class ConversationComponent {
+export class ConversationComponent implements OnDestroy {
 
-  private activeChannel$: Observable<Channel>;
+  private channel$: Observable<Channel>;
   private channelName$: Observable<string>;
   private channelMessages$: Observable<Message[]>;
   private noMessagesYet$: Observable<boolean>;
@@ -37,15 +37,22 @@ export class ConversationComponent {
     @Inject(ActivatedRoute) private route: ActivatedRoute,
     @Inject(Router) private router: Router
   ) {
-    this.activeChannel$ = channelService.activeChannel$;
-    this.channelName$ = this.activeChannel$.map(channel => channel.name);
-    this.channelMessages$
-      = this.activeChannel$
-          .map(channel => channel.cid || '')
-          .mergeMap(id => this.messageService.messagesForChannelId(id));
+    console.log('constructing ConversationComponent');
+    this.channel$
+      = this.route.params.pluck('cid')
+          .switchMap((cid: string): Observable<Channel> =>
+            this.channelService.channelsRef$
+              .map(dataSnapshot => dataSnapshot.child(cid).val())
+          );
 
-    this.noMessagesYet$ = this.channelMessages$.map(msgs => msgs.length < 1);
-
+    this.channelName$ = this.channel$.map(channel => channel.name);
+    // this.channelMessages$
+    //   = this.channel$
+    //       .map(channel => channel.cid || '')
+    //       .mergeMap(id => this.messageService.messagesForChannelId(id));
+    //
+    // this.noMessagesYet$ = this.channelMessages$.map(msgs => msgs.length < 1);
+    //
     this.height$
       = Observable.merge(
           Observable.interval(200).take(10),
@@ -57,8 +64,12 @@ export class ConversationComponent {
         .map(({top}) => window.innerHeight - top);
   }
 
+  ngOnDestroy() {
+    console.log('destroying conversation component');
+  }
+
   sendMessage(input: HTMLInputElement) {
-    // this.activeChannel$
+    // this.channel$
     //   .take(1)
     //   .do(channel =>
     //     this.messageService.createMessage({
