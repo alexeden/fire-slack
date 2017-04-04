@@ -41,7 +41,7 @@ export class ConversationComponent {
     this.channelName$ = this.activeChannel$.map(channel => channel.name);
     this.channelMessages$
       = this.activeChannel$
-          .map(channel => channel.cid)
+          .map(channel => channel.cid || '')
           .mergeMap(id => this.messageService.messagesForChannelId(id));
 
     this.noMessagesYet$ = this.channelMessages$.map(msgs => msgs.length < 1);

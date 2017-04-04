@@ -70,7 +70,16 @@ export class CreateChannelOverlayComponent implements OnDestroy {
   }
 
   createChannel() {
-    //
+    this.channelService.createChannel(this.newChannelForm.value)
+      .subscribe(
+        (cid: string) => {
+          console.log('navigating to channel id: ', cid);
+          this.close();
+        },
+        error => {
+          console.log('channel creation failed with error: ', error);
+        }
+      );
   }
 
   confirm() {

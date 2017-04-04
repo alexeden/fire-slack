@@ -45,4 +45,16 @@ export class FirebaseService {
       };
     });
   }
+
+  static filterIndexObject(obj1: {[id: string]: boolean}): {[id: string]: boolean} {
+    return Object.keys(obj1)
+      .reduce(
+        (obj2, k) =>
+          obj1[k] === true
+          ? { ...obj2, [k]: true }
+          : obj2,
+        {}
+      );
+  }
+
 }

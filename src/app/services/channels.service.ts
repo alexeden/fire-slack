@@ -3,37 +3,32 @@ import { ConnectableObservable, Observable } from 'rxjs';
 import { tag, tag$ }  from 'fire-slack/util/tags';
 import { Channel, DataSnapshot, Reference } from 'fire-slack/app/interfaces';
 import { FirebaseService } from './firebase.service';
-import { AuthService } from './auth.service';
+import { UserService } from './user.service';
 import { MessageService } from './messages.service';
 
 
 @Injectable()
 export class ChannelService {
   private channelsRef: Reference;
-  channels$: ConnectableObservable<Channel[]>;
+  channelsRef$: ConnectableObservable<DataSnapshot>;
+  channels$: Observable<Channel[]>;
   activeChannel$: Observable<Channel>;
 
   constructor(
-    @Inject(FirebaseService) private firebase: FirebaseService,
+    @Inject(FirebaseService) private firebaseService: FirebaseService,
     @Inject(MessageService) private messageService: MessageService,
-    @Inject(AuthService) private authService: AuthService
+    @Inject(UserService) private userService: UserService
   ) {
-    this.channelsRef = this.firebase.database.ref('channels');
+    this.channelsRef = this.firebaseService.database.ref('channels');
 
-    const channelsQuery =
-      Observable.bindCallback(
-        cb => this.channelsRef.on('value', cb),
-        (data: any): DataSnapshot => data
-      );
+    this.channelsRef$ = FirebaseService.observe(this.channelsRef).publishReplay(1);
 
-    this.channels$ =
-      channelsQuery()
-        .map((data): {[cid: string]: Channel} => data.val())
-        .filter(val => val !== null)
-        .map(channelObj => Object.keys(channelObj).map(cid => channelObj[cid]))
-        .publishReplay(1);
-
-
+    this.channels$
+      = this.channelsRef$
+          .map((data): {[cid: string]: Channel} => data.val())
+          .filter(val => val !== null)
+          .map(channelObj => Object.keys(channelObj).map(cid => channelObj[cid]))
+          .share();
 
     this.activeChannel$
       = this.channels$
@@ -41,18 +36,30 @@ export class ChannelService {
           .filter(channel => !!(channel && channel.cid && channel.cid.length > 0))
           .distinctUntilKeyChanged('cid');
 
-    this.channels$.connect();
+    this.channelsRef$.connect();
   }
 
-  createChannel(channel: Channel) {
-    // this.operations$.next(channels => [
-    //   ...channels,
-    //   {
-    //     ...channel,
-    //     cid: channel.cid || v1(),
-    //     private: channel.private || false
-    //   } as Channel
-    // ]);
+  createChannel(partialChannel: Partial<Channel>): Observable<string> {
+    return Observable.of(partialChannel || {})
+      .withLatestFrom(this.userService.currentUid$)
+      .map(([channel, uid]): Channel => (
+        {
+          ...channel,
+          creator: uid,
+          private: partialChannel.private || false,
+          members: FirebaseService.filterIndexObject(channel.members || {}),
+          timestamp: Date.now()
+        }
+      ))
+      .do(tag$('channel to add'))
+      .mergeMap((channel): Observable<string> => {
+        const newChannelRef = this.channelsRef.push();
+        console.log('newChannelRef: ', newChannelRef);
+        return Observable.fromPromise(
+          newChannelRef.set(channel) as Promise<any>
+        )
+        .mapTo(newChannelRef.key);
+      });
   }
 
   setActiveChannel(channel: Channel) {

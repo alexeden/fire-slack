@@ -21,7 +21,7 @@ export interface PartialMessage {
   channel: Channel;
   content: string;
   id?: string;
-  timestamp?: Date;
+  timestamp?: number;
   author?: string;
   seenBy?: Array<string>;
 }
@@ -30,7 +30,7 @@ export interface Message {
   channel: Channel;
   content: string;
   id: string;
-  timestamp: Date;
+  timestamp: number;
   author: string;
   seenBy: Array<string>;
 }
@@ -39,11 +39,11 @@ export type MessageOperation = (msg: Message) => Message;
 export type MessageListOperation = (msg: Message[]) => Message[];
 
 export interface Channel {
-  cid: string;
+  cid?: string;
   creator: string;
   name?: string;
   latestMessage?: string;
-  timestamp: Date;
+  timestamp: number;
   private: boolean;
   members: { [uid: string]: boolean };
 }

@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, Subject, ConnectableObservable } from 'rxjs';
 import * as Firebase from 'firebase';
 import { tag$ } from 'fire-slack/util/tags';
 import { UserInfo, Auth } from 'fire-slack/app/interfaces';
@@ -10,7 +10,8 @@ import { FirebaseService } from './firebase.service';
 export class AuthService {
 
   private auth: Auth;
-  authState$ = new BehaviorSubject<UserInfo | null>(null);
+  private authStateSubject$ = new Subject<UserInfo | null>();
+  authState$: ConnectableObservable<UserInfo | null>;
   isLoggedIn$: Observable<boolean>;
   loggedInNotifier$: Observable<UserInfo>;
   loggedOutNotifier$: Observable<UserInfo>;
@@ -19,24 +20,25 @@ export class AuthService {
     @Inject(FirebaseService) private firebaseService: FirebaseService
   ) {
     this.auth = this.firebaseService.app.auth();
+    this.authState$ = this.authStateSubject$.publishReplay(1);
 
     this.auth.onAuthStateChanged((authState: any) =>
-      this.authState$.next(authState)
+      this.authStateSubject$.next(authState)
     );
 
-    const authState$ = this.authState$.asObservable();
-
-    this.isLoggedIn$ = authState$.map(user => user !== null);
+    this.isLoggedIn$ = this.authState$.map(user => user !== null);
 
     this.loggedInNotifier$
-      = authState$.pairwise()
+      = this.authState$.pairwise()
           .filter(([was, is]) => was === null && !!is)
           .map(([, is]) => is);
 
     this.loggedOutNotifier$
-      = authState$.pairwise()
+      = this.authState$.pairwise()
           .filter(([was, is]) => !!was && is === null)
           .map(([was]) => was);
+
+    this.authState$.connect();
   }
 
   signInWithGoogle(): Observable<any> {
