@@ -1,8 +1,8 @@
 import { Component, Inject, ElementRef, Host, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { ChannelService, MessageService } from 'fire-slack/app/services';
-import { Channel, Message } from 'fire-slack/app/interfaces';
+import { ChannelService, MessageService, FirebaseService } from 'fire-slack/app/services';
+import { Channel, Message, DataSnapshot } from 'fire-slack/app/interfaces';
 import { tag$ } from 'fire-slack/util/tags';
 
 
@@ -24,8 +24,11 @@ import { tag$ } from 'fire-slack/util/tags';
 export class ConversationComponent implements OnDestroy {
 
   private channel$: Observable<Channel>;
+  private channelRef$: Observable<DataSnapshot>;
   private channelName$: Observable<string>;
-  private channelMessages$: Observable<Message[]>;
+  private cid$: Observable<string>;
+  private messagesRef$: Observable<DataSnapshot>;
+  private messages$: Observable<Message[]>;
   private noMessagesYet$: Observable<boolean>;
 
   private height$: Observable<number>;
@@ -38,20 +41,24 @@ export class ConversationComponent implements OnDestroy {
     @Inject(Router) private router: Router
   ) {
     console.log('constructing ConversationComponent');
-    this.channel$
-      = this.route.params.pluck('cid')
-          .switchMap((cid: string): Observable<Channel> =>
-            this.channelService.channelsRef$
-              .map(dataSnapshot => dataSnapshot.child(cid).val())
-          );
 
+    this.cid$ = this.route.params.pluck('cid');
+
+    this.channelRef$ = this.cid$.switchMap(cid => this.channelService.channelById(cid));
+    this.messagesRef$ = this.cid$.switchMap(cid => this.messageService.messagesByChannelId(cid));
+
+    this.channel$ = this.channelRef$.map(snapshot => snapshot.val());
+
+    this.messages$
+      = this.messagesRef$
+          .map((snapshot): {[uid: string]: Message} => snapshot.val())
+          .map(data => FirebaseService.addKeyAsPropOfValue('mid', data))
+          .map(data => Object.values(data))
+          .do(tag$('messages$'));
+          // .mergeMap(id => this.messageService.messagesForChannelId(id));
+
+    // this.noMessagesYet$ = this.messages$.map(msgs => msgs.length < 1);
     this.channelName$ = this.channel$.map(channel => channel.name);
-    // this.channelMessages$
-    //   = this.channel$
-    //       .map(channel => channel.cid || '')
-    //       .mergeMap(id => this.messageService.messagesForChannelId(id));
-    //
-    // this.noMessagesYet$ = this.channelMessages$.map(msgs => msgs.length < 1);
     //
     this.height$
       = Observable.merge(

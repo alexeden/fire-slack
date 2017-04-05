@@ -46,6 +46,22 @@ export class FirebaseService {
     });
   }
 
+  static addKeyAsPropOfValue<T extends object>(key: string, obj1: {[k: string]: T}): {[k: string]: T} {
+    return Object.keys(obj1)
+      .reduce(
+        (obj2, k) => (
+          {
+            ...obj2,
+            [k]: {
+              ...(obj1[k] as object),
+              [k]: obj1[k]
+            }
+          }
+        ),
+        {}
+      );
+  }
+
   static filterIndexObject(obj1: {[id: string]: boolean}): {[id: string]: boolean} {
     return Object.keys(obj1)
       .reduce(

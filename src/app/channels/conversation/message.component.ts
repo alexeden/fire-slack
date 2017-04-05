@@ -11,18 +11,18 @@ import { UserService } from 'fire-slack/app/services';
       <ng-template [ngIf]="sentByCurrentUser$ | async | not">
         <img
           class="mr-3 square-64 rounded-circle"
-          src="{{message.author.avatarUrl}}">
+          src="{{message?.author.avatarUrl}}">
 
         <div class="media-body">
-          <p class="my-0 lead">{{message.content}}</p>
-          <p class="my-0"><small class="text-muted"><em>Said by {{message.author.name}} {{message.timestamp | fromNow}}</em></small></p>
+          <p class="my-0 lead">{{message?.content}}</p>
+          <p class="my-0"><small class="text-muted"><em>Said by {{message?.author.name}} {{message?.timestamp | fromNow}}</em></small></p>
         </div>
       </ng-template>
 
       <ng-template [ngIf]="sentByCurrentUser$ | async">
         <div class="media-body text-right">
-          <p class="my-0 lead">{{message.content}}</p>
-          <p class="my-0"><small class="text-muted"><em>Said by {{message.author.name}} {{message.timestamp | fromNow}}</em></small></p>
+          <p class="my-0 lead">{{message?.content}}</p>
+          <p class="my-0"><small class="text-muted"><em>Said by {{message?.author.name}} {{message?.timestamp | fromNow}}</em></small></p>
         </div>
 
         <img

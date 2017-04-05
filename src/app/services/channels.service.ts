@@ -72,7 +72,7 @@ export class ChannelService {
   //   this.channelsRef.child(cid).ex
   // }
 
-  observeChannelById(cid: string): Observable<DataSnapshot> {
+  channelById(cid: string): Observable<DataSnapshot> {
     return FirebaseService.observe(this.channelsRef.child(cid));
   }
 

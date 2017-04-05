@@ -1,8 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { ConnectableObservable, Subject, Observable } from 'rxjs';
-import { Message, MessageListOperation, Reference } from 'fire-slack/app/interfaces';
+import { Message, MessageListOperation, Reference, DataSnapshot } from 'fire-slack/app/interfaces';
 import { FirebaseService } from './firebase.service';
-import { AuthService } from './auth.service';
 import { UserService } from './user.service';
 
 
@@ -11,6 +10,7 @@ export class MessageService {
 
   private messagesRef: Reference;
   private operations$: Subject<MessageListOperation>;
+  // messagesRef$: Observable<DataSnapshot>;
   messages$: ConnectableObservable<Message[]>;
   unseenMessages$: Observable<Message[]>;
 
@@ -18,7 +18,8 @@ export class MessageService {
     @Inject(UserService) private userService: UserService,
     @Inject(FirebaseService) private firebaseService: FirebaseService
   ) {
-    this.messagesRef = window['messagesRef'] = this.firebaseService.database.ref('messages');
+    this.messagesRef = this.firebaseService.database.ref('messages');
+    // this.messagesRef$ = FirebaseService.observe(this.messagesRef);
 
     this.operations$ = new Subject();
 
@@ -60,11 +61,12 @@ export class MessageService {
     //   );
   }
 
-  messagesForChannelId(channelId: string): Observable<Message[]> {
-    return this.messages$
-      .map(messages =>
-        messages.filter(message => message.channel.cid === channelId)
-      );
+  messagesByChannelId(cid: string): Observable<DataSnapshot> {
+    return FirebaseService.observe(this.messagesRef.child(cid));
+    // return this.messages$
+    //   .map(messages =>
+    //     messages.filter(message => message.channel.cid === channelId)
+    //   );
   }
 
   unseenMessagesForChannelId(channelId: string): Observable<Message[]> {
