@@ -8,15 +8,12 @@
     </div>
     <!-- <p class="lead">Some bio info</p> -->
 
-    <!-- <ul class="list-unstyled">
-      <li class="media" *ngIf="noMessagesYet$ | async">
-        <div class="media-body">
-          <h5 class="my-0 lead">No messages yet!</h5>
-        </div>
-      </li>
-      <channel-message *ngFor="let message of messages$ | async" [message]="message">
-      </channel-message>
-    </ul> -->
+    <div class="media p-4" *ngIf="noMessagesYet$ | async">
+      <div class="media-body">
+        <h5 class="my-0 lead">No messages yet!</h5>
+      </div>
+    </div>
+
     <div class="p-4 channel-messages">
       <message *ngFor="let message of messages$ | async" [message]="message">
       </message>

@@ -52,14 +52,13 @@ export class ConversationComponent implements OnDestroy {
     this.messages$
       = this.messagesRef$
           .map((snapshot): {[uid: string]: Message} => snapshot.val())
-          .map(data => FirebaseService.addKeyAsPropOfValue('mid', data))
+          .map(data => FirebaseService.addKeyAsPropOfValue('mid', data || {}))
           .map(data => Object.values(data))
           .do(tag$('messages$'));
-          // .mergeMap(id => this.messageService.messagesForChannelId(id));
 
-    // this.noMessagesYet$ = this.messages$.map(msgs => msgs.length < 1);
+    this.noMessagesYet$ = this.messages$.map(msgs => msgs.length < 1);
     this.channelName$ = this.channel$.map(channel => channel.name);
-    //
+
     this.height$
       = Observable.merge(
           Observable.interval(200).take(10),
