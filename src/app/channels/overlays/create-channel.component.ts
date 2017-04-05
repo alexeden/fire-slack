@@ -93,8 +93,7 @@ export class CreateChannelOverlayComponent implements OnDestroy {
   private close() {
     console.log('closing');
     this.router.navigate(
-      [{ outlets: { overlay: null } }],
-      { relativeTo: this.route.parent }
+      [{ outlets: { overlay: null } }]
     );
   }
 

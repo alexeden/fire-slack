@@ -2,7 +2,7 @@ import { Component, Inject, ElementRef, Host, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ChannelService, MessageService } from 'fire-slack/app/services';
-import { Channel, Message, DataSnapshot } from 'fire-slack/app/interfaces';
+import { Channel, Message } from 'fire-slack/app/interfaces';
 import { tag$ } from 'fire-slack/util/tags';
 
 

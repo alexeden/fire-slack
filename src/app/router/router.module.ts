@@ -19,7 +19,7 @@ const routes: Routes = [
 @NgModule({
   imports: [
     FireSlackServicesModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes, { enableTracing: false })
   ],
   exports: [
     RouterModule
