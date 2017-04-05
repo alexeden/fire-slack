@@ -53,8 +53,7 @@ export class ConversationComponent implements OnDestroy {
       = this.messagesRef$
           .map((snapshot): {[uid: string]: Message} => snapshot.val())
           .map(data => FirebaseService.addKeyAsPropOfValue('mid', data || {}))
-          .map(data => Object.values(data))
-          .do(tag$('messages$'));
+          .map(data => Object.values(data));
 
     this.noMessagesYet$ = this.messages$.map(msgs => msgs.length < 1);
     this.channelName$ = this.channel$.map(channel => channel.name);
