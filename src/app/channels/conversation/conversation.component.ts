@@ -1,4 +1,4 @@
-import { Component, Inject, ElementRef, Host, OnDestroy } from '@angular/core';
+import { Component, Inject, ElementRef, Host, OnDestroy, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ChannelService, MessageService, FirebaseService } from 'fire-slack/app/services';
@@ -21,7 +21,7 @@ import { tag$ } from 'fire-slack/util/tags';
     }
   `]
 })
-export class ConversationComponent implements OnDestroy {
+export class ConversationComponent implements OnDestroy, OnInit {
 
   private channel$: Observable<Channel>;
   private channelRef$: Observable<DataSnapshot>;
@@ -51,7 +51,7 @@ export class ConversationComponent implements OnDestroy {
 
     this.messages$
       = this.messagesRef$
-          .map((snapshot): {[uid: string]: Message} => snapshot.val())
+          .map((snapshot): {[mid: string]: Message} => snapshot.val())
           .map(data => FirebaseService.addKeyAsPropOfValue('mid', data || {}))
           .map(data => Object.values(data));
 
@@ -69,11 +69,24 @@ export class ConversationComponent implements OnDestroy {
         .map(({top}) => window.innerHeight - top);
   }
 
+  ngOnInit() {
+    console.log('ngOnInit');
+  }
+
   ngOnDestroy() {
     console.log('destroying conversation component');
   }
 
   sendMessage(input: HTMLInputElement) {
+    if(input.value.length < 1) return;
+
+    this.cid$
+      .switchMap(cid =>
+        this.messageService.sendMessage(cid, input.value)
+      )
+      .subscribe(mid =>
+        console.log(`success creating message: ${mid}`)
+      );
     // this.channel$
     //   .take(1)
     //   .do(channel =>

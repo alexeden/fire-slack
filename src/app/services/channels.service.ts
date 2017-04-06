@@ -47,6 +47,10 @@ export class ChannelService {
     this.channelsRef$.connect();
   }
 
+  channelExists(cid: string): Observable<boolean> {
+    return this.channelsRef$.map(ref => ref.hasChild(cid));
+  }
+
   createChannel(partialChannel: Partial<Channel>): Observable<string> {
     return Observable.of(partialChannel || {})
       .withLatestFrom(this.userService.currentUid$)

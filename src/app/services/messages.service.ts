@@ -36,7 +36,7 @@ export class MessageService {
       = this.messages$
           .withLatestFrom(this.userService.currentUid$)
           .map(([msgs, userId]) =>
-            msgs.filter(msg => !msg.seenBy.includes(userId) && msg.author !== userId)
+            msgs.filter(msg => !Object.keys(msg.seenBy).includes(userId) && msg.author !== userId)
           );
 
 
@@ -44,7 +44,22 @@ export class MessageService {
 
   }
 
-  createMessage(message: Partial<Message>) {
+  sendMessage(cid: string, content: string): Observable<string> {
+
+    return this.userService.currentUid$
+      .map((uid: string): Message => (
+        {
+          author: uid,
+          channel: cid,
+          content,
+          timestamp: Date.now(),
+          seenBy: {
+            [uid]: true
+          }
+        }
+      ))
+      .mapTo('');
+
     // this.userService.currentUser$
     //   .take(1)
     //   .subscribe(user =>
@@ -72,7 +87,7 @@ export class MessageService {
   unseenMessagesForChannelId(channelId: string): Observable<Message[]> {
     return this.unseenMessages$
       .map(messages =>
-        messages.filter(message => message.channel.cid === channelId)
+        messages.filter(message => message.channel === channelId)
       );
   }
 

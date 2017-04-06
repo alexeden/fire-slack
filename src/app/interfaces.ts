@@ -18,21 +18,19 @@ export type ReferenceEvent
   | 'child_moved';
 
 export interface PartialMessage {
-  channel: Channel;
+  channel: string;
   content: string;
-  id?: string;
   timestamp?: number;
   author?: string;
   seenBy?: Array<string>;
 }
 
 export interface Message {
-  channel: Channel;
+  channel: string;
   content: string;
-  id: string;
   timestamp: number;
   author: string;
-  seenBy: Array<string>;
+  seenBy: {[uid: string]: boolean};
 }
 
 export type MessageOperation = (msg: Message) => Message;
