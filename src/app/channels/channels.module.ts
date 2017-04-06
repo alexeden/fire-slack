@@ -8,6 +8,7 @@ import { NoConversationSelectedComponent } from './conversation/no-conversation-
 import { MessageComponent } from './conversation/message.component';
 import { ChannelListItemComponent } from './list/channel-list-item.component';
 import { CreateChannelOverlayComponent } from './overlays/create-channel.component';
+import { UserScopeComponent } from './scopes/user-scope.component';
 
 @NgModule({
   imports: [
@@ -20,7 +21,8 @@ import { CreateChannelOverlayComponent } from './overlays/create-channel.compone
     MessageComponent,
     ChannelListItemComponent,
     CreateChannelOverlayComponent,
-    NoConversationSelectedComponent
+    NoConversationSelectedComponent,
+    UserScopeComponent
   ],
   exports: [
     ChannelsComponent

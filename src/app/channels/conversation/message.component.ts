@@ -30,32 +30,34 @@ import { UserService, MessageService } from 'fire-slack/app/services';
     }
   `],
   template: `
+  <user-scope [uid]="message.author" #author>
     <div class="media mb-4 px-4 message">
-      <ng-template [ngIf]="sentByCurrentUser$ | async | not">
-        <img
-          class="mr-3 square-64 rounded-circle"
-          src="{{message.author.avatarUrl || '/assets/unknown-user.jpg'}}">
+        <ng-template [ngIf]="sentByCurrentUser$ | async | not">
+          <img
+            class="mr-3 square-64 rounded-circle"
+            src="{{(author?.userInfo$ | async)?.photoURL || '/assets/unknown-user.jpg'}}">
 
-        <div class="media-body">
-          <p class="my-0 lead">{{message?.content}}</p>
-          <p class="my-0"><small class="text-muted"><em>Said by {{message?.author}} {{message?.timestamp | fromNow}}</em></small></p>
-        </div>
-      </ng-template>
+          <div class="media-body">
+            <p class="my-0 lead">{{message?.content}}</p>
+            <p class="my-0"><small class="text-muted"><em>Said by {{(author?.userInfo$ | async)?.displayName}} {{message?.timestamp | fromNow}}</em></small></p>
+          </div>
+        </ng-template>
 
-      <ng-template [ngIf]="sentByCurrentUser$ | async">
-        <div class="media-body text-right">
-          <p class="my-0 lead">{{message?.content}}</p>
-          <p class="my-0"><small class="text-muted"><em>You said this {{message?.timestamp | fromNow}}</em></small></p>
-        </div>
+        <ng-template [ngIf]="sentByCurrentUser$ | async">
+          <div class="media-body text-right">
+            <p class="my-0 lead">{{message?.content}}</p>
+            <p class="my-0"><small class="text-muted"><em>You said this {{message?.timestamp | fromNow}}</em></small></p>
+          </div>
 
-        <img
-          class="d-flex mx-3 square-64 rounded-circle"
-          src="{{message.author.avatarUrl || '/assets/unknown-user.jpg'}}">
-        <div class="d-flex align-self-center mx-0 px-0 show-on-hover" (click)="removeHandler(message)">
-          Delete
-        </div>
-      </ng-template>
+          <img
+            class="d-flex mx-3 square-64 rounded-circle"
+            src="{{(author?.userInfo$ | async)?.photoURL || '/assets/unknown-user.jpg'}}">
+          <div class="d-flex align-self-center mx-0 px-0 show-on-hover" (click)="removeHandler(message)">
+            Delete
+          </div>
+        </ng-template>
     </div>
+  </user-scope>
   `
 })
 export class MessageComponent implements OnInit {
