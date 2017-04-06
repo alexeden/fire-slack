@@ -40,8 +40,6 @@ export class ConversationComponent implements OnDestroy, OnInit {
     @Inject(ActivatedRoute) private route: ActivatedRoute,
     @Inject(Router) private router: Router
   ) {
-    console.log('constructing ConversationComponent');
-
     this.cid$ = this.route.params.pluck('cid');
 
     this.channelRef$ = this.cid$.switchMap(cid => this.channelService.channelById(cid));
@@ -51,8 +49,8 @@ export class ConversationComponent implements OnDestroy, OnInit {
 
     this.messages$
       = this.messagesRef$
-          .map((snapshot): {[mid: string]: Message} => snapshot.val())
-          .map(data => FirebaseService.addKeyAsPropOfValue('mid', data || {}))
+          .map((snapshot): {[id: string]: Message} => snapshot.val())
+          .map(data => FirebaseService.addKeyAsPropOfValue('id', data || {}))
           .map(data => Object.values(data));
 
     this.noMessagesYet$ = this.messages$.map(msgs => msgs.length < 1);
@@ -77,24 +75,18 @@ export class ConversationComponent implements OnDestroy, OnInit {
     console.log('destroying conversation component');
   }
 
+  deleteMessage(message: Message) {
+    this.messageService.deleteMessage(message);
+  }
+
   sendMessage(input: HTMLInputElement) {
     if(input.value.length < 1) return;
 
     this.cid$
-      .switchMap(cid =>
-        this.messageService.sendMessage(cid, input.value)
-      )
+      .switchMap(cid => this.messageService.sendMessage(cid, input.value))
+      .take(1)
       .subscribe(mid =>
-        console.log(`success creating message: ${mid}`)
+        console.log(`success creating message: `, mid)
       );
-    // this.channel$
-    //   .take(1)
-    //   .do(channel =>
-    //     this.messageService.createMessage({
-    //       content: input.value,
-    //       channel
-    //     })
-    //   )
-    //   .subscribe(_ => input.value = '');
   }
 }

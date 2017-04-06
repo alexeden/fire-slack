@@ -10,9 +10,8 @@ import { MessageService } from './messages.service';
 @Injectable()
 export class ChannelService {
   private channelsRef: Reference;
-  channelsRef$: ConnectableObservable<DataSnapshot>;
+  private channelsRef$: ConnectableObservable<DataSnapshot>;
   channels$: Observable<Channel[]>;
-  // activeChannel$: Observable<Channel>;
 
   constructor(
     @Inject(FirebaseService) private firebaseService: FirebaseService,
@@ -37,12 +36,6 @@ export class ChannelService {
               )
           )
           .share();
-
-    // this.activeChannel$
-    //   = this.channels$
-    //       .map(channels => channels[0])
-    //       .filter(channel => !!(channel && channel.cid && channel.cid.length > 0))
-    //       .distinctUntilKeyChanged('cid');
 
     this.channelsRef$.connect();
   }
@@ -72,17 +65,8 @@ export class ChannelService {
       });
   }
 
-  // cidExists(cid: string): boolean {
-  //   this.channelsRef.child(cid).ex
-  // }
-
   channelById(cid: string): Observable<DataSnapshot> {
     return FirebaseService.observe(this.channelsRef.child(cid));
   }
-
-  setActiveChannel(channel: Channel) {
-    // this.activeChannelSource$.next(channel);
-  }
-
 
 }

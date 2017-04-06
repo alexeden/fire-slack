@@ -14,8 +14,11 @@
       </div>
     </div>
 
-    <div class="p-4 channel-messages">
-      <message *ngFor="let message of messages$ | async" [message]="message">
+    <div class="py-4 channel-messages">
+      <message
+        *ngFor="let message of messages$ | async"
+        [removeHandler]="deleteMessage"
+        [message]="message">
       </message>
       <pre>{{channel$ | async | json}}</pre>
     </div>

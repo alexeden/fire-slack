@@ -1,50 +1,24 @@
 import { Injectable, Inject } from '@angular/core';
-import { ConnectableObservable, Subject, Observable } from 'rxjs';
-import { Message, MessageListOperation, Reference, DataSnapshot } from 'fire-slack/app/interfaces';
+import { Observable } from 'rxjs';
+import { Message, Reference, DataSnapshot, ThenableReference } from 'fire-slack/app/interfaces';
 import { FirebaseService } from './firebase.service';
 import { UserService } from './user.service';
+import { tag, tag$ }  from 'fire-slack/util/tags';
 
 
 @Injectable()
 export class MessageService {
 
   private messagesRef: Reference;
-  private operations$: Subject<MessageListOperation>;
-  // messagesRef$: Observable<DataSnapshot>;
-  messages$: ConnectableObservable<Message[]>;
-  unseenMessages$: Observable<Message[]>;
 
   constructor(
     @Inject(UserService) private userService: UserService,
     @Inject(FirebaseService) private firebaseService: FirebaseService
   ) {
     this.messagesRef = this.firebaseService.database.ref('messages');
-    // this.messagesRef$ = FirebaseService.observe(this.messagesRef);
-
-    this.operations$ = new Subject();
-
-    this.messages$
-      = this.operations$
-          .scan(
-            (msgs, operation) => operation(msgs),
-            [] as Message[]
-          )
-          .publishReplay(1);
-
-
-    this.unseenMessages$
-      = this.messages$
-          .withLatestFrom(this.userService.currentUid$)
-          .map(([msgs, userId]) =>
-            msgs.filter(msg => !Object.keys(msg.seenBy).includes(userId) && msg.author !== userId)
-          );
-
-
-    this.messages$.connect();
-
   }
 
-  sendMessage(cid: string, content: string): Observable<string> {
+  sendMessage(cid: string, content: string): Observable<ThenableReference> {
 
     return this.userService.currentUid$
       .map((uid: string): Message => (
@@ -53,42 +27,20 @@ export class MessageService {
           channel: cid,
           content,
           timestamp: Date.now(),
-          seenBy: {
-            [uid]: true
-          }
+          seenBy: { [uid]: true }
         }
       ))
-      .mapTo('');
+      .map(message => this.messagesRef.child(cid).push(message));
+  }
 
-    // this.userService.currentUser$
-    //   .take(1)
-    //   .subscribe(user =>
-    //     this.operations$.next(messages => [
-    //       ...messages,
-    //       {
-    //         ...message,
-    //         author: message.author || user,
-    //         id: message.id || v1(),
-    //         timestamp: message.timestamp || moment().toDate(),
-    //         seenBy: (message.seenBy || []).concat((message.author || user.uid))
-    //       } as Message
-    //     ])
-    //   );
+  deleteMessage({channel, id}: Message): Observable<null|Error> {
+    return Observable.fromPromise(
+      this.messagesRef.child(`${channel}/${id}`).remove() as Promise<null|Error>
+    );
   }
 
   messagesByChannelId(cid: string): Observable<DataSnapshot> {
     return FirebaseService.observe(this.messagesRef.child(cid));
-    // return this.messages$
-    //   .map(messages =>
-    //     messages.filter(message => message.channel.cid === channelId)
-    //   );
-  }
-
-  unseenMessagesForChannelId(channelId: string): Observable<Message[]> {
-    return this.unseenMessages$
-      .map(messages =>
-        messages.filter(message => message.channel === channelId)
-      );
   }
 
   // markMessagesAsSeenForChannelId(channelId: string) {

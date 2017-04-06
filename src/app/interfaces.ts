@@ -8,6 +8,7 @@ export type Storage = Firebase.storage.Storage;
 export type Database = Firebase.database.Database;
 export type Reference = Firebase.database.Reference;
 export type DataSnapshot = Firebase.database.DataSnapshot;
+export type ThenableReference = Firebase.database.ThenableReference;
 export type UserInfo = Firebase.UserInfo;
 
 export type ReferenceEvent
@@ -26,6 +27,7 @@ export interface PartialMessage {
 }
 
 export interface Message {
+  id?: string;
   channel: string;
   content: string;
   timestamp: number;

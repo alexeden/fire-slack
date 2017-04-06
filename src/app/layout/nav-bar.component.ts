@@ -19,7 +19,7 @@ import { MessageService, UserService, AuthService } from 'fire-slack/app/service
   `
 })
 export class NavBarComponent {
-  private unseenMessageCount$: Observable<number>;
+  // private unseenMessageCount$: Observable<number>;
   private brandLinkText$: Observable<string>;
 
   constructor(
@@ -27,7 +27,7 @@ export class NavBarComponent {
     @Inject(UserService) private userService: UserService,
     @Inject(AuthService) private authService: AuthService
   ) {
-    this.unseenMessageCount$ = this.messageService.unseenMessages$.map(msgs => msgs.length);
+    // this.unseenMessageCount$ = this.messageService.unseenMessages$.map(msgs => msgs.length);
 
     const userName$ = this.userService.currentDisplayName$;
 
