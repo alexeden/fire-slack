@@ -29,17 +29,20 @@ import { UserService, MessageService } from 'fire-slack/app/services';
 
     }
   `],
+  // <user-scope [uid]="message.author" #author>
   template: `
-  <user-scope [uid]="message.author" #author>
-    <div class="media mb-4 px-4 message">
+    <div
+      [userScope]="message.author"
+      #user="userScope"
+      class="media mb-4 px-4 message">
         <ng-template [ngIf]="sentByCurrentUser$ | async | not">
           <img
             class="mr-3 square-64 rounded-circle"
-            src="{{(author?.userInfo$ | async)?.photoURL || '/assets/unknown-user.jpg'}}">
+            src="{{(user?.userInfo$ | async)?.photoURL || '/assets/unknown-user.jpg'}}">
 
           <div class="media-body">
             <p class="my-0 lead">{{message?.content}}</p>
-            <p class="my-0"><small class="text-muted"><em>Said by {{(author?.userInfo$ | async)?.displayName}} {{message?.timestamp | fromNow}}</em></small></p>
+            <p class="my-0"><small class="text-muted"><em>Said by {{(user?.userInfo$ | async)?.displayName}} {{message?.timestamp | fromNow}}</em></small></p>
           </div>
         </ng-template>
 
@@ -51,14 +54,14 @@ import { UserService, MessageService } from 'fire-slack/app/services';
 
           <img
             class="d-flex mx-3 square-64 rounded-circle"
-            src="{{(author?.userInfo$ | async)?.photoURL || '/assets/unknown-user.jpg'}}">
+            src="{{(user?.userInfo$ | async)?.photoURL || '/assets/unknown-user.jpg'}}">
           <div class="d-flex align-self-center mx-0 px-0 show-on-hover" (click)="removeHandler(message)">
             Delete
           </div>
         </ng-template>
     </div>
-  </user-scope>
   `
+  // </user-scope>
 })
 export class MessageComponent implements OnInit {
   @Input() message: Message;

@@ -1,16 +1,22 @@
-import { Component, Inject, Input } from '@angular/core';
+import { Directive, Inject, Input } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { UserService, FirebaseService } from 'fire-slack/app/services';
 import { UserInfo } from 'fire-slack/app/interfaces';
 
 
-@Component({
-  selector: 'user-scope',
-  template: `<ng-content></ng-content>`
+@Directive({
+  selector: '[userScope]',
+  exportAs: 'userScope'
 })
-export class UserScopeComponent {
+export class UserScopeDirective {
   private uid$: BehaviorSubject<string|null>;
   userInfo$: Observable<UserInfo>;
+
+  @Input('userScope')
+  set uid(uid: string) {
+    console.log(`set userScope to ${uid}`);
+    this.uid$.next(uid);
+  }
 
   constructor(
     @Inject(UserService) private userService: UserService,
@@ -20,14 +26,10 @@ export class UserScopeComponent {
 
     this.userInfo$ =
       this.uid$
+        .distinctUntilChanged()
         .filter(uid => !!uid)
         .map(uid => this.firebaseService.database.ref(`users/${uid}`))
         .switchMap(ref => FirebaseService.observe(ref))
         .map(snapshot => snapshot.val() as UserInfo);
-  }
-
-  @Input()
-  set uid(uid: string) {
-    this.uid$.next(uid);
   }
 }
