@@ -46,6 +46,19 @@ export class FirebaseService {
     });
   }
 
+  static observeOnce(ref: Reference | Query, on?: ReferenceEvent): Observable<DataSnapshot> {
+    return Observable.create((observer: Observer<DataSnapshot>) =>
+      ref.once(
+        (on || 'value'),
+        (data: DataSnapshot) => {
+          observer.next(data);
+          observer.complete();
+        },
+        (error: AuthError) => observer.error(error)
+      )
+    );
+  }
+
   static addKeyAsPropOfValue<T extends object>(keyName: string, obj1: {[k: string]: T}): {[k: string]: T} {
     return Object.keys(obj1)
       .reduce(

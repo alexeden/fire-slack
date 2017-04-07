@@ -2,7 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { Observable, Subject, ConnectableObservable } from 'rxjs';
 import * as Firebase from 'firebase';
 import { tag$ } from 'fire-slack/util/tags';
-import { UserInfo, Auth } from 'fire-slack/app/interfaces';
+import { UserInfo, Auth, User } from 'fire-slack/app/interfaces';
 import { FirebaseService } from './firebase.service';
 
 
@@ -10,17 +10,17 @@ import { FirebaseService } from './firebase.service';
 export class AuthService {
 
   private auth: Auth;
-  private authStateSubject$ = new Subject<UserInfo | null>();
-  authState$: ConnectableObservable<UserInfo | null>;
+  private authStateSubject$ = new Subject<User | null>();
+  authState$: ConnectableObservable<User>;
   isLoggedIn$: Observable<boolean>;
-  loggedInNotifier$: Observable<UserInfo>;
-  loggedOutNotifier$: Observable<UserInfo>;
+  loggedInNotifier$: Observable<User>;
+  loggedOutNotifier$: Observable<User>;
 
   constructor(
     @Inject(FirebaseService) private firebaseService: FirebaseService
   ) {
     this.auth = this.firebaseService.app.auth();
-    this.authState$ = this.authStateSubject$.publishReplay(1);
+    this.authState$ = this.authStateSubject$.do(tag$('authState$')).publishReplay(1);
 
     this.auth.onAuthStateChanged((authState: any) =>
       this.authStateSubject$.next(authState)

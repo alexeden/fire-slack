@@ -10,6 +10,14 @@ export type Reference = Firebase.database.Reference;
 export type DataSnapshot = Firebase.database.DataSnapshot;
 export type ThenableReference = Firebase.database.ThenableReference;
 export type UserInfo = Firebase.UserInfo;
+export type User = Firebase.User;
+
+// export interface User {
+//   providers: {
+//     [providerUid: string]: Firebase.UserInfo;
+//   }
+// }
+
 
 export type ReferenceEvent
   = 'value'
