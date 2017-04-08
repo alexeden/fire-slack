@@ -20,7 +20,7 @@ export class AuthService {
     @Inject(FirebaseService) private firebaseService: FirebaseService
   ) {
     this.auth = this.firebaseService.app.auth();
-    this.authState$ = this.authStateSubject$.do(tag$('authState$')).publishReplay(1);
+    this.authState$ = this.authStateSubject$.publishReplay(1);
 
     this.auth.onAuthStateChanged((authState: any) =>
       this.authStateSubject$.next(authState)

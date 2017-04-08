@@ -3,8 +3,8 @@ import { MessageService, ChannelService, UserService, FirebaseService } from 'fi
 
 @Component({
   selector: 'fire-slack-app',
+  // <nav-bar></nav-bar>
   template: `
-    <nav-bar></nav-bar>
     <router-outlet></router-outlet>
   `
 })

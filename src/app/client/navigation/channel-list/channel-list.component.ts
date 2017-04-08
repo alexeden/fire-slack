@@ -16,12 +16,11 @@ import { tag$ } from 'fire-slack/util';
         [channel]="channel">
       </channel-list-item>
     </ul>
+    <div class="mt-auto">
+    <button (click)="openRelativeChannelCreationOverlay()" type="button" class="btn btn-primary">+ Relative</button>
+    <button (click)="openChannelCreationOverlay()" type="button" class="btn btn-primary">+ Normal</button>
+    </div>
   `
-  // <div class="mt-auto">
-  //   <button (click)="openRelativeChannelCreationOverlay()" type="button" class="btn btn-primary">+ Relative</button>
-  //   <button (click)="openChannelCreationOverlay()" type="button" class="btn btn-primary">+ Normal</button>
-  //   <pre>{{route.params | async | json}}</pre>
-  // </div>
 })
 export class ChannelListComponent {
   private channels$: Observable<Channel[]>;

@@ -22,11 +22,11 @@
       </message>
     </div>
 
-    <div class="mt-auto px-4 py-1 channel-footer">
+    <div class="mt-auto px-4 py-1 z-depth-1">
       <input
         type="text"
         class="form-control form-control-lg border-0"
-        placeholder="Say something"
+        [placeholder]="'Message ' + (channelName$ | async)"
         (keydown.enter)="sendMessage($event.target)"/>
     </div>
   </div>

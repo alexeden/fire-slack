@@ -13,9 +13,6 @@ import { tag$ } from 'fire-slack/util/tags';
     .channel-messages {
       overflow: scroll;
     }
-    .channel-footer {
-      box-shadow: 0 -1px 5px rgba(0,0,0,0.08), 0 -1px 2px rgba(0,0,0,0.17);
-    }
   `]
 })
 export class ClientMainComponent implements OnDestroy, OnInit {
@@ -51,7 +48,7 @@ export class ClientMainComponent implements OnDestroy, OnInit {
           .map(data => Object.values(data));
 
     this.noMessagesYet$ = this.messages$.map(msgs => msgs.length < 1);
-    this.channelName$ = this.channel$.map(channel => channel.name);
+    this.channelName$ = this.channel$.map(channel => channel.name).startWith('channel');
 
     this.height$
       = Observable.merge(

@@ -14,7 +14,8 @@ export class FirebaseService {
   storage: Storage;
 
   constructor() {
-    this.app =
+    window['firebase'] = Firebase;
+    this.app = window['app'] =
       Firebase.initializeApp({
         apiKey: 'AIzaSyDrjqFnQEWnQf827bIwedkpBn65SBiW64A',
         authDomain: 'fire-slack-c2735.firebaseapp.com',
@@ -26,6 +27,10 @@ export class FirebaseService {
 
     this.database = window['database'] = this.app.database();
     this.storage = window['storage'] = this.app.storage();
+  }
+
+  static createKey(path: string): string|null {
+    return Firebase.database().ref().child(path).push().key;
   }
 
   static observe(ref: Reference | Query, on?: ReferenceEvent): Observable<DataSnapshot> {
