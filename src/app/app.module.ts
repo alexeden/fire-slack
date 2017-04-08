@@ -5,7 +5,7 @@ import { SharedModule } from 'fire-slack/shared';
 import { FireSlackRouterModule } from './router';
 import { FireSlackLayoutModule } from './layout';
 import { FireSlackServicesModule } from './services';
-import { FireSlackChannelsModule } from './channels';
+import { FireSlackClientModule } from './client';
 
 import { AppComponent } from './app.component';
 
@@ -15,7 +15,7 @@ import { AppComponent } from './app.component';
     SharedModule,
     FireSlackServicesModule,
     FireSlackLayoutModule,
-    FireSlackChannelsModule,
+    FireSlackClientModule,
     FireSlackRouterModule // must be last!
   ],
   declarations: [ AppComponent ],

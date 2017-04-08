@@ -7,8 +7,8 @@ import { tag$ } from 'fire-slack/util/tags';
 
 
 @Component({
-  selector: 'conversation',
-  templateUrl: './conversation.html',
+  selector: 'main',
+  templateUrl: './client-main.html',
   styles: [`
     .channel-messages {
       overflow: scroll;
@@ -21,7 +21,7 @@ import { tag$ } from 'fire-slack/util/tags';
     }
   `]
 })
-export class ConversationComponent implements OnDestroy, OnInit {
+export class ClientMainComponent implements OnDestroy, OnInit {
 
   private channel$: Observable<Channel>;
   private channelRef$: Observable<DataSnapshot>;

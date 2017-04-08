@@ -3,16 +3,15 @@ import { RouterModule, Routes } from '@angular/router';
 import { FireSlackServicesModule } from 'fire-slack/app/services';
 import { AuthGuard } from 'fire-slack/app/router/auth-guard.service';
 
-import { ChannelsComponent } from './channels.component';
-import { ConversationComponent } from './conversation/conversation.component';
-import { NoConversationSelectedComponent } from './conversation/no-conversation-selected.component';
-// import { ChannelListComponent } from './list/channel-list.component';
+import { ClientWrapperComponent } from './client-wrapper.component';
+import { ClientMainComponent } from './main/client-main.component';
+import { NoConversationSelectedComponent } from './main/no-conversation-selected.component';
 import { CreateChannelOverlayComponent } from './overlays/create-channel.component';
 
 const routes: Routes = [
   {
-    path: 'channels',
-    component: ChannelsComponent,
+    path: 'client',
+    component: ClientWrapperComponent,
     canActivate: [ AuthGuard ],
     children: [
       {
@@ -25,7 +24,7 @@ const routes: Routes = [
         children: [
           {
             path: ':cid',
-            component: ConversationComponent
+            component: ClientMainComponent
           },
           {
             path: '',
@@ -46,4 +45,4 @@ const routes: Routes = [
     RouterModule
   ]
 })
-export class FireSlackChannelRouterModule {}
+export class FireSlackClientRoutingModule {}

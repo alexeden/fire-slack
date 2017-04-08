@@ -14,7 +14,6 @@ export class UserScopeDirective {
 
   @Input('userScope')
   set uid(uid: string) {
-    console.log(`set userScope to ${uid}`);
     this.uid$.next(uid);
   }
 
