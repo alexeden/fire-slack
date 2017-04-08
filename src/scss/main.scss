@@ -43,6 +43,12 @@ $black30: rgba(0, 0, 0, 0.3);
   object-fit: cover;
 }
 
+.square-48 {
+  max-height: 48px;
+  max-width: 48px;
+  object-fit: cover;
+}
+
 .square-64 {
   height: 64px;
   object-fit: cover;

@@ -12,7 +12,6 @@ import { MessageComponent } from './message.component';
     FireSlackClientScopesModule
  ],
   declarations: [
-    // ClientWrapperComponent,
     ClientMainComponent,
     MessageComponent,
     NoConversationSelectedComponent

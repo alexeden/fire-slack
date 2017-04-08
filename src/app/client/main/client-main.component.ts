@@ -13,9 +13,6 @@ import { tag$ } from 'fire-slack/util/tags';
     .channel-messages {
       overflow: scroll;
     }
-    .channel-header {
-      box-shadow: 0 1px 5px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.17);
-    }
     .channel-footer {
       box-shadow: 0 -1px 5px rgba(0,0,0,0.08), 0 -1px 2px rgba(0,0,0,0.17);
     }

@@ -22,6 +22,10 @@ import { UserService, MessageService } from 'fire-slack/app/services';
       overflow: hidden;
       opacity: 0;
     }
+    .message__content {
+      font-weight: 300;
+      font-size: 0.9rem;
+    }
     .message:hover .show-on-hover {
       max-width: none;
       transform: translateX(0%);
@@ -37,23 +41,23 @@ import { UserService, MessageService } from 'fire-slack/app/services';
       class="media mb-4 px-4 message">
         <ng-template [ngIf]="sentByCurrentUser$ | async | not">
           <img
-            class="mr-3 square-64 rounded-circle"
+            class="mr-3 square-48 rounded-circle"
             src="{{(user?.userInfo$ | async)?.photoURL || '/assets/unknown-user.jpg'}}">
 
           <div class="media-body">
-            <p class="my-0 lead">{{message?.content}}</p>
+            <p class="my-0 message__content">{{message?.content}}</p>
             <p class="my-0"><small class="text-muted"><em>Said by {{(user?.userInfo$ | async)?.displayName}} {{message?.timestamp | fromNow}}</em></small></p>
           </div>
         </ng-template>
 
         <ng-template [ngIf]="sentByCurrentUser$ | async">
           <div class="media-body text-right">
-            <p class="my-0 lead">{{message?.content}}</p>
+            <p class="my-0 message__content">{{message?.content}}</p>
             <p class="my-0"><small class="text-muted"><em>You said this {{message?.timestamp | fromNow}}</em></small></p>
           </div>
 
           <img
-            class="d-flex mx-3 square-64 rounded-circle"
+            class="d-flex ml-3 square-48 rounded-circle"
             src="{{(user?.userInfo$ | async)?.photoURL || '/assets/unknown-user.jpg'}}">
           <button class="d-flex align-self-center mx-0 px-2 show-on-hover btn btn-danger" type="button" (click)="removeHandler(message)">
             Delete

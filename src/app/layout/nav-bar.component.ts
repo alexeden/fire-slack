@@ -7,7 +7,7 @@ import { MessageService, UserService, AuthService } from 'fire-slack/app/service
   template: `
   <nav
     style="z-index: 11;"
-    class="navbar navbar-light bg-faded d-flex flex-row z-depth-2">
+    class="navbar navbar-light bg-faded d-flex flex-row z-depth-1">
     <a class="navbar-brand mr-auto" href="#">{{brandLinkText$ | async}}</a>
     <span
       *ngIf="(unseenMessageCount$ | async) > 0"
