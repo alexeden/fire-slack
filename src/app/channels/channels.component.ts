@@ -10,7 +10,7 @@ import { tag$ } from 'fire-slack/util';
   template: `
     <router-outlet name="overlay"></router-outlet>
     <div class="row mx-0">
-      <div class="col-md-4 col-lg-4 col-xl-3 mx-0 px-0" style="z-index: 10; background-color: #ffffff; box-shadow: 1px 0 3px rgba(0,0,0,0.06), 1px 0 2px rgba(0,0,0,0.12);">
+      <div class="col-md-4 col-lg-4 col-xl-3 mx-0 px-0 z-depth-1" style="z-index: 10; background-color: #ffffff;">
         <ul class="list-group">
           <channel-list-item
             *ngFor="let channel of channels$ | async"

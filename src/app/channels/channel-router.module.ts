@@ -25,12 +25,10 @@ const routes: Routes = [
         children: [
           {
             path: ':cid',
-            outlet: 'primary',
             component: ConversationComponent
           },
           {
             path: '',
-            outlet: 'primary',
             component: NoConversationSelectedComponent
           }
         ]

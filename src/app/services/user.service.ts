@@ -58,6 +58,7 @@ export class UserService {
     const userRecord = {
       uid: user.uid,
       email: user.email,
+      emailVerified: user.emailVerified,
       displayName: user.displayName || (user.email && user.email.split('@')[0]) || 'Unknown',
       photoURL: user.photoURL || '/assets/unknown-user.jpg',
       providerId: providers[0] && providers[0].providerId,

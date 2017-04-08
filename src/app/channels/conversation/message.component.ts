@@ -17,7 +17,7 @@ import { UserService, MessageService } from 'fire-slack/app/services';
 
     .message .show-on-hover {
       transform: translateX(-100%);
-      transition: all 1s;
+      transition: all 0.3s;
       max-width: 0;
       overflow: hidden;
       opacity: 0;
@@ -55,9 +55,9 @@ import { UserService, MessageService } from 'fire-slack/app/services';
           <img
             class="d-flex mx-3 square-64 rounded-circle"
             src="{{(user?.userInfo$ | async)?.photoURL || '/assets/unknown-user.jpg'}}">
-          <div class="d-flex align-self-center mx-0 px-0 show-on-hover" (click)="removeHandler(message)">
+          <button class="d-flex align-self-center mx-0 px-2 show-on-hover btn btn-danger" type="button" (click)="removeHandler(message)">
             Delete
-          </div>
+          </button>
         </ng-template>
     </div>
   `
