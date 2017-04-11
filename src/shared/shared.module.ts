@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedPipesModule } from './pipes';
 
@@ -7,7 +8,8 @@ import { SharedPipesModule } from './pipes';
   exports: [
     SharedPipesModule,
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule
   ]
 })
 export class SharedModule {}

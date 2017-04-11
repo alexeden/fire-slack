@@ -5,9 +5,9 @@ import { AuthGuard } from 'fire-slack/app/router/auth-guard.service';
 
 import { ClientWrapperComponent } from './client-wrapper.component';
 import { ClientMainComponent } from './main/client-main.component';
-import { ClientNavigationComponent } from './navigation';
+// import { ClientNavigationComponent } from './navigation';
 import { NoConversationSelectedComponent } from './main/no-conversation-selected.component';
-import { CreateChannelOverlayComponent } from './overlays/create-channel.component';
+// import { CreateChannelOverlayComponent } from './overlays/create-channel.component';
 
 const routes: Routes = [
   {
@@ -15,16 +15,6 @@ const routes: Routes = [
     component: ClientWrapperComponent,
     canActivate: [ AuthGuard ],
     children: [
-      {
-        path: 'create',
-        outlet: 'overlay',
-        component: CreateChannelOverlayComponent
-      },
-      {
-        path: '',
-        outlet: 'navigation',
-        component: ClientNavigationComponent
-      },
       {
         path: '',
         children: [

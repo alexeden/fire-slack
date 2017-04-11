@@ -17,8 +17,8 @@ import { tag$ } from 'fire-slack/util';
       </channel-list-item>
     </ul>
     <div class="mt-auto">
-    <button (click)="openRelativeChannelCreationOverlay()" type="button" class="btn btn-primary">+ Relative</button>
-    <button (click)="openChannelCreationOverlay()" type="button" class="btn btn-primary">+ Normal</button>
+      <button (click)="openRelativeChannelCreationOverlay()" type="button" class="btn btn-primary">+ Relative</button>
+      <button (click)="openChannelCreationOverlay()" type="button" class="btn btn-primary">+ Normal</button>
     </div>
   `
 })

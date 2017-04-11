@@ -17,6 +17,7 @@ import { ChannelListItemComponent } from './channel-list/channel-list-item.compo
     ChannelListItemComponent
   ],
   exports: [
+    ChannelListComponent,
     ClientNavigationComponent
   ]
 })

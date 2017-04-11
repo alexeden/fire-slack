@@ -1,32 +1,15 @@
-import { Component, Inject, OnDestroy } from '@angular/core';
+import { Component, Inject, OnDestroy, Host } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { UserInfo } from 'fire-slack/app/interfaces';
 import { FirebaseService, ChannelService, UserService, AuthService } from 'fire-slack/app/services';
+import { Overlay } from './overlay';
+import { OverlayWrapperComponent } from './overlay-wrapper.component';
 
 @Component({
-  templateUrl: './create-channel.component.html',
-  styles: [`
-    .overlay-wrapper{
-      bottom: 0;
-      left: 0;
-      position: fixed;
-      right: 0;
-      top: 0;
-      z-index: 11;
-      background-color: rgba(0, 0, 0, 0.15);
-    }
-    .overlay {
-      width: 100%;
-      height: 400px;
-      margin: 0;
-      padding: 0;
-      display: block;
-      background-color: #ffffff;
-      position: relative;
-    }
-  `]
+  selector: 'create-channel-overlay',
+  templateUrl: './create-channel.component.html'
 })
 export class CreateChannelOverlayComponent implements OnDestroy {
 
@@ -34,6 +17,10 @@ export class CreateChannelOverlayComponent implements OnDestroy {
   private uid$: Observable<string>;
   private users$: Observable<UserInfo[]>;
 
+  confirm() {
+    console.log('confirming the CreateChannelOverlayComponent via the abstract overlay open method');
+    return Observable.of(true);
+  }
   constructor(
     @Inject(Router) private router: Router,
     @Inject(ActivatedRoute) private route: ActivatedRoute,
@@ -41,11 +28,13 @@ export class CreateChannelOverlayComponent implements OnDestroy {
     @Inject(FirebaseService) private firebaseService: FirebaseService,
     @Inject(ChannelService) private channelService: ChannelService,
     @Inject(AuthService) private authService: AuthService,
-    @Inject(UserService) private userService: UserService
+    @Inject(UserService) private userService: UserService,
+    @Host() @Inject(OverlayWrapperComponent) private overlayWrapper: OverlayWrapperComponent
   ) {
+    console.log(this.overlayWrapper);
     this.users$ = this.userService.users$;
     this.uid$ = this.userService.currentUid$;
-    window['createChannel'] = this;
+
     this.newChannelForm =
       fb.group({
         name: [null, Validators.required],
@@ -58,6 +47,7 @@ export class CreateChannelOverlayComponent implements OnDestroy {
       .subscribe(([users, uid]) => {
         const membersGroup = this.newChannelForm.get('members') as FormGroup;
         users.map(user => {
+          console.log(user.uid);
           const control = new FormControl(user.uid === uid);
           membersGroup.registerControl(user.uid, control);
           // if(user.uid === uid) control.disable();
@@ -74,16 +64,16 @@ export class CreateChannelOverlayComponent implements OnDestroy {
       .subscribe(
         (cid: string) => {
           console.log('navigating to channel id: ', cid);
-          this.close();
+          this.router.navigate(['/client', cid])
+            .then(() => {
+              console.log('done navigating, closing overlay');
+              this.overlayWrapper.close();
+            });
         },
         error => {
           console.log('channel creation failed with error: ', error);
         }
       );
-  }
-
-  confirm() {
-    this.close();
   }
 
   cancel() {
