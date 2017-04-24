@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, Host } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, Host } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
@@ -11,7 +11,7 @@ import { OverlayWrapperComponent } from './overlay-wrapper.component';
   selector: 'create-channel-overlay',
   templateUrl: './create-channel.component.html'
 })
-export class CreateChannelOverlayComponent implements OnDestroy {
+export class CreateChannelOverlayComponent implements OnDestroy, OnInit {
 
   private newChannelForm: FormGroup;
   private uid$: Observable<string>;
@@ -55,6 +55,9 @@ export class CreateChannelOverlayComponent implements OnDestroy {
       });
   }
 
+  ngOnInit() {
+    console.log('init the channel creation form');
+  }
   ngOnDestroy() {
     console.log('destroying the channel creation form');
   }
@@ -77,7 +80,7 @@ export class CreateChannelOverlayComponent implements OnDestroy {
   }
 
   cancel() {
-    this.close();
+    this.overlayWrapper.close();
   }
 
   private close() {

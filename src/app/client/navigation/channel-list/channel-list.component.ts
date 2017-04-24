@@ -16,10 +16,6 @@ import { tag$ } from 'fire-slack/util';
         [channel]="channel">
       </channel-list-item>
     </ul>
-    <div class="mt-auto">
-      <button (click)="openRelativeChannelCreationOverlay()" type="button" class="btn btn-primary">+ Relative</button>
-      <button (click)="openChannelCreationOverlay()" type="button" class="btn btn-primary">+ Normal</button>
-    </div>
   `
 })
 export class ChannelListComponent {
@@ -31,31 +27,6 @@ export class ChannelListComponent {
     @Inject(Router) private router: Router
   ) {
     this.channels$ = channelService.channels$;
-  }
-
-  openChannelCreationOverlay() {
-    /*
-      Tries going to URL:
-      /channels/-KgrIYyMlTEWI4cVmlKT(overlay:create)
-    */
-    this.router.navigate(
-      [{ outlets: { overlay: 'create' }}]
-      // {
-      //   relativeTo: this.route
-      // }
-    );
-  }
-  openRelativeChannelCreationOverlay() {
-    /*
-     Tries going to URL:
-     /channels/(-KgrIYyMlTEWI4cVmlKT//overlay:create)
-   */
-    this.router.navigate(
-      [{ outlets: { overlay: 'create' }}],
-      {
-        relativeTo: this.route
-      }
-    );
   }
 
   gotoChannel(channel: Channel) {

@@ -15,16 +15,12 @@ const animateSideNav: AnimationTriggerMetadata =
 
 @Component({
   template: `
-    <div class="row mx-0">
-      <button class="btn btn-primary" (click)="overlay.open()">Overlay</button>
-    </div>
     <div class="row mx-0 d-flex flex-row align-items-stretch" style="min-height:100%">
       <div class="side-nav hidden-sm-down col-md-4 col-xl-3 mx-0 px-0 z-depth-1">
         <channel-list></channel-list>
+        <button class="btn btn-primary" (click)="overlay.open()">Create a channel</button>
         <overlay-wrapper #overlay>
-
-          <h2>I am some projected content</h2>
-          <create-channel-overlay #overlayComponent></create-channel-overlay>
+          <create-channel-overlay></create-channel-overlay>
         </overlay-wrapper>
       </div>
 
