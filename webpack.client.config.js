@@ -38,7 +38,6 @@ module.exports = {
       },
       {
         test: /\.tsx?|\.ts?$/,
-        enforce: 'pre',
         loaders: [
           {
             loader: 'awesome-typescript-loader',
@@ -50,8 +49,16 @@ module.exports = {
         ]
       },
       {
-        test: /\.(scss|sass)$/,
-        exclude: /node_modules/,
+        test: {
+          and: [ /\.(scss|sass)$/, /src\/app/ ]
+        },
+        loaders: ['raw-loader', 'sass-loader']
+      },
+      {
+        test: {
+          test: /\.(scss|sass)$/,
+          not: [ /src\/app/ ]
+        },
         loader: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: ['css-loader', 'postcss-loader', 'sass-loader']
