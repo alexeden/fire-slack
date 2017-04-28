@@ -68,7 +68,7 @@ linters:
     present: true
 
   HexLength:
-    enabled: true
+    enabled: false
     style: short # or 'long'
 
   HexNotation:
@@ -128,7 +128,7 @@ linters:
   PropertySortOrder:
     enabled: true
     ignore_unspecified: false
-    min_properties: 2
+    min_properties: 6
     separate_groups: false
 
   PropertySpelling:
