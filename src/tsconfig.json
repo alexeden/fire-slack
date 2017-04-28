@@ -7,7 +7,7 @@
         "module": "commonjs",
         "moduleResolution": "node",
         "outDir": "../client-dist/",
-        "importHelpers": true,
+        "importHelpers": false,
         "noImplicitAny": true,
         "suppressImplicitAnyIndexErrors": true,
         "paths": {

@@ -5,7 +5,6 @@ import 'core-js/es7';
 import 'zone.js/dist/zone';
 import 'whatwg-fetch';
 import 'web-animations-js';
-import 'tslib';
 
 /* Services */
 import 'firebase';
