@@ -38,21 +38,23 @@ module.exports = {
       },
       {
         test: /\.tsx?|\.ts?$/,
+        enforce: 'pre',
         loaders: [
-            {
-                loader: 'awesome-typescript-loader',
-                options: {
-                  configFileName: paths.client.tsconfig
-                }
-            },
-            'angular2-template-loader'
+          {
+            loader: 'awesome-typescript-loader',
+            options: {
+              configFileName: paths.client.tsconfig
+            }
+          },
+          'angular2-template-loader'
         ]
       },
       {
         test: /\.(scss|sass)$/,
+        exclude: /node_modules/,
         loader: ExtractTextPlugin.extract({
-          fallbackLoader: 'style-loader',
-          loader: ['css-loader', 'postcss-loader', 'sass-loader']
+          fallback: 'style-loader',
+          use: ['css-loader', 'postcss-loader', 'sass-loader']
         })
       }
     ]

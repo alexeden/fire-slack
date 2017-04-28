@@ -5,21 +5,25 @@ import 'core-js/es7';
 import 'zone.js/dist/zone';
 import 'whatwg-fetch';
 import 'web-animations-js';
+import 'tslib';
 
 /* Services */
 import 'firebase';
 
 /* Framework */
+import '@angular/animations';
 import '@angular/common';
 import '@angular/core';
 import '@angular/forms';
 import '@angular/http';
-import '@angular/router';
-import '@angular/platform-browser';
 import '@angular/platform-browser-dynamic';
+import '@angular/platform-browser';
+import '@angular/platform-browser/animations';
+import '@angular/router';
 
 /* Libraries */
 import 'rxjs';
+import 'moment';
 import 'ramda';
 import 'uuid';
 
