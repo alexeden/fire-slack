@@ -1,0 +1,30 @@
+@import 'variables';
+
+.overlay-wrapper {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  left: 0;
+  pointer-events: none;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 0;
+
+  .overlay {
+    align-items: center;
+    backface-visibility: hidden;
+    background: $white;
+    border-radius: 50%;
+    display: flex;
+    flex: none;
+    justify-content: center;
+    pointer-events: all;
+    z-index: 999;
+
+    &__content {
+      backface-visibility: hidden;
+    }
+  }
+}

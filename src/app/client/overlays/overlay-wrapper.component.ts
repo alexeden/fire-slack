@@ -1,8 +1,5 @@
-import { Component, ContentChild, Type } from '@angular/core';
+import { Component } from '@angular/core';
 import { trigger, state, style, animate, transition, AnimationEvent } from '@angular/animations';
-import { Overlay } from './overlay';
-
-
 
 @Component({
   selector: 'overlay-wrapper',
@@ -18,34 +15,7 @@ import { Overlay } from './overlay';
       </div>
     </div>
   `,
-  styles: [`
-    .overlay-wrapper {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      height: 100%;
-      position: fixed;
-      z-index: 0;
-      top: 0;
-      left: 0;
-      pointer-events: none;
-    }
-    .overlay-wrapper .overlay {
-      align-items: center;
-      backface-visibility: hidden;
-      background: #ffffff;
-      border-radius: 50%;
-      display: flex;
-      flex: none;
-      justify-content: center;
-      pointer-events: all;
-      z-index: 999;
-    }
-    .overlay-wrapper .overlay .overlay__content {
-      backface-visibility: hidden;
-    }
-  `],
+  styleUrls: ['overlay-wrapper.component.scss'],
   animations: [
     trigger('overlay', [
       state('inactive', style({
