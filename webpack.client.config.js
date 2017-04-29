@@ -38,7 +38,7 @@ module.exports = {
       },
       {
         test: /\.tsx?|\.ts?$/,
-        loaders: [
+        use: [
           {
             loader: 'awesome-typescript-loader',
             options: {
@@ -52,7 +52,15 @@ module.exports = {
         test: {
           and: [ /\.(scss|sass)$/, /src\/app/ ]
         },
-        loaders: ['raw-loader', 'sass-loader']
+        use: [
+          'raw-loader',
+          {
+            loader: 'sass-loader',
+            options: {
+              includePaths: [ paths.client.styles ]
+            }
+          }
+        ]
       },
       {
         test: {

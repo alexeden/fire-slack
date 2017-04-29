@@ -3,6 +3,7 @@ const path = require('path');
 module.exports = {
   client: {
     context: path.resolve(__dirname, 'src'),
+    styles: path.resolve(__dirname, 'src', 'scss'),
     dist: path.resolve(__dirname, 'client-dist'),
     tsconfig: path.resolve(__dirname, 'src', 'tsconfig.json'),
     assets: path.resolve(__dirname, 'assets'),
