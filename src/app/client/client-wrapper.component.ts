@@ -32,7 +32,7 @@ const animateSideNavTrigger: AnimationTriggerMetadata =
       style="min-height:100%">
       <div
         [@sideNav]="sideNavState"
-        class="side-nav hidden-sm-down col-md-4 col-xl-3 mx-0 px-0 z-depth-1">
+        class="side-nav fixed hidden-sm-down col-md-4 col-xl-3 mx-0 px-0 z-depth-1">
         <channel-list></channel-list>
         <button class="btn btn-primary" (click)="toggleState()">Toggle side-nav</button>
         <button class="btn btn-primary" (click)="overlay.open()">Create a channel</button>

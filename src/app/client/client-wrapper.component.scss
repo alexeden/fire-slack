@@ -1,5 +1,49 @@
+@import '~bootstrap/scss/mixins';
+@import 'variables';
+
 .side-nav {
-  overflow: hidden;
-  z-index: 10;
-  background-color: #ffffff;
+  backface-visibility: hidden;
+  background-color: $white;
+  // height: 100%;
+  height: calc(100% + 60px);
+  left: 0;
+  margin: 0;
+  overflow-y: auto;
+  padding-bottom: 60px;
+  position: fixed;
+  top: 0;
+  // transform: translateX(-100%);
+  transform: translateX(-105%);
+  width: 300px;
+  will-change: transform;
+  z-index: 999;
+
+  &.fixed {
+    left: 0;
+    transform: translateX(0);
+    position: fixed;
+  }
+}
+
+
+
+@include media-breakpoint-down(md) {
+  .side-nav {
+    &.fixed {
+      transform: translateX(-105%);
+    }
+  }
+}
+
+.sidenav-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  height: 120vh;
+  background-color: rgba(0, 0, 0, .5);
+  z-index: 997;
+
+  will-change: opacity;
 }
