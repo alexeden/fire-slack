@@ -1,29 +1,38 @@
 import { Component, Renderer2, ElementRef, Inject, ViewContainerRef, AfterViewInit } from '@angular/core';
 import { trigger, state, style, animate, transition, AnimationTriggerMetadata } from '@angular/animations';
+import { BehaviorSubject, Observable } from 'rxjs';
 
-type SideNavState = 'hidden' | 'slideover' | 'embedded';
+const Hidden = 'hidden';
+const Visible = 'visible';
+const SlideOver = 'fixed';
+type SideNavState = typeof Hidden | typeof Visible | typeof SlideOver;
 
-const animateSideNav: AnimationTriggerMetadata =
-  trigger('sideNav', [
-    state('hidden', style({
-      maxWidth: '0'
+/*
+  state('stateName', style({
+    This is the style that will be applied
+    at the END of the transition to this state
+  }))
+
+  - Transitions specify the timing between 2 states
+  - Styles applied inside transition() are not kept!
+  - Only styles defined inside state() are permanent
+*/
+
+
+const animateSideNavOverlay: AnimationTriggerMetadata =
+  trigger('sideNavOverlay', [
+    state('*', style({
+      opacity: 0.5
     })),
-    state('slideover', style({
-      maxWidth: '100%'
-    })),
-    transition('slideover <=> hidden', animate('333ms ease-in-out'))
-  ]);
-
-const animateSideNavTrigger: AnimationTriggerMetadata =
-  trigger('sideNavTrigger', [
-    transition(':enter', [
-      style({transform: 'translateX(-100%) scale(0)'}),
-      animate(333)
+    transition(`:leave`, [
+      animate('.333s ease-in-out', style({ opacity: 0 }))
     ]),
-    transition(':leave', [
-      animate(333, style({transform: 'translateX(-100%) scale(1)'}))
+    transition(':enter', [
+      style({ opacity: 0}),
+      animate('.333s ease-in-out')
     ])
   ]);
+
 
 @Component({
   template: `
@@ -31,8 +40,8 @@ const animateSideNavTrigger: AnimationTriggerMetadata =
       class="row mx-0 d-flex flex-row align-items-stretch"
       style="min-height:100%">
       <div
-        [@sideNav]="sideNavState"
-        class="side-nav fixed hidden-sm-down col-md-4 col-xl-3 mx-0 px-0 z-depth-1">
+        [ngClass]="{'slide-over': !(sideNavHidden$ | async)}"
+        class="side-nav col-md-4">
         <channel-list></channel-list>
         <button class="btn btn-primary" (click)="toggleState()">Toggle side-nav</button>
         <button class="btn btn-primary" (click)="overlay.open()">Create a channel</button>
@@ -40,27 +49,38 @@ const animateSideNavTrigger: AnimationTriggerMetadata =
           <create-channel-overlay></create-channel-overlay>
         </overlay-wrapper>
       </div>
+      <div
+        class="side-nav-overlay"
+        (click)="closeSideNav()"
+        *ngIf="!(sideNavHidden$ | async)"
+        [@sideNavOverlay]>
+      </div>
 
       <div class="col px-0 mx-0">
-        <button
-          *ngIf="sideNavHidden"
-          [@sideNavTrigger]
-          class="btn btn-primary"
-          (click)="toggleState()">
-          Toggle side-nav
-        </button>
+
+        <div class="row top-nav">
+
+          <button
+            class="btn btn-primary open-side-nav-trigger"
+            (click)="toggleState()">
+            Toggle side-nav
+          </button>
+
+        </div>
+
         <router-outlet></router-outlet>
       </div>
     </div>
   `,
   animations: [
-    animateSideNavTrigger,
-    animateSideNav
+    animateSideNavOverlay
   ],
   styleUrls: [ './client-wrapper.component.scss' ]
 })
 export class ClientWrapperComponent implements AfterViewInit {
-  sideNavState: SideNavState = 'slideover';
+  sideNavState$ = new BehaviorSubject<SideNavState>(Hidden);
+  sideNavHidden$: Observable<boolean>;
+  sideNavVisible$: Observable<boolean>;
 
   constructor(
     @Inject(Renderer2) private renderer: Renderer2,
@@ -71,20 +91,24 @@ export class ClientWrapperComponent implements AfterViewInit {
     window['el'] = this.el.nativeElement;
     window['view'] = this.view;
 
+    this.sideNavHidden$ = this.sideNavState$.map(sideNavState => sideNavState === Hidden);
+    this.sideNavVisible$ = this.sideNavState$.map(sideNavState => sideNavState === Visible);
+
 
   }
 
   ngAfterViewInit() {
-    // console.log(this.renderer.selectRootElement('div'));
+    //
+  }
+
+  closeSideNav() {
+    this.sideNavState$.next(Hidden);
   }
 
   toggleState() {
-    this.sideNavState = this.sideNavState === 'hidden' ? 'slideover' : 'hidden';
-  }
-  get sideNavHidden() {
-    return this.sideNavState === 'hidden';
-  }
-  setSideNavState(state: string) {
-    this.sideNavState = this.sideNavState === 'hidden' ? 'slideover' : 'hidden';
+    this.sideNavState$
+      .take(1)
+      .map(sideNavState => sideNavState === Hidden ? SlideOver : Hidden)
+      .subscribe(sideNavState => this.sideNavState$.next(sideNavState));
   }
 }

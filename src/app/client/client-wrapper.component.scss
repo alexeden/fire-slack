@@ -1,49 +1,71 @@
 @import '~bootstrap/scss/mixins';
 @import 'variables';
 
+.top-nav {
+
+
+}
+
 .side-nav {
   backface-visibility: hidden;
   background-color: $white;
-  // height: 100%;
-  height: calc(100% + 60px);
   left: 0;
   margin: 0;
+  min-height: 100%;
   overflow-y: auto;
-  padding-bottom: 60px;
-  position: fixed;
+  padding: 1rem 0;
   top: 0;
-  // transform: translateX(-100%);
-  transform: translateX(-105%);
-  width: 300px;
+  transform: translateX(0);
   will-change: transform;
   z-index: 999;
-
-  &.fixed {
-    left: 0;
-    transform: translateX(0);
-    position: fixed;
-  }
 }
 
+.open-side-nav-trigger {
+  display: none;
 
-
-@include media-breakpoint-down(md) {
-  .side-nav {
-    &.fixed {
-      transform: translateX(-105%);
-    }
-  }
 }
 
-.sidenav-overlay {
+.side-nav-overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
+  width: auto;
+  // display: none;
 
   height: 120vh;
-  background-color: rgba(0, 0, 0, .5);
+  background-color: $black;
+  // opacity: 0;
   z-index: 997;
 
-  will-change: opacity;
+  // will-change: opacity;
+  // transition: opacity 2s ease-out;
+}
+
+
+
+@include media-breakpoint-down(sm) {
+  .side-nav {
+    box-shadow: 0 2px 2px 0 $black14, 0 1px 5px 0 $black12, 0 3px 1px -2px $black20;
+    transition: width 0.333s ease-in-out, transform 0.333s ease-in-out;
+    position: fixed;
+    transform: translateX(-100%);
+
+    &.slide-over {
+      width: 90%;
+      min-width: 300px;
+      transform: translateX(0%);
+    }
+  }
+
+  .open-side-nav-trigger {
+    display: block;
+  }
+
+  .side-nav-overlay {
+    // display: block;
+    // opacity: 0.5;
+    // will-change: opacity;
+    // transition: opacity 2s ease-out;
+  }
 }
