@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { trigger, state, style, animate, transition, AnimationEvent } from '@angular/animations';
 
 @Component({
@@ -16,6 +16,7 @@ import { trigger, state, style, animate, transition, AnimationEvent } from '@ang
     </div>
   `,
   styleUrls: ['overlay-wrapper.component.scss'],
+  encapsulation: ViewEncapsulation.None,
   animations: [
     trigger('overlay', [
       state('inactive', style({
@@ -28,14 +29,13 @@ import { trigger, state, style, animate, transition, AnimationEvent } from '@ang
         height: '200vh',
         opacity: 1
       })),
-      transition('inactive => active', animate('0.2s ease-in')),
-      transition('active => inactive', animate('0.2s ease-out'))
+      transition('active <=> inactive', animate('0.2s ease-out'))
     ])
   ]
 })
 export class OverlayWrapperComponent {
   overlayState = 'inactive';
-  private showOverlayComponent = false;
+  showOverlayComponent = false;
 
   constructor() {
     console.log('overlay wrapper this: ', this);
