@@ -1,11 +1,6 @@
 @import '~bootstrap/scss/mixins';
 @import 'variables';
 
-.top-nav {
-
-
-}
-
 .side-nav {
   backface-visibility: hidden;
   background-color: $white;
@@ -20,26 +15,17 @@
   z-index: 999;
 }
 
-.open-side-nav-trigger {
-  display: none;
-
-}
-
 .side-nav-overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   width: auto;
-  // display: none;
 
   height: 120vh;
   background-color: $black;
-  // opacity: 0;
   z-index: 997;
-
-  // will-change: opacity;
-  // transition: opacity 2s ease-out;
+  will-change: opacity;
 }
 
 
@@ -52,20 +38,11 @@
     transform: translateX(-100%);
 
     &.slide-over {
-      width: 90%;
+      width: 60%;
       min-width: 300px;
       transform: translateX(0%);
     }
   }
 
-  .open-side-nav-trigger {
-    display: block;
-  }
 
-  .side-nav-overlay {
-    // display: block;
-    // opacity: 0.5;
-    // will-change: opacity;
-    // transition: opacity 2s ease-out;
-  }
 }
