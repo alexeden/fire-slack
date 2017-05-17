@@ -44,9 +44,6 @@ const animateSideNavOverlay: AnimationTriggerMetadata =
         <channel-list></channel-list>
         <button class="btn btn-primary" (click)="toggleState()">Toggle side-nav</button>
         <button class="btn btn-primary" (click)="overlay.open()">Create a channel</button>
-        <overlay-wrapper #overlay>
-          <create-channel-overlay></create-channel-overlay>
-        </overlay-wrapper>
       </div>
       <div
         class="side-nav-overlay"
@@ -70,6 +67,9 @@ const animateSideNavOverlay: AnimationTriggerMetadata =
         <router-outlet></router-outlet>
       </div>
     </div>
+    <overlay-wrapper #overlay>
+      <create-channel-overlay></create-channel-overlay>
+    </overlay-wrapper>
   `,
   animations: [ animateSideNavOverlay ],
   styleUrls: [ './client-wrapper.component.scss' ]

@@ -1,35 +1,45 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 import { trigger, state, style, animate, transition, AnimationEvent } from '@angular/animations';
 
 @Component({
   selector: 'overlay-wrapper',
   template: `
-    <div class="overlay-wrapper">
+    <ng-template [ngIf]="showOverlayComponent">
       <div
-        (@overlay.done)="activating($event)"
-        [@overlay]="overlayState"
-        class="overlay z-depth-2">
-        <div class="overlay__content" *ngIf="showOverlayComponent">
+        [@overlayBackground]="true"
+        class="overlay-background"></div>
+      <div
+        [@overlayContent]="true"
+        class="overlay-wrapper z-depth-2">
+        <div class="overlay">
           <ng-content></ng-content>
         </div>
       </div>
-    </div>
+    </ng-template>
   `,
   styleUrls: ['overlay-wrapper.component.scss'],
-  encapsulation: ViewEncapsulation.None,
   animations: [
-    trigger('overlay', [
-      state('inactive', style({
-        height: 0,
-        width: 0,
-        opacity: 0.9
-      })),
-      state('active', style({
-        width: '200vw',
-        height: '200vh',
-        opacity: 1
-      })),
-      transition('active <=> inactive', animate('0.2s ease-out'))
+
+    trigger('overlayContent', [
+      state('*', style({})),
+      transition(`:leave`, [
+        animate('.4s ease-in-out', style({ opacity: 0 }))
+      ]),
+      transition(`:enter`, [
+        style({ opacity: 0 }),
+        animate('.2s .3s ease-in-out')
+      ])
+    ]),
+
+    trigger('overlayBackground', [
+      state('*', style({})),
+      transition(`:leave`, [
+        animate('.4s .2s ease', style({ height: 0, width: 0 }))
+      ]),
+      transition(':enter', [
+        style({ height: 0, width: 0 }),
+        animate('.4s cubic-bezier(0.895, 0.03, 0.685, 0.22)')
+      ])
     ])
   ]
 })
@@ -37,26 +47,11 @@ export class OverlayWrapperComponent {
   overlayState = 'inactive';
   showOverlayComponent = false;
 
-  constructor() {
-    console.log('overlay wrapper this: ', this);
-
-  }
-  activating(event: AnimationEvent) {
-    console.log('activating event: ', event);
-    if(event.toState === 'active') {
-      this.showOverlayComponent = true;
-    }
-    else if(event.toState === 'inactive' || event.toState === 'void') {
-      this.showOverlayComponent = false;
-    }
-  }
   open() {
-    console.log('open!');
-    this.overlayState = 'active';
+    this.showOverlayComponent = true;
   }
   close() {
-    console.log('close!');
-    this.overlayState = 'inactive';
+    this.showOverlayComponent = false;
   }
 
 }
