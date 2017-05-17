@@ -1,7 +1,7 @@
 @import 'variables';
 
 .overlay-background {
-  background: rgba($pink, 0.99);
+  background: $brand-primary;
   pointer-events: none;
   position: fixed;
   top: 50%;

@@ -10,7 +10,7 @@ import { trigger, state, style, animate, transition, AnimationEvent } from '@ang
         class="overlay-background"></div>
       <div
         [@overlayContent]="true"
-        class="overlay-wrapper z-depth-2">
+        class="overlay-wrapper">
         <div class="overlay">
           <ng-content></ng-content>
         </div>
