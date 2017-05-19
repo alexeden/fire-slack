@@ -3,10 +3,10 @@ import { Component, Inject } from '@angular/core';
 import { trigger, state, style, animate, transition, AnimationTriggerMetadata } from '@angular/animations';
 import { MediaQueryService } from 'fire-slack/shared/services';
 
-const Hidden = 'hidden';
-const Visible = 'visible';
-const SlideOver = 'fixed';
-type SideNavState = typeof Hidden | typeof Visible | typeof SlideOver;
+type SideNavState = 'hidden' | 'visible' | 'fixed';
+const Hidden: SideNavState = 'hidden';
+const Visible: SideNavState = 'visible';
+const SlideOver: SideNavState = 'fixed';
 
 /*
   state('stateName', style({
@@ -61,7 +61,8 @@ export class SideNavComponent {
   constructor(
     @Inject(MediaQueryService) public mq: MediaQueryService
   ) {
-
+    this.sideNavHidden$ = this.sideNavState$.map(sideNavState => sideNavState === Hidden);
+    this.sideNavVisible$ = this.sideNavState$.map(sideNavState => sideNavState === Visible);
   }
 
   close() {
