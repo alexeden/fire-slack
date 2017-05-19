@@ -50,7 +50,10 @@ module.exports = {
       },
       {
         test: {
-          and: [ /\.(scss|sass)$/, /src\/app/ ]
+          test: /\.(scss|sass)$/,
+          not: [ /src\/scss/ ]
+
+          // and: [ /\.(scss|sass)$/, /src\/app/ ]
         },
         use: [
           'raw-loader',
@@ -64,9 +67,11 @@ module.exports = {
       },
       {
         test: {
-          test: /\.(scss|sass)$/,
-          not: [ /src\/app/ ]
+          // test: /\.(scss|sass)$/,
+          // not: [ /src\/app/ ]
+          and: [ /\.(scss|sass)$/, /src\/scss/ ]
         },
+
         loader: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: ['css-loader', 'postcss-loader', 'sass-loader']
