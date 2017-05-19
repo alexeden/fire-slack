@@ -1,11 +1,12 @@
 import { Component, Renderer2, ElementRef, Inject, ViewContainerRef, AfterViewInit } from '@angular/core';
 import { trigger, state, style, animate, transition, AnimationTriggerMetadata } from '@angular/animations';
 import { BehaviorSubject, ConnectableObservable, Observable } from 'rxjs';
+import { MediaQueryService } from 'fire-slack/shared';
 
-const Hidden = 'hidden';
-const Visible = 'visible';
-const SlideOver = 'fixed';
-type SideNavState = typeof Hidden | typeof Visible | typeof SlideOver;
+type SideNavState = 'hidden' | 'visible' | 'fixed';
+const Hidden: SideNavState = 'hidden';
+const Visible: SideNavState = 'visible';
+const SlideOver: SideNavState = 'fixed';
 
 /*
   state('stateName', style({
@@ -37,10 +38,13 @@ const animateSideNavOverlay: AnimationTriggerMetadata =
     <div
       class="row mx-0 d-flex flex-row align-items-stretch"
       style="min-height:100%">
+
+      <side-nav>
+      <h1>hiiiiiiiiI!</h1>
+      </side-nav>
       <div
         class="side-nav"
-        [ngClass]="{'slide-over': !(sideNavHidden$ | async) && (smDown$ | async), 'col-xs-4': (md$ | async), 'col-xs-3': (lgUp$ | async)}">
-
+        [ngClass]="{'slide-over': !(sideNavHidden$ | async) && (mq.smDown$ | async), 'col-xs-4': (mq.md$ | async), 'col-xs-3': (mq.lgUp$ | async)}">
         <channel-list></channel-list>
         <button class="btn btn-primary" (click)="toggleState()">Toggle side-nav</button>
         <button class="btn btn-primary" (click)="overlay.open()">Create a channel</button>
@@ -48,7 +52,7 @@ const animateSideNavOverlay: AnimationTriggerMetadata =
       <div
         class="side-nav-overlay"
         (click)="closeSideNav()"
-        *ngIf="!(sideNavHidden$ | async) && (smDown$ | async)"
+        *ngIf="!(sideNavHidden$ | async) && (mq.smDown$ | async)"
         [@sideNavOverlay]>
       </div>
 
@@ -57,9 +61,9 @@ const animateSideNavOverlay: AnimationTriggerMetadata =
         <div class="container-fluid top-nav">
           <button
             class="btn btn-primary open-side-nav-trigger"
-            *ngIf="smDown$ | async"
+            *ngIf="mq.smDown$ | async"
             (click)="toggleState()">
-            >
+            > {{sideNavState$ | async}}
           </button>
 
         </div>
@@ -79,57 +83,9 @@ export class ClientWrapperComponent implements AfterViewInit {
   sideNavHidden$: Observable<boolean>;
   sideNavVisible$: Observable<boolean>;
 
-  windowWidth$: ConnectableObservable<number>;
-  xsUp$: Observable<boolean>;
-  smUp$: Observable<boolean>;
-  mdUp$: Observable<boolean>;
-  lgUp$: Observable<boolean>;
-  xlUp$: Observable<boolean>;
-  xs$: Observable<boolean>;
-  sm$: Observable<boolean>;
-  md$: Observable<boolean>;
-  lg$: Observable<boolean>;
-  xl$: Observable<boolean>;
-  xsDown$: Observable<boolean>;
-  smDown$: Observable<boolean>;
-  mdDown$: Observable<boolean>;
-  lgDown$: Observable<boolean>;
-  xlDown$: Observable<boolean>;
-
   constructor(
-    @Inject(Renderer2) private renderer: Renderer2,
-    @Inject(ElementRef) private el: ElementRef,
-    @Inject(ViewContainerRef) private view: ViewContainerRef
+    @Inject(MediaQueryService) public mq: MediaQueryService
   ) {
-
-    this.windowWidth$
-      = Observable.fromEvent(window, 'resize')
-          .map(_ => window.innerWidth)
-          .startWith(window.innerWidth)
-          .distinctUntilChanged()
-          .publishReplay(1);
-
-    this.xsUp$ = this.windowWidth$.map(width => width > 0);
-    this.smUp$ = this.windowWidth$.map(width => width > 576);
-    this.mdUp$ = this.windowWidth$.map(width => width > 768);
-    this.lgUp$ = this.windowWidth$.map(width => width > 992);
-    this.xlUp$ = this.windowWidth$.map(width => width > 1200);
-
-    this.xsDown$ = this.windowWidth$.map(width => width < 576);
-    this.smDown$ = this.windowWidth$.map(width => width < 768);
-    this.mdDown$ = this.windowWidth$.map(width => width < 992);
-    this.lgDown$ = this.windowWidth$.map(width => width < 1200);
-    this.xlDown$ = this.windowWidth$.map(width => true);
-
-    this.xs$ = Observable.combineLatest(this.xsUp$, this.xsDown$, (up, down) => up && down);
-    this.sm$ = Observable.combineLatest(this.smUp$, this.smDown$, (up, down) => up && down);
-    this.md$ = Observable.combineLatest(this.mdUp$, this.mdDown$, (up, down) => up && down);
-    this.lg$ = Observable.combineLatest(this.lgUp$, this.lgDown$, (up, down) => up && down);
-    this.xl$ = Observable.combineLatest(this.xlUp$, this.xlDown$, (up, down) => up && down);
-
-    window['renderer'] = this.renderer;
-    window['el'] = this.el.nativeElement;
-    window['view'] = this.view;
 
     this.sideNavHidden$ = this.sideNavState$.map(sideNavState => sideNavState === Hidden);
     this.sideNavVisible$ = this.sideNavState$.map(sideNavState => sideNavState === Visible);
@@ -138,7 +94,6 @@ export class ClientWrapperComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.windowWidth$.connect();
     //
   }
 
