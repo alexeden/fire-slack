@@ -1,9 +1,6 @@
 import { Observable } from 'rxjs';
-import { Component, Inject, Input, OnInit } from '@angular/core';
-import { ChannelService, MessageService } from 'fire-slack/app/services';
+import { Component, Input, OnInit } from '@angular/core';
 import { Channel } from 'fire-slack/app/interfaces';
-import { tag$ } from 'util/tags';
-
 
 @Component({
   selector: 'channel-list-item',
@@ -11,13 +8,8 @@ import { tag$ } from 'util/tags';
 })
 export class ChannelListItemComponent implements OnInit {
   @Input() channel: Channel;
-  // private isActive$: Observable<boolean>;
   private unseenMessageCount$: Observable<number>;
 
-  constructor(
-    @Inject(ChannelService) private channelService: ChannelService,
-    @Inject(MessageService) private messageService: MessageService
-  ) {}
 
   ngOnInit() {
     // this.isActive$ = this.channelService.activeChannel$.map(channel => channel.cid === this.channel.cid);

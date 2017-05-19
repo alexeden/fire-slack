@@ -3,7 +3,6 @@ import { ConnectableObservable, Observable } from 'rxjs';
 import { UserInfo, User, Reference, DataSnapshot } from 'fire-slack/app/interfaces';
 import { AuthService } from './auth.service';
 import { FirebaseService } from './firebase.service';
-import { tag$ } from 'fire-slack/util/tags';
 
 @Injectable()
 export class UserService {

@@ -10,9 +10,9 @@ import { MessageService, ChannelService, UserService, FirebaseService } from 'fi
 })
 export class AppComponent {
   constructor(
-    @Inject(MessageService) private messageService: MessageService,
-    @Inject(ChannelService) private channelService: ChannelService,
-    @Inject(UserService) private userService: UserService,
-    @Inject(FirebaseService) private firebase: FirebaseService
+    @Inject(MessageService) public messageService: MessageService,
+    @Inject(ChannelService) public channelService: ChannelService,
+    @Inject(UserService) public userService: UserService,
+    @Inject(FirebaseService) public firebase: FirebaseService
   ) {}
 }

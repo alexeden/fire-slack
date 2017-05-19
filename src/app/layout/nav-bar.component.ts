@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 import { Component, Inject } from '@angular/core';
-import { MessageService, UserService, AuthService } from 'fire-slack/app/services';
+import { /*MessageService,*/ UserService, AuthService } from 'fire-slack/app/services';
 
 @Component({
   selector: 'nav-bar',
@@ -20,10 +20,10 @@ import { MessageService, UserService, AuthService } from 'fire-slack/app/service
 })
 export class NavBarComponent {
   // private unseenMessageCount$: Observable<number>;
-  private brandLinkText$: Observable<string>;
+  brandLinkText$: Observable<string>;
 
   constructor(
-    @Inject(MessageService) private messageService: MessageService,
+    // @Inject(MessageService) private messageService: MessageService,
     @Inject(UserService) private userService: UserService,
     @Inject(AuthService) private authService: AuthService
   ) {

@@ -1,10 +1,9 @@
 import { Component, Inject, OnDestroy, OnInit, Host } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { UserInfo } from 'fire-slack/app/interfaces';
-import { FirebaseService, ChannelService, UserService, AuthService } from 'fire-slack/app/services';
-import { Overlay } from './overlay';
+import { ChannelService, UserService } from 'fire-slack/app/services';
 import { OverlayWrapperComponent } from './overlay-wrapper.component';
 
 @Component({
@@ -23,11 +22,8 @@ export class CreateChannelOverlayComponent implements OnDestroy, OnInit {
   }
   constructor(
     @Inject(Router) private router: Router,
-    @Inject(ActivatedRoute) private route: ActivatedRoute,
     @Inject(FormBuilder) private fb: FormBuilder,
-    @Inject(FirebaseService) private firebaseService: FirebaseService,
     @Inject(ChannelService) private channelService: ChannelService,
-    @Inject(AuthService) private authService: AuthService,
     @Inject(UserService) private userService: UserService,
     @Host() @Inject(OverlayWrapperComponent) private overlayWrapper: OverlayWrapperComponent
   ) {
@@ -36,10 +32,10 @@ export class CreateChannelOverlayComponent implements OnDestroy, OnInit {
     this.uid$ = this.userService.currentUid$;
 
     this.newChannelForm =
-      fb.group({
+      this.fb.group({
         name: [null, Validators.required],
         private: [false],
-        members: fb.group({})
+        members: this.fb.group({})
       });
 
     this.users$
@@ -82,13 +78,5 @@ export class CreateChannelOverlayComponent implements OnDestroy, OnInit {
   cancel() {
     this.overlayWrapper.close();
   }
-
-  private close() {
-    console.log('closing');
-    this.router.navigate(
-      [{ outlets: { overlay: null } }]
-    );
-  }
-
 
 }

@@ -1,7 +1,7 @@
 import { Component, Input, Inject, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Message } from 'fire-slack/app/interfaces';
-import { UserService, MessageService } from 'fire-slack/app/services';
+import { UserService } from 'fire-slack/app/services';
 
 
 @Component({
@@ -68,11 +68,11 @@ import { UserService, MessageService } from 'fire-slack/app/services';
 export class MessageComponent implements OnInit {
   @Input() message: Message;
   @Input() removeHandler: (msg: Message) => void;
-  private sentByCurrentUser$: Observable<boolean>;
+  sentByCurrentUser$: Observable<boolean>;
 
   constructor(
-    @Inject(UserService) private userService: UserService,
-    @Inject(MessageService) private messageService: MessageService
+    @Inject(UserService) private userService: UserService
+    // @Inject(MessageService) private messageService: MessageService
   ) {}
 
   ngOnInit() {

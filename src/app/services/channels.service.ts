@@ -1,10 +1,8 @@
 import { Injectable, Inject } from '@angular/core';
 import { ConnectableObservable, Observable } from 'rxjs';
-import { tag, tag$ }  from 'fire-slack/util/tags';
 import { Channel, DataSnapshot, Reference } from 'fire-slack/app/interfaces';
 import { FirebaseService } from './firebase.service';
 import { UserService } from './user.service';
-import { MessageService } from './messages.service';
 
 
 @Injectable()
@@ -15,7 +13,6 @@ export class ChannelService {
 
   constructor(
     @Inject(FirebaseService) private firebaseService: FirebaseService,
-    @Inject(MessageService) private messageService: MessageService,
     @Inject(UserService) private userService: UserService
   ) {
     this.channelsRef = this.firebaseService.database.ref('channels');

@@ -3,7 +3,6 @@ import { Component, Inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ChannelService } from 'fire-slack/app/services';
 import { Channel } from 'fire-slack/app/interfaces';
-import { tag$ } from 'fire-slack/util';
 
 
 @Component({
@@ -26,7 +25,7 @@ export class ChannelListComponent {
     @Inject(ActivatedRoute) private route: ActivatedRoute,
     @Inject(Router) private router: Router
   ) {
-    this.channels$ = channelService.channels$;
+    this.channels$ = this.channelService.channels$;
   }
 
   gotoChannel(channel: Channel) {

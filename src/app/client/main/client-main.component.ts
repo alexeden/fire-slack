@@ -1,9 +1,8 @@
 import { Component, Inject, ElementRef, Host, OnDestroy, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ChannelService, MessageService, FirebaseService } from 'fire-slack/app/services';
 import { Channel, Message, DataSnapshot } from 'fire-slack/app/interfaces';
-import { tag$ } from 'fire-slack/util/tags';
 
 
 @Component({
@@ -31,8 +30,7 @@ export class ClientMainComponent implements OnDestroy, OnInit {
     @Inject(ChannelService) private channelService: ChannelService,
     @Inject(MessageService) private messageService: MessageService,
     @Inject(ElementRef) @Host() private elementRef: ElementRef,
-    @Inject(ActivatedRoute) private route: ActivatedRoute,
-    @Inject(Router) private router: Router
+    @Inject(ActivatedRoute) private route: ActivatedRoute
   ) {
     this.cid$ = this.route.params.pluck('cid');
 

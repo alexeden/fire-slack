@@ -9,6 +9,8 @@
         "outDir": "../client-dist/",
         "importHelpers": false,
         "noImplicitAny": true,
+        "noImplicitThis": true,
+        "noUnusedLocals": true,
         "suppressImplicitAnyIndexErrors": true,
         "paths": {
           "fire-slack/*": [

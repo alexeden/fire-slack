@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { trigger, state, style, animate, transition, AnimationEvent } from '@angular/animations';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 
 @Component({
   selector: 'overlay-wrapper',

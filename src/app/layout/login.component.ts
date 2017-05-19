@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { AuthService } from 'fire-slack/app/services';
 import { tag$ } from 'fire-slack/util/tags';
-import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'login',
@@ -45,19 +45,17 @@ import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@ang
 })
 export class LoginComponent {
 
-  private loginForm: FormGroup;
+  loginForm: FormGroup;
 
   constructor(
     @Inject(AuthService) private authService: AuthService,
     @Inject(FormBuilder) private fb: FormBuilder
   ) {
     this.loginForm =
-      fb.group({
+      this.fb.group({
         email: [null, Validators.compose([Validators.required, Validators.email])],
         password: [null, Validators.required]
       });
-
-
   }
 
   loginWithGoogle($event: Event) {

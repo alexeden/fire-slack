@@ -1,6 +1,4 @@
-import { Component, Renderer2, ElementRef, Inject, ViewContainerRef, AfterViewInit } from '@angular/core';
-import { trigger, state, style, animate, transition, AnimationTriggerMetadata } from '@angular/animations';
-import { BehaviorSubject, ConnectableObservable, Observable } from 'rxjs';
+import { Component, Inject, AfterViewInit } from '@angular/core';
 import { MediaQueryService } from 'fire-slack/shared';
 
 

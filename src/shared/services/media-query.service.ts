@@ -1,5 +1,5 @@
-import { Injectable, Inject } from '@angular/core';
-import { BehaviorSubject, ConnectableObservable, Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 
 @Injectable()
@@ -30,8 +30,7 @@ export class MediaQueryService {
       = Observable.fromEvent(window, 'resize')
           .map(_ => window.innerWidth)
           .startWith(window.innerWidth)
-          .distinctUntilChanged()
-          // .publishReplay(1);
+          .distinctUntilChanged();
 
     this.xsUp$ = this.windowWidth$.map(width => width > 0);
     this.smUp$ = this.windowWidth$.map(width => width > 576);

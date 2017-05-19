@@ -1,6 +1,6 @@
 import { Directive, Inject, Input } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { UserService, FirebaseService } from 'fire-slack/app/services';
+import { FirebaseService } from 'fire-slack/app/services';
 import { UserInfo } from 'fire-slack/app/interfaces';
 
 
@@ -18,7 +18,6 @@ export class UserScopeDirective {
   }
 
   constructor(
-    @Inject(UserService) private userService: UserService,
     @Inject(FirebaseService) private firebaseService: FirebaseService
   ) {
     this.uid$ = new BehaviorSubject<string|null>(null);

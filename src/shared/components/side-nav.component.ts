@@ -1,4 +1,4 @@
-import { BehaviorSubject, ConnectableObservable, Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Component, Inject, Input } from '@angular/core';
 import { trigger, state, style, animate, transition, AnimationTriggerMetadata } from '@angular/animations';
 import { MediaQueryService } from 'fire-slack/shared/services';

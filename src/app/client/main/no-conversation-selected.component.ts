@@ -1,6 +1,5 @@
 import { Component, Inject, ElementRef, Host } from '@angular/core';
 import { Observable } from 'rxjs';
-import { tag$ } from 'fire-slack/util/tags';
 
 
 @Component({

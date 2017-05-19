@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, Observer } from 'rxjs';
 import * as Firebase from 'firebase';
-import { tag$, tag } from 'fire-slack/util/tags';
 import { Storage, Database, Reference, DataSnapshot, ReferenceEvent, AuthError, Query } from 'fire-slack/app/interfaces';
 
 export type FirebaseApp = Firebase.app.App;
