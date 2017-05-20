@@ -1,11 +1,12 @@
 <!-- <div class="col-md-8 col-lg-8 col-xl-9 px-0 mx-0"> -->
   <div
-    class="d-flex flex-column justify-content-start"
+    class="d-flex flex-column justify-content-end"
     [ngStyle]="{ 'height.px': height$ | async }">
 
-    <div class="p-4 bg-faded d-flex flex-row justify-content-start align-items-center">
+    <div class="p-4 bg-faded d-flex flex-row justify-content-start">
       <div>
         <h3 class="lead">{{channelName$ | async}}</h3>
+        <pre>{{channel$ | async | json}}</pre>
       </div>
 
       <div class="ml-auto">

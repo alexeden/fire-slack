@@ -8,7 +8,7 @@ import { MediaQueryService } from 'fire-slack/shared';
       class="row mx-0 d-flex flex-row align-items-stretch"
       style="min-height:100%">
 
-      <side-nav class="col-3" #sideNav>
+      <side-nav class="col-3 p-0" style="z-index: 9999" #sideNav [embeddedModeClasses]="['z-depth-1']">
         <channel-list></channel-list>
         <button class="btn btn-primary" (click)="overlay.open()">Create a channel</button>
       </side-nav>
