@@ -38,7 +38,7 @@ const animateSideNavOverlay: AnimationTriggerMetadata =
   template: `
     <div
       class="side-nav"
-      [ngClass]="{'slide-over': !(sideNavHidden$ | async) && (mq.smDown$ | async), 'col-xs-4': (mq.md$ | async), 'col-xs-3': (mq.lgUp$ | async)}">
+      [ngClass]="sideNavClassExpr$ | async">
       <ng-content></ng-content>
     </div>
     <div
@@ -62,6 +62,8 @@ export class SideNavComponent {
   showSideNavOverlayBg$: Observable<boolean>;
   sideNavVisible$: Observable<boolean>;
 
+  sideNavClassExpr$: Observable<{[cssClass: string]: boolean}>;
+
   constructor(
     @Inject(MediaQueryService) public mq: MediaQueryService
   ) {
@@ -74,6 +76,29 @@ export class SideNavComponent {
           this.mq.smDown$,
           (sideNavState, smDown) => sideNavState !== Closed && smDown
         );
+
+    this.sideNavClassExpr$
+      = Observable.combineLatest(
+          this.sideNavHidden$,
+          this.mq.smDown$,
+          (sideNavHidden, smDown) => !sideNavHidden && smDown
+        )
+        .map(slideOverMode => (
+            {
+              [SlideOver]: slideOverMode,
+              ...(this.embeddedModeClasses.reduce(
+                (classExpr, cssClass) => (
+                  {
+                    ...classExpr,
+                    [cssClass]: !slideOverMode
+                  }
+                ),
+                {}
+              ))
+            }
+          )
+        )
+        .do(classExpr => console.log(JSON.stringify(classExpr, null, 4)));
 
 
   }

@@ -1,6 +1,6 @@
 import { Component, Inject, ElementRef, Host, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { ChannelService, MessageService, FirebaseService } from 'fire-slack/app/services';
 import { Channel, Message, DataSnapshot } from 'fire-slack/app/interfaces';
 
@@ -16,15 +16,16 @@ import { Channel, Message, DataSnapshot } from 'fire-slack/app/interfaces';
 })
 export class ClientMainComponent implements OnDestroy, OnInit {
 
-  private channel$: Observable<Channel>;
-  private channelRef$: Observable<DataSnapshot>;
-  private channelName$: Observable<string>;
-  private cid$: Observable<string>;
-  private messagesRef$: Observable<DataSnapshot>;
-  private messages$: Observable<Message[]>;
-  private noMessagesYet$: Observable<boolean>;
+  channel$: Observable<Channel>;
+  channelRef$: Observable<DataSnapshot>;
+  channelName$: Observable<string>;
+  cid$: Observable<string>;
+  messagesRef$: Observable<DataSnapshot>;
+  messages$: Observable<Message[]>;
+  noMessagesYet$: Observable<boolean>;
 
-  private height$: Observable<number>;
+  showChannelSettings$ = new BehaviorSubject<boolean>(false);
+  height$: Observable<number>;
 
   constructor(
     @Inject(ChannelService) private channelService: ChannelService,
@@ -77,8 +78,14 @@ export class ClientMainComponent implements OnDestroy, OnInit {
     this.cid$
       .switchMap(cid => this.messageService.sendMessage(cid, input.value))
       .take(1)
-      .subscribe(mid =>
-        console.log(`success creating message: `, mid)
+      .subscribe(mid => input.value = '');
+  }
+
+  toggleShowChannelSettings() {
+    this.showChannelSettings$
+      .take(1)
+      .subscribe(show =>
+        this.showChannelSettings$.next(!show)
       );
   }
 }

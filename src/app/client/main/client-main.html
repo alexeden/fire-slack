@@ -3,10 +3,22 @@
     class="d-flex flex-column justify-content-start"
     [ngStyle]="{ 'height.px': height$ | async }">
 
-    <div class="p-4 bg-faded">
-      <h3 class="lead">{{channelName$ | async}}<code>{{cid$ | async}}</code></h3>
+    <div class="p-4 bg-faded d-flex flex-row justify-content-start align-items-center">
+      <div>
+        <h3 class="lead">{{channelName$ | async}}</h3>
+      </div>
+
+      <div class="ml-auto">
+        <button
+          class="btn btn-primary"
+          (click)="toggleShowChannelSettings()">
+          Settings
+        </button>
+      </div>
+
     </div>
-    <!-- <p class="lead">Some bio info</p> -->
+    <channel-settings *ngIf="showChannelSettings$ | async">
+    </channel-settings>
 
     <div class="media p-4" *ngIf="noMessagesYet$ | async">
       <div class="media-body">
